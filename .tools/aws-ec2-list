@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+extra_args="$@"
+
+join_by() { local IFS="$1"; shift; echo "$*"; }
+
+_proj_fields=(
+  "Tags[?Key=='Name'].Value|[0]"
+  "InstanceId"
+  "Placement.AvailabilityZone"
+  "Tags[?Key=='component_name'].Value|[0]"
+  "Tags[?Key=='service_name'].Value|[0]"
+  "State.Name"
+)
+
+fields=$(join_by "," ${_proj_fields[@]})
+
+aws ec2 describe-instances \
+  --query "Reservations[*].Instances[*].[$fields]" \
+  --output table $extra_args \
+  | sort \
+  | tail -n +5

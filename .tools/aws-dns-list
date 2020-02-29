@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+_jq_path_to_id=".HostedZones | .[] | .Id"
+
+for _hz_id in $(aws route53 list-hosted-zones | jq -r "$_jq_path_to_id"); do
+  echo -e "\nHostedZone: $_hz_id"
+  aws route53 list-resource-record-sets \
+    --hosted-zone-id $_hz_id \
+    --output json \
+    | jq -r ".ResourceRecordSets | .[] | .Name"
+  echo -e "\n\n"
+    #| sed --unbuffered \
+         #-e 's/\(.*RESOURCERECORDSETS.*\)/\o033[32m\1\o033[39m/' \
+         #-e 's/\(RESOURCERECORDSETS\)/\n✔/' \
+         #-e 's/\(RESOURCERECORDS\)//'
+done
