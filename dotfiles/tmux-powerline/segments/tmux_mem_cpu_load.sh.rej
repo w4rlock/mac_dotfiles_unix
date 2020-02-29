@@ -1,0 +1,36 @@
+***************
+*** 1,19 ****
+  # Print out Memory, cpu and load using https://github.com/thewtex/tmux-mem-cpu-load
+  
+  run_segment() {
+-   local msg
+-   type tmux-mem-cpu-load >/dev/null 2>&1
+-   if [ "$?" -ne 0 ]; then
+-           return
+-   fi
+- 
+-   #msg=$(tmux-mem --format=":percent")
+-   msg="$(free -t | awk 'NR == 2 {printf("%.1f%"), $3/$2*100}')"
+-   #stats=$(tmux-mem-cpu-load | awk '{print $1}')
+-   [ -n "$stats" ] && msg="${msg} ${stats}"
+- 
+-   msg="${msg} #[fg=colour235]|#[fg=colour196] 礪$(tmux-mem-cpu-load | awk '{ print $4 }')"
+- 
+-   echo "﬙ ${msg}"
+-   return 0
+  }
+--- 1,14 ----
+  # Print out Memory, cpu and load using https://github.com/thewtex/tmux-mem-cpu-load
+  
+  run_segment() {
++        type tmux-mem-cpu-load >/dev/null 2>&1
++        if [ "$?" -ne 0 ]; then
++                return
++        fi
++ 
++        stats=$(tmux-mem-cpu-load)
++        if [ -n "$stats" ]; then
++                echo "$stats";
++        fi
++        return 0
+  }

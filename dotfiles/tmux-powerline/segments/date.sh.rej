@@ -1,0 +1,46 @@
+***************
+*** 1,8 ****
+  # Print the current date.
+  
+- #TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT="#[fg=colour196,bg=black]%d#[fg=colour244,bg=default]-%m-%Y#[fg=colour196,bg=black] %H:%m"
+- TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT="%d-%m-%Y - %H:%m"
+- #TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT="%F"
+  
+  generate_segmentrc() {
+         read -d '' rccontents  << EORC
+--- 1,6 ----
+  # Print the current date.
+  
++ TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT="%F"
+  
+  generate_segmentrc() {
+         read -d '' rccontents  << EORC
+***************
+*** 13,25 ****
+  }
+  
+  __process_settings() {
+-   if [ -z "$TMUX_POWERLINE_SEG_DATE_FORMAT" ]; then
+-     export TMUX_POWERLINE_SEG_DATE_FORMAT="${TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT}"
+-   fi
+  }
+  
+  run_segment() {
+-   __process_settings
+-   date +"$TMUX_POWERLINE_SEG_DATE_FORMAT"
+-   return 0
+  }
+--- 11,23 ----
+  }
+  
+  __process_settings() {
++        if [ -z "$TMUX_POWERLINE_SEG_DATE_FORMAT" ]; then
++                export TMUX_POWERLINE_SEG_DATE_FORMAT="${TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT}"
++        fi
+  }
+  
+  run_segment() {
++         __process_settings
++        date +"$TMUX_POWERLINE_SEG_DATE_FORMAT"
++        return 0
+  }

@@ -1,0 +1,44 @@
+#/bin/bash
+_exp() {
+  local k=$1
+  local v=$(printf "\u$2")
+
+  eval export "${k}=${v}"
+}
+
+_load_icons(){
+  #[ -n "${nerd_icons_loaded}" ] && return 0
+
+  _exp icon_git_branch 'e725'
+  _exp icon_home 'f46d'
+  _exp icon_mem 'fb19'
+  _exp icon_cpu 'f985'
+  _exp icon_net 'f502'
+  _exp icon_shell 'f489'
+  _exp icon_debian 'f306'
+  _exp icon_folder_open 'f115'
+  _exp icon_wifi 'f1eb'
+  _exp icon_disk 'f7c9'
+  _exp icon_home 'f015'            # 
+  _exp icon_folder_open 'f115'     # 
+
+  _exp icon_sep_right 'e0b0'
+  _exp icon_sep_alt_right 'e0b1'
+  _exp icon_sep_left 'e0b2'
+  _exp icon_sep_v_dotted 'e621'
+
+  _exp icon_bat_100 'f240'
+  _exp icon_bat_75 'f241'
+  _exp icon_bat_50 'f242'
+  _exp icon_bat_25 'f243'
+  _exp icon_bat_0 'f244'
+
+  _exp nerd_sep_radius 'E0B8'
+
+
+  export nerd_icons_loaded='yes'
+}
+
+
+
+_load_icons

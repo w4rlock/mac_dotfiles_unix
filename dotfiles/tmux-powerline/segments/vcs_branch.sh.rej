@@ -1,0 +1,36 @@
+***************
+*** 3,10 ****
+  # Source lib to get the function get_tmux_pwd
+  source "${TMUX_POWERLINE_DIR_LIB}/tmux_adapter.sh"
+  
+- #branch_symbol=""
+- branch_symbol=""
+  git_colour="5"
+  svn_colour="220"
+  hg_colour="45"
+--- 3,9 ----
+  # Source lib to get the function get_tmux_pwd
+  source "${TMUX_POWERLINE_DIR_LIB}/tmux_adapter.sh"
+  
++ branch_symbol=""
+  git_colour="5"
+  svn_colour="220"
+  hg_colour="45"
+***************
+*** 52,59 ****
+         # Clean off unnecessary information.
+         branch=${branch#refs\/heads\/}
+  
+-        echo  -n "#[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch_symbol} ${branch}"
+-        #echo  -n "#[fg=colour${git_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
+  }
+  
+  # Show SVN branch.
+--- 51,57 ----
+         # Clean off unnecessary information.
+         branch=${branch#refs\/heads\/}
+  
++        echo  -n "#[fg=colour${git_colour}]${branch_symbol} #[fg=colour${TMUX_POWERLINE_CUR_SEGMENT_FG}]${branch}"
+  }
+  
+  # Show SVN branch.
