@@ -6,7 +6,7 @@ run_segment() {
       && cat $cacheFile \
       && return $?
 
-    icon=${AWS_COSTS_ICON:-"💰"}
+    icon=${AWS_COSTS_ICON:-" "}
 
     python $HOME/.tools/costs.py \
       | awk '{ print $2 }' \

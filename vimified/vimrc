@@ -77,7 +77,6 @@ if count(g:vimified_packages, 'general')
     Bundle 'tpope/vim-unimpaired'
     Bundle 'maxbrunsfeld/vim-yankstack'
     Bundle 'tpope/vim-eunuch'
-    "Bundle 'junegunn/fzf.vim'
     Bundle 'junegunn/fzf', { 'do': './install --bin' }
     Bundle 'junegunn/fzf.vim'
     Bundle 'airblade/vim-gitgutter'
@@ -104,10 +103,6 @@ if count(g:vimified_packages, 'general')
 
     Bundle 'Spaceghost/vim-matchit'
     Bundle 'vim-scripts/scratch.vim'
-
-    Bundle 'troydm/easybuffer.vim'
-    nmap <leader>be :EasyBufferToggle<cr>
-
     Bundle 'terryma/vim-multiple-cursors'
 endif
 "
@@ -123,17 +118,6 @@ if count(g:vimified_packages, 'fancy')
 endif
 "
 
-" _. Indent
-if count(g:vimified_packages, 'indent')
-  Bundle 'Yggdroot/indentLine'
-  set list lcs=tab:\|\
-  let g:indentLine_color_term = 111
-  let g:indentLine_color_gui = '#DADADA'
-  "let g:indentLine_char = 'c'
-  let g:indentLine_char = '∙▹¦'
-  let g:indentLine_char = '∙'
-endif
-"
 
 " _. OS
 if count(g:vimified_packages, 'os')
@@ -181,8 +165,6 @@ if count(g:vimified_packages, 'coding')
     let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby', 'python', ], 'passive_filetypes': ['html', 'css', 'slim'] }
 
     " --
-
-    Bundle 'vim-scripts/Reindent'
 
     autocmd FileType gitcommit set tw=68 spell
     autocmd FileType gitcommit setlocal foldmethod=manual
@@ -396,12 +378,6 @@ vnoremap <leader>L y:execute @@<cr>
 " Source visual selection
 nnoremap <leader>L ^vg_y:execute @@<cr>
 
-" Fast saving and closing current buffer without closing windows displaying the
-" buffer
-nmap <leader>wq :w!<cr>:Bclose<cr>
-
-"
-
 " . abbrevs
 "
 iabbrev z@ oh@zaiste.net
@@ -453,18 +429,15 @@ set noswapfile
 
 set modelines=0
 set noeol
-if exists('+relativenumber')
-  set relativenumber
-endif
-"set nu
-set numberwidth=6
+"set relativenumber
+set number
+set numberwidth=8
 set modeline
 set modelines=3
 set ruler                                     " show the cursor position all the time
 set scrolloff=5                               " scroll off vertical
 set sidescrolloff=5                           " scroll off horizontal
 set winwidth=83
-set ruler
 if executable('zsh')
   set shell=zsh\ -l
 endif
@@ -592,9 +565,6 @@ noremap <C-j>  <C-w>j
 noremap <C-k>  <C-w>k
 noremap <C-l>  <C-w>l
 
-" Easy buffer navigation
-noremap <leader>bp :bprevious<cr>
-noremap <leader>bn :bnext<cr>
 
 " Splits ,v and ,h to open new splits (vertical and horizontal)
 nnoremap <leader>v <C-w>v<C-w>l
@@ -685,10 +655,6 @@ augroup END
 exec ':so '.s:dotvim.'/functions/scratch_toggle.vim'
 "
 
-" _. Buffer Handling
-exec ':so '.s:dotvim.'/functions/buffer_handling.vim'
-"
-
 " _. Tab
 exec ':so '.s:dotvim.'/functions/insert_tab_wrapper.vim'
 "
@@ -777,7 +743,7 @@ function! Fzf_dev()
         \ 'down':    '40%' })
 endfunction
 "custom fzf + web icons support
-nmap ; :call Fzf_dev()<cr>
+nmap <silent> ; :call Fzf_dev()<cr>
 
 let g:gitgutter_highlight_lines = 1
 let g:gitgutter_realtime = 0
@@ -810,5 +776,9 @@ hi ColorColumn ctermbg=233
 
 "easy motion
 ",s <char_target>
+",s
+",w
+",b
 "
 
+set list lcs=tab:\|\

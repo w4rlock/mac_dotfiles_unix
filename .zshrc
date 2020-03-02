@@ -157,7 +157,7 @@ PERL_MM_OPT="INSTALL_BASE=/Users/u0166409/perl5"; export PERL_MM_OPT;
 
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-export FZF_DEFAULT_OPTS='--layout=reverse'
+export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" "'
 
 
 export PATH="/Users/u0166409/.pyenv/bin:$PATH"
