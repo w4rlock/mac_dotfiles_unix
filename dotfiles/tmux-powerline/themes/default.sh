@@ -34,24 +34,12 @@ fi
 
 if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
   TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
-    #"earthquake 3 0" \
-    "kube-ns 237 88" \
-    "aws_costs 235 1" \
-    "vcs_branch 237 136" \
-    "pwd 232 102" \
-    #"macos_notification_count 29 255" \
-    #"mailcount 9 255" \
-    #"now_playing 234 37" \
-    #"cpu 240 136" \
-    #"load 237 167" \
-    #"tmux_mem_cpu_load 234 136" \
+    "kube-ns 235 88" \
+    "aws_costs 237 1" \
+    #"vcs_branch 237 136" \
+    "pwd 235 248" \
     "battery 237 107" \
-    #"weather 37 255" \
-    #"rainbarf 0 ${TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR}" \
-    #"xkb_layout 125 117" \
-    #"date_day 235 136" \
     "date 235 136" \
     "time 235 1 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
-    #"utc_time 235 136 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
   )
 fi

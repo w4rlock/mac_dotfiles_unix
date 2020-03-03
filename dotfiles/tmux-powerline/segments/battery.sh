@@ -69,12 +69,12 @@ __battery_osx() {
 				fi
 				charge=`pmset -g batt | grep -o "[0-9][0-9]*\%" | rev | cut -c 2- | rev`
 				if [[ "$extconnect" == "Yes" ]]; then
-					echo "$charge"
+					echo "+$charge"
 				else
 					if [[ $charge -lt 50 ]]; then
 						echo -n "#[fg=red]"
 					fi
-					echo "$charge"
+					echo "-$charge"
 				fi
 				break
 			fi
@@ -107,7 +107,7 @@ __battery_osx() {
 				case $1 in
 					"Discharging")
 						if [ $STATUS -eq 1 ]; then
-							__freebsd_get_bat
+              echo "-- $(__freebsd_get_bat)"
 						fi
 						;;
 					"Charging")

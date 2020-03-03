@@ -101,7 +101,6 @@ alias k8s-nginx-ingress-logs='kubectl ingress-nginx logs -n ingress-nginx'
 alias k8s-nginx-ingress-exec='kubectl ingress-nginx exec -i -n ingress-nginx --'
 alias k8s-list-all-resources='kubectl api-resources --verbs=list -o name | xargs -n 1 kubectl get -o name'
 
-alias aws-profiles="cat ~/.aws/credentials | grep -o '\[[^]]*\]'"
 alias aws-eks-clusters='aws eks list-clusters --region us-east-1 | jq -r ".clusters | .[]"'
 alias aws-cf-export-list='aws cloudformation list-exports  --output table | tail -n +5'
 alias aws-get-domain-names='aws apigateway get-domain-names | jq -r ".items | .[] | .domainName"'
@@ -114,9 +113,13 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 print-1(){ awk '{ print $1 }' }
 print-2(){ awk '{ print $2 }' }
 print-3(){ awk '{ print $3 }' }
+only-az() { sed "s/[^[:alpha:].-]//g" }
 
+aws-profiles-ls() { cat ~/.aws/credentials | grep --color=never -o '\[[^]]*\]' }
+aws-set-profile() { _prf=$(aws-profiles-ls | only-az | fzf); [[ "${_prf}" != "" ]] && export AWS_PROFILE=$_prf }
 
 aws-s3-ls(){ aws s3 ls | fzf -m --preview="sleep .5 && aws s3 ls s3://{3}" | awk '{ print $3 }' }
+aws-ecr-ls() { aws ecr describe-repositories  | jq -r '.repositories | .[] | .repositoryName' | fzf }
 
 aws-s3-rm(){ echo "Empty Bucket"; aws-s3-ls | xargs -I{} echo "aws s3 rm s3://{}/ --recursive" }
 aws-s3-rb(){ echo "Remove Empty Bucket"; aws-s3-ls | xargs -I{} echo "aws s3 rb s3://{}/ " }
@@ -129,7 +132,7 @@ vim-which(){ vim $(which $1) }
 
 cat-which(){ bat $(which $1) }
 cat-find(){ bat -p $(fzf -q "${1}" --preview="bat --theme='OneHalfDark' --style=numbers,changes --color always {}") }
-code-view(){ cat-find }
+code-view(){ cat-find $@ }
 
 
 
@@ -157,7 +160,7 @@ PERL_MM_OPT="INSTALL_BASE=/Users/u0166409/perl5"; export PERL_MM_OPT;
 
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" "'
+export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" " --cycle'
 
 
 export PATH="/Users/u0166409/.pyenv/bin:$PATH"

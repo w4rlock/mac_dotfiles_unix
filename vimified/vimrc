@@ -771,6 +771,7 @@ hi GitGutterAdd ctermfg=2
 hi GitGutterChange ctermfg=3
 hi GitGutterDelete ctermfg=1
 hi GitGutterChangeDelete ctermfg=4
+hi GitGutterDeleteLine ctermbg=none ctermfg=none
 hi ColorColumn ctermbg=233
 
 
@@ -780,5 +781,3 @@ hi ColorColumn ctermbg=233
 ",w
 ",b
 "
-
-set list lcs=tab:\|\

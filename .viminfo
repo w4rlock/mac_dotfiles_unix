@@ -11,7 +11,7 @@
 # hlsearch on (H) or off (h):
 ~h
 # Last Search Pattern:
-~MSle0~/crede
+~MSle0~/\V\<__freebsd_get_bat\>
 
 # Last Substitute Search Pattern:
 ~MSle0&\t
@@ -21,15 +21,27 @@ $
 
 # Command Line History (newest to oldest):
 :wq
-|2,0,1583114902,,"wq"
-:w
-|2,0,1583109964,,"w"
-:Wq
-|2,0,1583108299,,"Wq"
-:W
-|2,0,1583106118,,"W"
+|2,0,1583197237,,"wq"
 :q
-|2,0,1583103881,,"q"
+|2,0,1583196375,,"q"
+:w
+|2,0,1583195859,,"w"
+:W
+|2,0,1583188837,,"W"
+:vq
+|2,0,1583187918,,"vq"
+:Q
+|2,0,1583169182,,"Q"
+:retab
+|2,0,1583156479,,"retab"
+:hi GitGutterDeleteLine ctermbg=none ctermfg=none
+|2,0,1583119789,,"hi GitGutterDeleteLine ctermbg=none ctermfg=none"
+:hi GitGutterDeleteLine
+|2,0,1583116055,,"hi GitGutterDeleteLine"
+:hi GitGutterChangeDelete
+|2,0,1583116028,,"hi GitGutterChangeDelete"
+:Wq
+|2,0,1583115873,,"Wq"
 :PluginInstall
 |2,0,1583034352,,"PluginInstall"
 :call dein#install()
@@ -216,8 +228,6 @@ $
 |2,0,1582816721,,"wq!"
 :%s/\t/  /g
 |2,0,1582813676,,"%s/\\t/  /g"
-:retab
-|2,0,1582811774,,"retab"
 :GFiles
 |2,0,1582761921,,"GFiles"
 :map ; :Files<CR>
@@ -266,8 +276,6 @@ $
 |2,0,1582293403,,"qq"
 :'<,'>q
 |2,0,1582293400,,"'<,'>q"
-:Q
-|2,0,1582248487,,"Q"
 :k
 |2,0,1582247331,,"k"
 :e resources/serverless/route53.yml
@@ -507,7 +515,51 @@ $
 
 # Search String History (newest to oldest):
 ? \s\+$
-|2,1,1583114902,,"\\s\\+$"
+|2,1,1583197237,,"\\s\\+$"
+? dis
+|2,1,1583195263,,"dis"
+? gitlab
+|2,1,1583192448,,"gitlab"
+? globa
+|2,1,1583191351,,"globa"
+? npmrc
+|2,1,1583191347,,"npmrc"
+? grep
+|2,1,1583187969,,"grep"
+? profiles
+|2,1,1583187865,,"profiles"
+? prefi
+|2,1,1583182192,,"prefi"
+? early
+|2,1,1583174310,,"early"
+? payment
+|2,1,1583174285,,"payment"
+? earl
+|2,1,1583174046,,"earl"
+? build im
+|2,1,1583168779,,"build im"
+? build_im
+|2,1,1583168688,,"build_im"
+? FZF
+|2,1,1583163640,,"FZF"
+? deploy
+|2,1,1583159413,,"deploy"
+? code-vi
+|2,1,1583158443,,"code-vi"
+? npm
+|2,1,1583156743,,"npm"
+? lint
+|2,1,1583156673,,"lint"
+? build
+|2,1,1583156587,,"build"
+? install
+|2,1,1583156403,,"install"
+? lin
+|2,1,1583155759,,"lin"
+? buildcode
+|2,1,1583154734,,"buildcode"
+? run l
+|2,1,1583154477,,"run l"
 ? crede
 |2,1,1583109744,,"crede"
 ? plugins
@@ -894,72 +946,37 @@ $
 # Debug Line History (newest to oldest):
 
 # Registers:
-"0	CHAR	0
-	resources
-|3,0,0,0,1,0,1583108412,"resources"
+"0	LINE	0
+	    - echo $UID
+	    - (cd $HOME && npm install --unsafe-perm=true -g serverless)
+|3,0,0,1,2,0,1583194620,"    - echo $UID","    - (cd $HOME && npm install --unsafe-perm=true -g serverless)"
 "1	LINE	0
-	  localPath:
-|3,0,1,1,1,0,1583108589,"  localPath:"
+	    - cd $HOME
+|3,0,1,1,1,0,1583196444,"    - cd $HOME"
 "2	LINE	0
-	    "serverless-cloudfront-invalidate": "^1.4.0",
-	    "serverless-pseudo-parameters": "^2.5.0",
-	    "serverless-s3-sync": "^1.10.4",
-	    "serverless-stack-output": "^0.2.3",
-	    "serverless-vars-resolver": "^1.0.0"
-|3,0,2,1,5,0,1583108111,"    \"serverless-cloudfront-invalidate\": \"^1.4.0\",","    \"serverless-pseudo-parameters\": \"^2.5.0\",","    \"serverless-s3-sync\": \"^1.10.4\",","    \"serverless-stack-output\": \"^0.2.3\",","    \"serverless-vars-resolver\": \"^1.0.0\""
+	    - cat .npmrc
+|3,0,2,1,1,0,1583196334,"    - cat .npmrc"
 "3	LINE	0
-	    SLS_ENABLED: "true"
-	    SLS_TPL_USE_REMOTE: "true"
-|3,0,3,1,2,0,1583107580,"    SLS_ENABLED: \"true\"","    SLS_TPL_USE_REMOTE: \"true\""
+	    - ls
+|3,0,3,1,1,0,1583196333,"    - ls"
 "4	LINE	0
-	    SLS_TPL_USE_REMOTE: "true"
-|3,0,4,1,1,0,1583104254,"    SLS_TPL_USE_REMOTE: \"true\""
+	    
+|3,0,4,1,1,0,1583195939,"    "
 "5	LINE	0
-	  <<: *vars_configuration
-	  credentials: ${file(./scripts/vault.js)}
-	  subdomain: ${self:custom.provider.stage}.${self:custom.app.groupName}
-	  componentId: ${self:custom.app.name}.${self:custom.subdomain}
-	
-	  s3:
-	    bucketName: ${self:custom.componentId} # max 63 chars
-	
-	  ### FOR CDN
-	  cloudfront:
-	    <<: *cloudfront
-	    cname: ${self:custom.componentId}.${self:custom.provider.region}.${self:custom.route53.rootDomain}
-	    sslArnCert: ${certificate:${self:custom.subdomain}}
-	
-	  route53:
-	    <<: *route53
-	    hostedZoneId: ${hostedZoneId:${self:custom.subdomain}}
-	
-	  output:
-	    handler: resources/scripts/output.handler
-	
-	  ## clear cdn cache on re-deploy
-	  cloudfrontInvalidate:
-	    distributionIdKey: CloudFrontDistributionId
-	    items: # Add your files to invalidate here:
-	      - '/*'
-	
-	  s3Sync:
-	    - bucketName: ${self:custom.s3.bucketName}
-	      localDir: ${self:custom.app.distPath}
-|3,0,5,1,30,0,1583039939,"  <<: *vars_configuration","  credentials: ${file(./scripts/vault.js)}","  subdomain: ${self:custom.provider.stage}.${self:custom.app.groupName}","  componentId: ${self:custom.app.name}.${self:custom.subdomain}","","  s3:","    bucketName: ${self:custom.componentId} # max 63 chars","","  ### FOR CDN","  cloudfront:","    <<: *cloudfront",>104
-|<"    cname: ${self:custom.componentId}.${self:custom.provider.region}.${self:custom.route53.rootDomain}","    sslArnCert: ${certificate:${self:custom.subdomain}}","","  route53:","    <<: *route53","    hostedZoneId: ${hostedZoneId:${self:custom.subdomain}}","","  output:","    handler: resources/scripts/output.handler","","  ## clear cdn cache on re-deploy","  cloudfrontInvalidate:","    distributionIdKey: CloudFrontDistributionId","    items: # Add your files to invalidate here:",>14
-|<"      - '/*'","","  s3Sync:","    - bucketName: ${self:custom.s3.bucketName}","      localDir: ${self:custom.app.distPath}"
+	    - sls info
+|3,0,5,1,1,0,1583195225,"    - sls info"
 "6	LINE	0
-	set -x
-|3,0,6,1,1,0,1583039769,"set -x"
+	    - ls -la
+|3,0,6,1,1,0,1583195223,"    - ls -la"
 "7	LINE	0
-	
-|3,0,7,1,1,0,1583039728,""
+	    - echo $UID
+|3,0,7,1,1,0,1583195222,"    - echo $UID"
 "8	LINE	0
-	set -x
-|3,0,8,1,1,0,1583039726,"set -x"
+	    - echo $UID
+|3,0,8,1,1,0,1583195218,"    - echo $UID"
 "9	LINE	0
-	
-|3,0,9,1,1,0,1583034521,""
+	    - (cd $HOME && npm install --unsafe-perm=true -g serverless)
+|3,0,9,1,1,0,1583195217,"    - (cd $HOME && npm install --unsafe-perm=true -g serverless)"
 "j	CHAR	0
 	jjjjjjlll
 |3,0,19,0,1,0,1582122132,"jjjjjjlll"
@@ -970,234 +987,1047 @@ $
 	jjka 00c€kb€kb€kb--color-€kb=auto:w:w!hhhhhhhhhhhlllllllllllli :w:w!
 |3,0,26,0,1,0,1582755288,"jjka 00c€kb€kb€kb--color-€kb=auto:w:w!hhhhhhhhhhhlllllllllllli :w:w!"
 ""-	CHAR	0
-	#
-|3,1,36,0,1,0,1583114897,"#"
+	 
+|3,1,36,0,1,0,1583197165," "
 
 # File marks:
-'0  10  2  ~/.tmux.style
-|4,48,10,2,1583114902,"~/.tmux.style"
-'1  116  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,49,116,2,1583114676,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'2  77  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,50,77,2,1583109747,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'3  75  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,51,75,2,1583109747,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'4  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,52,60,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'5  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,53,60,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'6  58  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,54,58,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'7  58  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,55,58,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'8  62  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,56,62,0,1583109636,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
-'9  62  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,57,62,0,1583109636,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
+'0  10  8  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,48,10,8,1583197237,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'1  6  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,49,6,4,1583197171,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'2  6  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,50,6,4,1583197171,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'3  3  12  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,51,3,12,1583197074,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'4  3  12  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,52,3,12,1583197074,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'5  3  12  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,53,3,12,1583197074,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'6  3  12  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,54,3,12,1583197074,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'7  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,55,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'8  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,56,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+'9  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,57,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
 
 # Jumplist (newest first):
--'  10  2  ~/.tmux.style
-|4,39,10,2,1583114902,"~/.tmux.style"
--'  1  0  ~/.tmux.style
-|4,39,1,0,1583114893,"~/.tmux.style"
--'  116  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,116,2,1583114676,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  116  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,116,2,1583114676,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  120  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,120,2,1583109934,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  120  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,120,2,1583109934,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109865,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109865,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  77  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,77,2,1583109747,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  75  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,75,2,1583109747,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  77  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,77,2,1583109747,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  75  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,75,2,1583109747,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  62  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,62,0,1583109744,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109744,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  62  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,62,0,1583109744,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109744,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109738,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109738,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  58  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,58,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  58  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,58,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  58  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,58,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  58  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,58,0,1583109704,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109650,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109650,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109636,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109636,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109636,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  60  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,60,0,1583109636,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109630,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109630,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109486,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml
-|4,39,1,0,1583109486,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless.yml"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  1  0  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,1,0,1583109478,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  5  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,5,2,1583109477,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
--'  5  2  ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1
-|4,39,5,2,1583109477,"~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/NERD_tree_1"
+-'  10  8  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,10,8,1583197237,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  4  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,4,4,1583197228,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  5  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,5,4,1583197228,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  6  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,6,4,1583197227,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  3  3  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,3,3,1583197226,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583197220,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  6  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,6,4,1583197171,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583197149,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  3  12  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,3,12,1583197074,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  3  12  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,3,12,1583197074,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583197035,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,4,1583196446,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583196376,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  2  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,2,0,1583196375,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  2  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,2,0,1583196375,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  2  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,2,0,1583196375,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  2  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,2,0,1583196375,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  2  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,2,0,1583196375,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583196342,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,4,1583196341,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  4  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,4,1583196341,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583196328,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  8  15  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,8,15,1583195950,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  1  0  ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+|4,39,1,0,1583195907,"~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
+-'  40  15  ~/dotfiles/tmux-powerline/themes/default.sh
+|4,39,40,15,1583195869,"~/dotfiles/tmux-powerline/themes/default.sh"
 
 # History of marks within files (newest to oldest):
+
+> ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
+	*	1583197236	0
+	"	10	8
+	^	10	9
+	.	10	8
+	+	31	9
+	+	37	0
+	+	30	0
+	+	28	0
+	+	30	0
+	+	30	10
+	+	30	8
+	+	37	0
+	+	37	8
+	+	37	0
+	+	30	0
+	+	31	29
+	+	37	0
+	+	30	0
+	+	28	30
+	+	29	30
+	+	28	0
+	+	30	0
+	+	28	60
+	+	29	64
+	+	37	23
+	+	28	0
+	+	37	0
+	+	55	0
+	+	56	13
+	+	11	0
+	+	9	11
+	+	9	22
+	+	9	0
+	+	12	0
+	+	32	11
+	+	34	18
+	+	35	21
+	+	36	24
+	+	11	8
+	+	9	0
+	+	11	15
+	+	11	18
+	+	11	8
+	+	9	10
+	+	9	0
+	+	11	22
+	+	9	0
+	+	11	0
+	+	9	30
+	+	9	31
+	+	9	15
+	+	9	39
+	+	9	18
+	+	9	0
+	+	9	11
+	+	9	30
+	+	9	51
+	+	11	20
+	+	11	0
+	+	9	15
+	+	2	0
+	+	9	0
+	+	11	0
+	+	9	0
+	+	11	8
+	+	11	0
+	+	7	0
+	+	8	11
+	+	11	0
+	+	8	29
+	+	11	31
+	+	8	72
+	+	11	6
+	+	32	0
+	+	31	28
+	+	22	18
+	+	28	13
+	+	29	13
+	+	30	15
+	+	22	0
+	+	32	0
+	+	7	0
+	+	6	0
+	+	7	0
+	+	8	13
+	+	8	14
+	+	9	0
+	+	8	49
+	+	8	15
+	+	22	0
+	+	22	13
+	+	22	6
+	+	22	11
+	+	22	0
+	+	8	0
+	+	22	0
+	+	8	0
+	+	8	15
+	+	8	0
+	+	3	12
+	+	4	5
+	+	5	4
+	+	3	0
+	+	10	8
+
+> ~/dotfiles/tmux-powerline/themes/default.sh
+	*	1583195863	0
+	"	40	15
+	^	40	16
+	.	40	15
+	+	42	0
+	+	32	0
+	+	39	16
+	+	40	0
+	+	42	0
+	+	42	15
+	+	42	0
+	+	41	0
+	+	37	9
+	+	41	0
+	+	38	15
+	+	39	21
+	+	4	0
+	+	38	22
+	+	38	0
+	+	40	0
+	+	41	0
+	+	31	0
+	+	40	15
+	+	41	19
+	+	43	11
+	+	43	14
+	+	38	20
+	+	37	0
+	+	41	0
+	+	42	0
+	+	44	0
+	+	40	11
+	+	38	17
+	+	37	15
+	+	39	0
+	+	40	15
+
+> ~/dotfiles/tmux-powerline/segments/battery.sh
+	*	1583195561	0
+	"	72	11
+	^	77	13
+	.	77	11
+	+	6	0
+	+	1	0
+	+	6	25
+	+	8	25
+	+	37	8
+	+	37	0
+	+	6	35
+	+	8	0
+	+	6	0
+	+	8	0
+	+	6	21
+	+	7	0
+	+	6	0
+	+	7	27
+	+	8	27
+	+	135	0
+	+	75	0
+	+	110	0
+	+	8	0
+	+	72	11
+	+	77	11
+
+> ~/.aws/vault-json-to-aws-profile.sh
+	*	1583194833	0
+	"	1	0
+	.	14	0
+	+	4	36
+	+	36	0
+	+	35	0
+	+	36	0
+	+	6	0
+	+	36	0
+	+	14	38
+	+	15	35
+	+	16	31
+	+	21	8
+	+	26	7
+	+	21	0
+	+	20	0
+	+	25	0
+	+	26	0
+	+	25	0
+	+	6	0
+	+	3	0
+	+	5	0
+	+	15	0
+	+	14	0
+
+> ~/codes/naranja/goldenfront/gitlab-templates/.gitlab-ci-front-serverless.yml
+	*	1583194463	0
+	"	1	0
+	.	23	0
+	+	24	0
+	+	27	0
+	+	27	12
+	+	27	0
+	+	27	5
+	+	27	0
+	+	28	50
+	+	29	0
+	+	31	0
+	+	32	0
+	+	33	0
+	+	29	33
+	+	30	32
+	+	31	34
+	+	32	40
+	+	33	36
+	+	34	38
+	+	28	17
+	+	29	17
+	+	30	17
+	+	31	17
+	+	32	17
+	+	33	17
+	+	34	18
+	+	13	2
+	+	14	2
+	+	15	2
+	+	16	2
+	+	17	2
+	+	18	0
+	+	19	14
+	+	20	14
+	+	21	14
+	+	22	14
+	+	24	14
+	+	19	14
+	+	24	83
+	+	19	84
+	+	20	84
+	+	21	84
+	+	22	84
+	+	24	84
+	+	24	103
+	+	24	0
+	+	19	113
+	+	20	110
+	+	21	110
+	+	24	112
+	+	22	112
+	+	24	121
+	+	19	14
+	+	20	14
+	+	21	0
+	+	22	14
+	+	24	14
+	+	22	14
+	+	21	14
+	+	20	14
+	+	19	4
+	+	24	0
+	+	22	0
+	+	24	0
+	+	23	0
+	+	22	0
+	+	3	16
+	+	3	15
+	+	3	19
+	+	3	40
+	+	3	49
+	+	3	32
+	+	5	35
+	+	3	25
+	+	22	0
+	+	3	50
+	+	3	32
+	+	3	0
+	+	3	6
+	+	19	2
+	+	20	2
+	+	21	2
+	+	22	2
+	+	17	0
+	+	3	0
+	+	11	0
+	+	19	0
+	+	22	0
+	+	11	11
+	+	5	32
+	+	11	39
+	+	11	21
+	+	11	0
+	+	11	14
+	+	16	0
+	+	11	0
+	+	22	0
+	+	7	0
+	+	11	0
+	+	23	0
+
+> ~/codes/naranja/quiero/bff-quiero/serverless.yaml
+	*	1583192452	0
+	"	22	7
+
+> ~/.aws/list
+	*	1583191700	0
+	"	1	0
+
+> ~/.aws/vault-fetch-all-creds.sh
+	*	1583191700	0
+	"	1	0
+
+> ~/.aws/naranja-vault.sh
+	*	1583191700	0
+	"	1	0
+
+> ~/.aws/NERD_tree_1
+	*	1583191699	0
+	"	1	0
+	.	1	0
+	+	1	0
+
+> ~/.aws/eks-connect
+	*	1583191699	0
+	"	1	0
+	^	12	37
+	.	12	0
+	+	11	0
+	+	11	6
+	+	11	29
+	+	11	6
+	+	9	0
+	+	10	0
+	+	11	35
+	+	15	21
+	+	11	0
+	+	10	7
+	+	11	0
+	+	10	11
+	+	11	0
+	+	12	0
+
+> ~/.aws/credentials.original
+	*	1583191698	0
+	"	1	0
+
+> ~/.aws/credentials
+	*	1583191698	0
+	"	1	0
+	.	3	0
+	+	19	0
+	+	3	0
+
+> ~/.aws/credentials2
+	*	1583191698	0
+	"	1	0
+
+> ~/.aws/config
+	*	1583191697	0
+	"	1	0
+
+> ~/.aws/aws-profile-to-kube-config.sh
+	*	1583191695	0
+	"	1	0
+
+> /private/tmp/me.npmrc
+	*	1583191357	0
+	"	50	0
+
+> /private/tmp/remote.npmrc
+	*	1583191341	0
+	"	1	0
+	^	134	14
+	.	134	13
+	+	134	13
+
+> ~/codes/naranja/goldenfront/gitlab-templates/remote.npmrc
+	*	1583191244	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/gitlab-templates/me.npmrc
+	*	1583191244	0
+	"	1	0
+
+> ~/.aws/vault-fetch-list.sh
+	*	1583189445	0
+	"	1	0
+
+> ~/.zshrc
+	*	1583189303	0
+	"	124	61
+	^	119	61
+	.	120	0
+	+	109	88
+	+	108	0
+	+	109	26
+	+	109	68
+	+	109	15
+	+	109	86
+	+	111	0
+	+	106	9
+	+	105	9
+	+	104	29
+	+	105	29
+	+	106	29
+	+	109	79
+	+	106	0
+	+	109	96
+	+	109	8
+	+	111	21
+	+	112	50
+	+	113	8
+	+	109	13
+	+	111	42
+	+	112	34
+	+	113	34
+	+	112	83
+	+	111	66
+	+	111	104
+	+	111	103
+	+	112	0
+	+	110	0
+	+	111	41
+	+	111	103
+	+	111	65
+	+	112	34
+	+	112	84
+	+	113	0
+	+	112	34
+	+	112	84
+	+	113	0
+	+	111	41
+	+	111	102
+	+	112	0
+	+	111	32
+	+	112	31
+	+	113	29
+	+	200	6
+	+	200	0
+	+	200	119
+	+	200	11
+	+	67	85
+	+	200	0
+	+	189	26
+	+	194	0
+	+	189	50
+	+	187	6
+	+	188	6
+	+	186	18
+	+	189	0
+	+	192	33
+	+	191	0
+	+	193	0
+	+	177	0
+	+	133	55
+	+	126	0
+	+	125	20
+	+	125	116
+	+	196	0
+	+	197	20
+	+	196	0
+	+	102	74
+	+	153	0
+	+	154	0
+	+	126	23
+	+	154	75
+	+	1	106
+	+	1	107
+	+	1	145
+	+	1	186
+	+	1	187
+	+	1	250
+	+	1	318
+	+	1	383
+	+	2	0
+	+	122	100
+	+	104	0
+	+	118	16
+	+	118	63
+	+	118	16
+	+	118	62
+	+	120	0
+	+	118	59
+	+	119	98
+	+	118	14
+	+	119	41
+	+	116	10
+	+	119	45
+	+	116	11
+	+	116	0
+	+	119	60
+	+	120	0
+
+> jobs/deploy/aws/serverless.gitlab-ci.yml
+	*	1583182223	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/serverless/package.json
+	*	1583176588	0
+	"	3	0
+
+> ~/codes/naranja/payments/front-early-cancellation-web/serverless.yml
+	*	1583174382	0
+	"	76	10
+
+> ~/codes/naranja/goldenfront/naranjaweb/serverless.yml
+	*	1583173898	0
+	"	1	0
+
+> ~/codes/naranja/payments/front-early-cancellation-web/scripts/getCredentialsFromVault.js
+	*	1583172453	0
+	"	19	46
+	^	19	50
+	.	19	46
+	+	19	46
+
+> ~/codes/naranja/payments/front-early-cancellation-web/scripts/vault.js
+	*	1583172431	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/naranjaweb/.gitlab-ci.yml
+	*	1583168802	0
+	"	229	0
+	^	229	0
+	.	229	0
+	+	161	0
+	+	162	0
+	+	158	1
+	+	159	1
+	+	160	3
+	+	161	1
+	+	162	3
+	+	141	0
+	+	142	0
+	+	154	0
+	+	142	0
+	+	143	0
+	+	155	0
+	+	143	1
+	+	144	1
+	+	149	1
+	+	150	2
+	+	144	0
+	+	143	0
+	+	145	0
+	+	143	1
+	+	144	1
+	+	145	3
+	+	146	3
+	+	147	3
+	+	148	3
+	+	149	2
+	+	150	1
+	+	151	3
+	+	150	3
+	+	151	5
+	+	152	1
+	+	153	1
+	+	154	3
+	+	44	0
+	+	44	2
+	+	44	0
+	+	44	2
+	+	44	4
+	+	44	18
+	+	226	0
+	+	44	0
+	+	226	0
+	+	221	0
+	+	157	0
+	+	18	0
+	+	10	0
+	+	11	0
+	+	12	0
+	+	13	0
+	+	14	0
+	+	15	0
+	+	16	0
+	+	17	0
+	+	18	0
+	+	9	0
+	+	10	2
+	+	11	2
+	+	12	2
+	+	13	2
+	+	14	2
+	+	15	2
+	+	16	2
+	+	17	2
+	+	18	2
+	+	183	0
+	+	217	0
+	+	218	0
+	+	44	0
+	+	164	0
+	+	180	10
+	+	179	6
+	+	180	0
+	+	236	0
+	+	228	0
+	+	240	0
+	+	239	0
+	+	240	0
+	+	236	0
+	+	237	0
+	+	238	0
+	+	240	0
+	+	204	0
+	+	213	0
+	+	203	0
+	+	86	0
+	+	134	0
+	+	185	0
+	+	203	0
+	+	185	0
+	+	186	0
+	+	202	0
+	+	198	0
+	+	184	0
+	+	230	0
+	+	233	0
+	+	230	0
+	+	234	0
+	+	235	0
+	+	229	0
+
+> ~/codes/naranja/goldenfront/gitlab-templates/jobs/init/install.gitlab-ci.yml
+	*	1583165538	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/naranjaweb/naranjaweb/helm_vars/develop/values.yaml
+	*	1583165358	0
+	"	47	18
+	^	47	19
+	.	47	19
+	+	5	27
+	+	31	45
+	+	47	19
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/.gitlab-ci.yml
+	*	1583162145	0
+	"	8	31
+	^	8	32
+	.	8	31
+	+	2	41
+	+	4	11
+	+	5	0
+	+	4	37
+	+	5	0
+	+	2	42
+	+	5	0
+	+	2	41
+	+	4	0
+	+	8	31
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/template/.gitlab-ci.yml
+	*	1583162123	0
+	"	4	0
+	.	7	0
+	+	9	41
+	+	11	54
+	+	2	23
+	+	6	50
+	+	1	9
+	+	7	0
+	+	11	11
+	+	7	0
+
+> template/.gitlab-ci.yml
+	*	1583158922	0
+	"	1	0
+
+> ~/.vimrc
+	*	1583158438	0
+	"	1	0
+	^	774	48
+	.	774	47
+	+	81	9
+	+	80	0
+	+	81	9
+	+	80	4
+	+	700	0
+	+	701	98
+	+	701	0
+	+	702	0
+	+	588	0
+	+	701	0
+	+	1	2
+	+	700	0
+	+	1	0
+	+	587	0
+	+	670	0
+	+	82	34
+	+	706	30
+	+	711	27
+	+	703	0
+	+	713	30
+	+	431	0
+	+	714	22
+	+	83	11
+	+	83	0
+	+	591	21
+	+	593	0
+	+	590	14
+	+	591	21
+	+	727	29
+	+	64	0
+	+	727	0
+	+	714	0
+	+	713	0
+	+	727	0
+	+	629	0
+	+	713	0
+	+	1	7
+	+	723	0
+	+	83	4
+	+	29	0
+	+	1	0
+	+	432	16
+	+	437	68
+	+	727	10
+	+	727	0
+	+	725	0
+	+	720	34
+	+	719	34
+	+	721	31
+	+	727	0
+	+	726	21
+	+	1	0
+	+	726	21
+	+	7	0
+	+	582	24
+	+	714	0
+	+	706	0
+	+	727	0
+	+	706	0
+	+	727	0
+	+	1	0
+	+	728	24
+	+	738	15
+	+	738	0
+	+	739	0
+	+	740	0
+	+	735	0
+	+	735	40
+	+	735	0
+	+	730	0
+	+	734	1
+	+	730	0
+	+	714	0
+	+	715	0
+	+	744	12
+	+	80	0
+	+	106	0
+	+	379	0
+	+	566	0
+	+	656	0
+	+	106	0
+	+	430	0
+	+	431	0
+	+	430	0
+	+	431	9
+	+	439	0
+	+	780	2
+	+	121	0
+	+	434	16
+	+	784	27
+	+	784	5
+	+	434	0
+	+	784	54
+	+	121	0
+	+	784	0
+	+	121	0
+	+	169	0
+	+	714	0
+	+	784	0
+	+	774	47
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/.gitlab-ci-front-serverless.yml
+	*	1583154910	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/plopfile.js
+	*	1583154397	0
+	"	27	4
+	^	1	0
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/NERD_tree_1
+	*	1583154381	0
+	"	1	0
+	.	1	0
+	+	1	0
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/docker-compose.yml
+	*	1583152778	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/front-angularclient-web/docker/nginx/Dockerfile
+	*	1583152776	0
+	"	1	0
+
+> ~/codes/naranja/goldenfront/gitlab-templates/NERD_tree_1
+	*	1583120127	0
+	"	2	0
+	.	1	0
+	+	1	0
+
+> ~/dotfiles/tmux-powerline/segments/vcs_branch.sh
+	*	1583115498	0
+	"	90	0
+	.	41	0
+	+	41	0
 
 > ~/.tmux.style
 	*	1583114900	0
@@ -1287,328 +2117,12 @@ $
 	*	1583107809	0
 	"	117	6
 
-> ~/codes/naranja/goldenfront/gitlab-templates/.gitlab-ci-front-serverless.yml
-	*	1583107609	0
-	"	9	0
-	^	7	7
-	.	8	0
-	+	14	10
-	+	28	8
-	+	25	0
-	+	28	0
-	+	28	12
-	+	28	0
-	+	28	5
-	+	28	0
-	+	29	50
-	+	30	0
-	+	32	0
-	+	33	0
-	+	34	0
-	+	30	33
-	+	31	32
-	+	32	34
-	+	33	40
-	+	34	36
-	+	35	38
-	+	29	17
-	+	30	17
-	+	31	17
-	+	32	17
-	+	33	17
-	+	34	17
-	+	35	18
-	+	14	2
-	+	15	2
-	+	16	2
-	+	17	2
-	+	18	2
-	+	19	0
-	+	20	14
-	+	21	14
-	+	22	14
-	+	23	14
-	+	25	14
-	+	20	14
-	+	25	83
-	+	20	84
-	+	21	84
-	+	22	84
-	+	23	84
-	+	25	84
-	+	25	103
-	+	25	0
-	+	20	113
-	+	21	110
-	+	22	110
-	+	25	112
-	+	23	112
-	+	25	121
-	+	20	14
-	+	21	14
-	+	22	0
-	+	23	14
-	+	25	14
-	+	23	14
-	+	22	14
-	+	21	14
-	+	20	4
-	+	25	0
-	+	23	0
-	+	25	0
-	+	24	0
-	+	23	0
-	+	3	16
-	+	3	15
-	+	3	19
-	+	3	40
-	+	3	49
-	+	3	32
-	+	5	35
-	+	3	25
-	+	23	0
-	+	3	50
-	+	3	32
-	+	3	0
-	+	3	6
-	+	20	2
-	+	21	2
-	+	22	2
-	+	23	2
-	+	18	0
-	+	3	0
-	+	9	0
-	+	20	0
-	+	23	0
-	+	12	11
-	+	4	32
-	+	6	39
-	+	7	21
-	+	6	0
-	+	7	14
-	+	17	0
-	+	12	0
-	+	9	0
-	+	23	0
-	+	8	0
-
 > ~/dotfiles/tmux-powerline/segments/aws_costs.sh
 	*	1583105605	0
 	"	9	28
 	^	9	35
 	.	9	28
 	+	9	28
-
-> ~/.vimrc
-	*	1583103851	0
-	"	714	18
-	^	714	21
-	.	714	0
-	+	81	9
-	+	80	0
-	+	81	9
-	+	80	4
-	+	700	0
-	+	701	98
-	+	701	0
-	+	702	0
-	+	588	0
-	+	701	0
-	+	1	2
-	+	700	0
-	+	1	0
-	+	587	0
-	+	670	0
-	+	82	34
-	+	706	30
-	+	711	27
-	+	703	0
-	+	713	30
-	+	431	0
-	+	714	22
-	+	83	11
-	+	83	0
-	+	591	21
-	+	593	0
-	+	590	14
-	+	591	21
-	+	727	29
-	+	64	0
-	+	727	0
-	+	714	0
-	+	713	0
-	+	727	0
-	+	629	0
-	+	713	0
-	+	1	7
-	+	723	0
-	+	83	4
-	+	29	0
-	+	1	0
-	+	432	16
-	+	437	68
-	+	727	10
-	+	727	0
-	+	725	0
-	+	720	34
-	+	719	34
-	+	721	31
-	+	727	0
-	+	726	21
-	+	1	0
-	+	726	21
-	+	7	0
-	+	582	24
-	+	714	0
-	+	706	0
-	+	727	0
-	+	706	0
-	+	727	0
-	+	1	0
-	+	728	24
-	+	738	15
-	+	738	0
-	+	739	0
-	+	740	0
-	+	735	0
-	+	735	40
-	+	735	0
-	+	730	0
-	+	734	1
-	+	730	0
-	+	714	0
-	+	715	0
-	+	744	12
-	+	80	0
-	+	106	0
-	+	379	0
-	+	566	0
-	+	656	0
-	+	106	0
-	+	430	0
-	+	431	0
-	+	430	0
-	+	431	9
-	+	439	0
-	+	779	2
-	+	121	0
-	+	434	16
-	+	785	27
-	+	785	5
-	+	434	0
-	+	785	54
-	+	121	0
-	+	785	0
-	+	784	0
-	+	121	0
-	+	169	0
-	+	714	0
-
-> ~/.zshrc
-	*	1583103366	0
-	"	160	0
-	^	160	67
-	.	160	0
-	+	115	26
-	+	119	72
-	+	123	61
-	+	125	0
-	+	129	0
-	+	132	0
-	+	118	0
-	+	119	10
-	+	121	23
-	+	119	56
-	+	121	0
-	+	119	87
-	+	119	80
-	+	119	0
-	+	119	37
-	+	118	0
-	+	119	23
-	+	119	65
-	+	119	35
-	+	118	0
-	+	119	65
-	+	119	35
-	+	119	65
-	+	119	66
-	+	119	69
-	+	119	67
-	+	116	30
-	+	115	30
-	+	114	30
-	+	119	88
-	+	118	0
-	+	119	26
-	+	119	68
-	+	119	15
-	+	119	86
-	+	121	0
-	+	116	9
-	+	115	9
-	+	114	29
-	+	115	29
-	+	116	29
-	+	119	79
-	+	116	0
-	+	119	96
-	+	119	8
-	+	121	21
-	+	122	50
-	+	123	8
-	+	119	13
-	+	121	42
-	+	122	34
-	+	123	34
-	+	122	83
-	+	121	66
-	+	121	104
-	+	121	103
-	+	122	0
-	+	120	0
-	+	121	41
-	+	121	103
-	+	121	65
-	+	122	34
-	+	122	84
-	+	123	0
-	+	122	34
-	+	122	84
-	+	123	0
-	+	121	41
-	+	121	102
-	+	122	0
-	+	121	32
-	+	122	31
-	+	123	29
-	+	206	6
-	+	206	0
-	+	206	119
-	+	206	11
-	+	76	85
-	+	206	0
-	+	195	26
-	+	200	0
-	+	195	50
-	+	193	6
-	+	194	6
-	+	192	18
-	+	195	0
-	+	198	33
-	+	197	0
-	+	199	0
-	+	183	0
-	+	139	55
-	+	132	0
-	+	131	20
-	+	131	116
-	+	202	0
-	+	203	20
-	+	202	0
-	+	111	74
-	+	159	0
-	+	160	0
 
 > ~/.mpd/mpd.conf
 	*	1583102980	0
@@ -1637,111 +2151,6 @@ $
 	*	1583036779	0
 	"	3	0
 
-> ~/codes/naranja/goldenfront/gitlab-templates/jobs/init/install.gitlab-ci.yml
-	*	1583036778	0
-	"	1	0
-
-> ~/codes/naranja/goldenfront/gitlab-templates/jobs/deploy/aws/serverless.gitlab-ci.yml
-	*	1583036774	0
-	"	3	2
-	^	31	30
-	.	31	29
-	+	45	0
-	+	49	0
-	+	61	0
-	+	44	0
-	+	44	5
-	+	44	0
-	+	44	5
-	+	44	0
-	+	44	18
-	+	44	23
-	+	44	18
-	+	44	42
-	+	44	36
-	+	16	0
-	+	44	34
-	+	44	38
-	+	16	0
-	+	44	30
-	+	45	0
-	+	64	0
-	+	51	0
-	+	52	0
-	+	45	0
-	+	63	0
-	+	17	0
-	+	45	0
-	+	50	0
-	+	65	0
-	+	45	0
-	+	44	0
-	+	44	8
-	+	16	0
-	+	44	0
-	+	16	20
-	+	44	0
-	+	1	0
-	+	16	0
-	+	44	0
-	+	45	0
-	+	16	6
-	+	1	18
-	+	16	0
-	+	1	0
-	+	1	17
-	+	15	6
-	+	1	18
-	+	15	6
-	+	13	0
-	+	1	0
-	+	15	0
-	+	13	45
-	+	13	26
-	+	13	8
-	+	13	72
-	+	13	28
-	+	13	91
-	+	49	0
-	+	15	0
-	+	12	0
-	+	3	0
-	+	13	0
-	+	1	0
-	+	1	2
-	+	1	4
-	+	1	0
-	+	13	0
-	+	1	44
-	+	1	7
-	+	1	0
-	+	44	0
-	+	42	0
-	+	43	0
-	+	15	2
-	+	15	30
-	+	44	16
-	+	15	0
-	+	44	0
-	+	1	0
-	+	1	19
-	+	1	0
-	+	22	9
-	+	23	33
-	+	45	10
-	+	56	10
-	+	69	10
-	+	82	10
-	+	90	19
-	+	77	19
-	+	64	19
-	+	40	0
-	+	23	12
-	+	19	0
-	+	20	0
-	+	21	0
-	+	31	29
-
 > ~/codes/naranja/goldenfront/gitlab-templates/jobs/notify/slack.gitlab-ci.yaml
 	*	1583036729	0
 	"	4	0
@@ -1749,11 +2158,6 @@ $
 > ~/codes/naranja/goldenfront/gitlab-templates/jobs/test/lint.gitlab-ci.yml
 	*	1583035266	0
 	"	1	0
-
-> ~/codes/naranja/goldenfront/front-angularclient-web/plopfile.js
-	*	1583034515	0
-	"	96	12
-	^	1	0
 
 > /private/tmp/assa.js
 	*	1583034513	0
@@ -1772,12 +2176,6 @@ $
 > ~/NERD_tree_1
 	*	1583034394	0
 	"	1	0
-	.	1	0
-	+	1	0
-
-> ~/codes/naranja/goldenfront/front-angularclient-web/NERD_tree_1
-	*	1583033310	0
-	"	4	0
 	.	1	0
 	+	1	0
 
@@ -1825,18 +2223,6 @@ $
 	*	1583026523	0
 	"	1	0
 
-> ~/.aws/aws-profile-to-kube-config.sh
-	*	1583025577	0
-	"	14	0
-
-> ~/.aws/eks-connect
-	*	1583025555	0
-	"	10	2
-
-> ~/.aws/vault-fetch-all-creds.sh
-	*	1583025533	0
-	"	5	19
-
 > ~/.aws/.vimrc
 	*	1583025396	0
 	"	1	0
@@ -1878,37 +2264,6 @@ $
 	+	181	0
 	+	307	0
 
-> ~/dotfiles/tmux-powerline/themes/default.sh
-	*	1582942478	0
-	"	8	3
-	^	54	16
-	.	39	20
-	+	49	0
-	+	32	0
-	+	40	16
-	+	41	0
-	+	52	0
-	+	53	15
-	+	49	0
-	+	50	0
-	+	44	0
-	+	43	0
-	+	38	9
-	+	46	0
-	+	39	15
-	+	40	21
-	+	4	0
-	+	39	22
-	+	39	0
-	+	41	0
-	+	42	0
-	+	31	0
-	+	41	15
-	+	48	19
-	+	54	11
-	+	54	14
-	+	39	20
-
 > ~/codes/naranja/goldenfront/front-angularclient-web/package.json
 	*	1582932655	0
 	"	45	4
@@ -1948,12 +2303,6 @@ $
 	"	116	2
 	.	117	0
 	+	117	0
-
-> ~/codes/naranja/goldenfront/gitlab-templates/NERD_tree_1
-	*	1582903495	0
-	"	1	0
-	.	1	0
-	+	1	0
 
 > ~/codes/naranja/goldenfront/gitlab-templates/NERD_tree_2
 	*	1582903071	0
@@ -1998,29 +2347,6 @@ $
 	+	39	0
 	+	40	34
 
-> ~/dotfiles/tmux-powerline/segments/battery.sh
-	*	1582854721	0
-	"	97	4
-	^	75	29
-	.	75	0
-	+	6	0
-	+	1	0
-	+	6	25
-	+	8	25
-	+	37	8
-	+	37	0
-	+	6	35
-	+	8	0
-	+	6	0
-	+	8	0
-	+	6	21
-	+	7	0
-	+	6	0
-	+	7	27
-	+	8	27
-	+	135	0
-	+	75	0
-
 > ~/codes/naranja/goldenfront/gitlab-templates/templates/.gitlab-ci-front-serverless.yml
 	*	1582840684	0
 	"	16	2
@@ -2056,21 +2382,6 @@ $
 	+	10	0
 	+	17	0
 	+	16	0
-
-> ~/codes/naranja/goldenfront/front-angularclient-web/.gitlab-ci.yml
-	*	1582829897	0
-	"	4	37
-	^	4	38
-	.	4	37
-	+	2	41
-	+	4	11
-	+	5	0
-	+	4	37
-	+	5	0
-	+	2	42
-	+	5	0
-	+	2	41
-	+	4	37
 
 > ~/codes/naranja/goldenfront/serverless/templates/aws-cloudfront-s3-dns/ControlP
 	*	1582828531	0
@@ -2261,577 +2572,5 @@ $
 	*	1582738397	0
 	"	218	4
 	^	1	1
-	.	1	0
-	+	1	0
-
-> ~/codes/poc/serverless/serverless.yml
-	*	1582732914	0
-	"	49	16
-	^	50	30
-	.	49	16
-	+	14	0
-	+	39	0
-	+	53	0
-	+	47	0
-	+	1	0
-	+	33	0
-	+	39	0
-	+	1	0
-	+	47	0
-	+	47	28
-	+	47	0
-	+	53	0
-	+	38	23
-	+	53	0
-	+	4	0
-	+	47	0
-	+	53	210
-	+	53	0
-	+	54	0
-	+	61	33
-	+	53	9
-	+	54	21
-	+	55	26
-	+	56	14
-	+	57	27
-	+	58	47
-	+	59	26
-	+	60	32
-	+	61	32
-	+	52	8
-	+	53	0
-	+	52	9
-	+	47	0
-	+	49	55
-	+	50	14
-	+	49	16
-
-> ~/codes/naranja/goldenfront/serverless/.gitignore
-	*	1582732673	0
-	"	1	2
-	^	4	3
-	.	4	2
-	+	3	0
-	+	4	2
-
-> ~/codes/naranja/goldenfront/serverless/NERD_tree_1
-	*	1582732655	0
-	"	1	0
-	.	1	0
-	+	1	0
-
-> ~/codes/naranja/goldenfront/serverless/plugins/serverless-vars-resolvers/package.json
-	*	1582732438	0
-	"	1	0
-
-> ~/codes/poc/serverless/variable_resolvers/serverless.yml
-	*	1582729507	0
-	"	1	0
-	^	22	42
-	.	27	0
-	+	1	32
-	+	7	0
-	+	22	0
-	+	32	50
-	+	34	0
-	+	32	0
-	+	33	43
-	+	26	0
-	+	22	0
-	+	25	0
-	+	22	41
-	+	27	0
-
-> ~/codes/poc/serverless/variable_resolvers/package.json
-	*	1582729501	0
-	"	3	18
-	^	1	2
-	.	3	18
-	+	3	18
-	+	1	1
-	+	3	18
-
-> ~/codes/poc/serverless/variable_resolvers/NERD_tree_1
-	*	1582729474	0
-	"	5	0
-	.	1	0
-	+	1	0
-
-> ~/codes/poc/serverless/variable_resolvers/index.js
-	*	1582729472	0
-	"	1	0
-	^	111	38
-	.	111	37
-	+	9	0
-	+	5	45
-	+	111	37
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/.gitignore
-	*	1582728992	0
-	"	5	10
-	^	5	11
-	.	5	11
-	+	2	13
-	+	3	0
-	+	1	5
-	+	3	8
-	+	4	12
-	+	5	11
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/serverless.yml
-	*	1582728658	0
-	"	97	6
-	^	88	58
-	.	73	0
-	+	30	0
-	+	34	0
-	+	33	53
-	+	11	0
-	+	9	0
-	+	10	0
-	+	11	0
-	+	10	38
-	+	23	35
-	+	21	24
-	+	22	33
-	+	33	41
-	+	10	58
-	+	63	28
-	+	90	0
-	+	63	0
-	+	59	0
-	+	83	0
-	+	84	53
-	+	32	19
-	+	88	0
-	+	89	0
-	+	88	57
-	+	73	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/NERD_tree_1
-	*	1582727283	0
-	"	11	0
-	.	1	0
-	+	1	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/sls-deploy.sh
-	*	1582725796	0
-	"	42	2
-	^	43	19
-	.	37	0
-	+	10	48
-	+	53	27
-	+	53	37
-	+	53	39
-	+	53	34
-	+	7	9
-	+	3	20
-	+	15	8
-	+	52	0
-	+	53	10
-	+	6	0
-	+	53	14
-	+	53	0
-	+	10	32
-	+	52	11
-	+	38	28
-	+	36	25
-	+	36	0
-	+	36	41
-	+	38	28
-	+	38	52
-	+	38	84
-	+	38	51
-	+	38	83
-	+	39	0
-	+	38	0
-	+	36	0
-	+	39	0
-	+	40	0
-	+	42	0
-	+	43	0
-	+	44	7
-	+	46	0
-	+	47	0
-	+	48	0
-	+	49	0
-	+	42	1
-	+	43	3
-	+	44	3
-	+	46	3
-	+	47	5
-	+	45	20
-	+	15	21
-	+	16	0
-	+	36	0
-	+	45	22
-	+	44	32
-	+	46	0
-	+	43	26
-	+	52	0
-	+	14	8
-	+	36	0
-	+	25	13
-	+	25	0
-	+	34	0
-	+	53	0
-	+	17	19
-	+	18	0
-	+	23	0
-	+	18	0
-	+	19	0
-	+	20	0
-	+	21	0
-	+	22	1
-	+	21	1
-	+	20	1
-	+	19	1
-	+	18	1
-	+	19	3
-	+	20	3
-	+	21	4
-	+	22	4
-	+	52	16
-	+	39	1
-	+	39	0
-	+	35	0
-	+	36	0
-	+	35	0
-	+	35	21
-	+	39	0
-	+	28	0
-	+	35	0
-	+	33	0
-	+	35	0
-	+	26	0
-	+	27	0
-	+	25	0
-	+	32	0
-	+	39	21
-	+	43	0
-	+	44	0
-	+	43	18
-	+	37	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/sls-destroy.sh
-	*	1582724853	0
-	"	1	0
-	^	3	1
-	.	3	0
-	+	3	0
-	+	1	19
-	+	3	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/dist/index.html
-	*	1582723722	0
-	"	7	0
-	^	5	50
-	.	7	0
-	+	7	6
-	+	7	0
-	+	6	3
-	+	5	49
-	+	7	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/resources/serverless/s3-policy.yml
-	*	1582723310	0
-	"	1	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/resources/serverless/route53.yml
-	*	1582723309	0
-	"	1	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/resources/serverless/s3-bucket.yml
-	*	1582723309	0
-	"	1	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/resources/serverless/outputs.yml
-	*	1582723230	0
-	"	1	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/resources/serverless/cloudfront.yml
-	*	1582723116	0
-	"	29	0
-
-> ~/codes/poc/serverless/templates/cloudfront-s3-dns/resources/serverless/cloudfront-policy.yml
-	*	1582722879	0
-	"	1	0
-
-> ~/codes/poc/serverless/serverless-full-plugin/index.js
-	*	1582721176	0
-	"	197	0
-
-> ~/codes/poc/serverless/serverless-full-plugin/serverless.yml
-	*	1582720492	0
-	"	48	42
-	^	48	43
-	.	48	42
-	+	48	42
-
-> /private/tmp/tt/node_modules/serverless-var-resolvers/index.js
-	*	1582719876	0
-	"	48	3
-
-> /private/tmp/tt/NERD_tree_1
-	*	1582719875	0
-	"	13	0
-	.	1	0
-	+	1	0
-
-> ~/codes/poc/serverless/node_modules/serverless-aws-utils/index.js
-	*	1582690179	0
-	"	164	0
-	.	125	0
-	+	15	6
-	+	14	18
-	+	12	49
-	+	86	48
-	+	86	59
-	+	86	0
-	+	86	59
-	+	86	4
-	+	86	0
-	+	86	45
-	+	86	0
-	+	79	0
-	+	82	0
-	+	86	0
-	+	78	18
-	+	124	0
-	+	119	23
-	+	120	0
-	+	119	23
-	+	120	60
-	+	121	49
-	+	123	0
-	+	31	0
-	+	29	5
-	+	92	83
-	+	133	42
-	+	134	0
-	+	133	16
-	+	135	14
-	+	136	21
-	+	133	50
-	+	93	0
-	+	92	36
-	+	90	16
-	+	91	0
-	+	90	14
-	+	91	16
-	+	90	20
-	+	91	28
-	+	92	16
-	+	94	13
-	+	95	21
-	+	105	22
-	+	109	24
-	+	108	50
-	+	108	0
-	+	96	0
-	+	98	0
-	+	90	0
-	+	108	0
-	+	84	21
-	+	16	44
-	+	11	31
-	+	133	42
-	+	134	0
-	+	133	74
-	+	54	0
-	+	54	4
-	+	54	0
-	+	55	0
-	+	52	4
-	+	52	0
-	+	50	10
-	+	48	0
-	+	54	0
-	+	55	0
-	+	54	4
-	+	65	14
-	+	69	2
-	+	54	0
-	+	66	4
-	+	55	0
-	+	68	4
-	+	69	0
-	+	64	4
-	+	61	38
-	+	51	0
-	+	62	0
-	+	67	19
-	+	87	13
-	+	96	17
-	+	101	11
-	+	140	0
-	+	16	0
-	+	46	0
-	+	82	0
-	+	86	0
-	+	83	0
-	+	78	27
-	+	119	31
-	+	87	11
-	+	96	15
-	+	127	0
-	+	119	0
-	+	127	0
-	+	125	0
-	m	40	6
-
-> ~/codes/poc/serverless/variable_resolvers/node_modules/serverless-aws-utils/index.js
-	*	1582688922	0
-	"	168	0
-	^	113	14
-	.	113	13
-	+	36	7
-	+	24	0
-	+	76	0
-	+	75	0
-	+	76	0
-	+	112	0
-	+	113	0
-	+	163	7
-	+	164	0
-	+	163	9
-	+	164	17
-	+	164	14
-	+	164	0
-	+	149	0
-	+	148	20
-	+	163	14
-	+	148	20
-	+	146	7
-	+	161	0
-	+	146	0
-	+	148	15
-	+	148	13
-	+	149	0
-	+	148	10
-	+	149	0
-	+	164	0
-	+	163	10
-	+	164	0
-	+	163	0
-	+	150	0
-	+	145	4
-	+	144	3
-	+	143	50
-	+	153	0
-	+	155	29
-	+	158	32
-	+	152	0
-	+	113	13
-
-> ~/codes/poc/serverless/index.js
-	*	1582685571	0
-	"	183	2
-	^	191	14
-	.	183	2
-	+	5	0
-	+	135	30
-	+	5	13
-	+	135	24
-	+	14	36
-	+	14	8
-	+	72	4
-	+	46	0
-	+	101	0
-	+	7	45
-	+	129	37
-	+	129	6
-	+	95	0
-	+	96	4
-	+	44	0
-	+	43	50
-	+	129	8
-	+	96	8
-	+	82	0
-	+	2	38
-	+	75	7
-	+	105	7
-	+	75	0
-	+	105	24
-	+	14	0
-	+	30	0
-	+	29	0
-	+	24	0
-	+	16	0
-	+	35	16
-	+	34	16
-	+	27	12
-	+	26	12
-	+	31	24
-	+	19	5
-	+	75	29
-	+	75	0
-	+	15	0
-	+	11	0
-	+	117	0
-	+	115	0
-	+	144	41
-	+	145	10
-	+	75	0
-	+	100	23
-	+	59	6
-	+	60	30
-	+	65	11
-	+	60	25
-	+	65	7
-	+	61	6
-	+	65	7
-	+	66	21
-	+	71	5
-	+	66	21
-	+	70	5
-	+	71	0
-	+	64	44
-	+	183	36
-	+	187	1
-	+	184	16
-	+	186	32
-	+	186	0
-	+	187	0
-	+	9	44
-	+	189	37
-	+	192	2
-	+	183	17
-	+	192	33
-	+	186	35
-	+	184	0
-	+	186	0
-	+	190	0
-	+	156	0
-	+	148	33
-	+	158	64
-	+	163	73
-	+	103	33
-	+	111	0
-	+	128	0
-	+	103	35
-	+	184	26
-	+	186	41
-	+	192	41
-	+	190	28
-	+	75	0
-	+	67	0
-	+	70	0
-	+	55	44
-	+	58	5
-	+	62	46
-	+	67	44
-	+	56	0
-	+	191	40
-	+	185	13
-	+	191	13
-	+	29	0
-	+	49	0
-	+	189	2
-	+	183	2
-
-> ~/codes/poc/serverless/NERD_tree_2
-	*	1582570854	0
-	"	5	0
 	.	1	0
 	+	1	0
