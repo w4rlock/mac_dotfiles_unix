@@ -79,7 +79,7 @@ if count(g:vimified_packages, 'general')
     Bundle 'tpope/vim-eunuch'
     Bundle 'junegunn/fzf', { 'do': './install --bin' }
     Bundle 'junegunn/fzf.vim'
-    Bundle 'airblade/vim-gitgutter'
+    "Bundle 'airblade/vim-gitgutter'
     Bundle 'easymotion/vim-easymotion'
 
 
@@ -740,7 +740,7 @@ function! Fzf_dev()
         \ 'source': <sid>files(),
         \ 'sink':   function('s:edit_file'),
         \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '40%' })
+        \ 'down':    '60%' })
 endfunction
 "custom fzf + web icons support
 nmap <silent> ; :call Fzf_dev()<cr>
@@ -772,6 +772,8 @@ hi GitGutterChange ctermfg=3
 hi GitGutterDelete ctermfg=1
 hi GitGutterChangeDelete ctermfg=4
 hi GitGutterDeleteLine ctermbg=none ctermfg=none
+hi GitGutterAddLine ctermbg=none ctermfg=none
+hi GitGutterChangeLine ctermbg=none ctermfg=none
 hi ColorColumn ctermbg=233
 
 

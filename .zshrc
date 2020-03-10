@@ -113,10 +113,12 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 print-1(){ awk '{ print $1 }' }
 print-2(){ awk '{ print $2 }' }
 print-3(){ awk '{ print $3 }' }
-only-az() { sed "s/[^[:alpha:].-]//g" }
+only-az(){ sed "s/[^[:alnum:]_-]//g" }
 
-aws-profiles-ls() { cat ~/.aws/credentials | grep --color=never -o '\[[^]]*\]' }
-aws-set-profile() { _prf=$(aws-profiles-ls | only-az | fzf); [[ "${_prf}" != "" ]] && export AWS_PROFILE=$_prf }
+__fzf-zsh-fn() { fzf -1 -e --header-lines=1 -q "${1}" }
+
+aws-profiles-ls() { cat ~/.aws/credentials | grep --color=never -o '^\[[^]]*\]' }
+aws-set-profile() { _prf=$(aws-profiles-ls | only-az | fzf -1 -e -q "${1}"); [[ "${_prf}" != "" ]] && export AWS_PROFILE=$_prf }
 
 aws-s3-ls(){ aws s3 ls | fzf -m --preview="sleep .5 && aws s3 ls s3://{3}" | awk '{ print $3 }' }
 aws-ecr-ls() { aws ecr describe-repositories  | jq -r '.repositories | .[] | .repositoryName' | fzf }
@@ -137,10 +139,9 @@ code-view(){ cat-find $@ }
 
 
 __k8s-ns(){ kubectl config set-context $(kubectl config current-context) --namespace=$1 }
-__fzf-zsh-fn() { fzf -1 -e -q "${1}" --header-lines=1 }
 
 k8s-ns(){ ns=$(kgns | __fzf-zsh-fn "$@" | awk '{ print  $1 }'); __k8s-ns $ns }
-k8s-sh(){ pn=$(kgp  | __fzf-zsh-fn "$@" | print-1); keti $pn -- /bin/sh }
+k8s-sh(){ pn=$(kgp  | __fzf-zsh-fn "$@" | print-1); echo "Shell pod \"${pn}\""; keti $pn -- /bin/sh }
 k8s-pod-exec(){ pn=$(kgp  | __fzf-zsh-fn "$1" | print-1); shift; keti $pn -- $@ }
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -160,7 +161,7 @@ PERL_MM_OPT="INSTALL_BASE=/Users/u0166409/perl5"; export PERL_MM_OPT;
 
 
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" " --cycle'
+export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" " --cycle --no-info'
 
 
 export PATH="/Users/u0166409/.pyenv/bin:$PATH"
