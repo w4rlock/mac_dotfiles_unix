@@ -26,9 +26,9 @@ __install_deps() {
 
 check_install_dependencies() {
   if which apt &> /dev/null; then
-    __install_deps "brew install"
-  elif which brew &> /dev/null; then
     __install_deps "apt install"
+  elif which brew &> /dev/null; then
+    __install_deps "brew install"
   fi
 }
 
@@ -123,6 +123,7 @@ main() {
 
   $EDITOR $LAUNCH_CONF_TPL
 
+  exit 1111
 
   create_new_launch_conf
   as_group=$(aws autoscaling describe-auto-scaling-groups | jq -r --arg old_lc $lc \

@@ -108,6 +108,8 @@ alias aws-ssl-list="aws acm list-certificates --output text"
 
 alias sls="SLS_DEBUG=* sls"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias rg-filename='rg -l'
+alias fzf-preview='fzf --preview="bat --theme="OneHalfDark" --style=numbers,changes --color always {}"'
 
 
 print-1(){ awk '{ print $1 }' }

@@ -34,9 +34,12 @@ fi
 
 if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
   TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
-    "kube-ns 235 88" \
+    "kube-ns 233 88" \
     "aws_costs 237 1" \
-    #"vcs_branch 237 136" \
+    "vcs_branch 233 136" \
+    "vcs_compare 237 136" \
+    "vcs_modified 237 136" \
+    "vcs_others 237 136" \
     "pwd 235 248" \
     "battery 237 107" \
     "date 235 136" \

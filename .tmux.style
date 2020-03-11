@@ -7,7 +7,7 @@ _exp() {
 }
 
 _load_icons(){
-  [ -n "${nerd_icons_loaded}" ] && return 0
+  #[ -n "${nerd_icons_loaded}" ] && return 0
 
   _exp icon_git_branch 'e725'
   _exp icon_home 'f46d'
@@ -22,6 +22,7 @@ _load_icons(){
   _exp icon_home 'f015'            # 
   _exp icon_folder_open 'f115'     # 
   _exp icon_cloud 'f0c2'
+  _exp icon_git_1 'e0a0'           # 
 
   _exp icon_sep_right 'e0b0'
   _exp icon_sep_alt_right 'e0b1'
