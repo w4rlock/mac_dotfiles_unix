@@ -123,7 +123,6 @@ main() {
 
   $EDITOR $LAUNCH_CONF_TPL
 
-  exit 1111
 
   create_new_launch_conf
   as_group=$(aws autoscaling describe-auto-scaling-groups | jq -r --arg old_lc $lc \
