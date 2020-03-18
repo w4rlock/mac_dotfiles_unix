@@ -743,7 +743,7 @@ function! Fzf_dev()
         \ 'down':    '60%' })
 endfunction
 "custom fzf + web icons support
-nmap <silent> ; :call Fzf_dev()<cr>
+nmap <silent> f; :call Fzf_dev()<cr>
 
 let g:gitgutter_highlight_lines = 1
 let g:gitgutter_realtime = 0

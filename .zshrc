@@ -94,6 +94,7 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 alias ls='ls++ -la'
+alias cowsay='fortune | cowsay | lolcat'
 
 alias kg="kubectl get"
 alias k8s-nginx-ingress-list='kubectl ingress-nginx ingresses --all-namespaces'

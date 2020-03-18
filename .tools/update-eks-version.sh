@@ -8,13 +8,15 @@ set -e
 
 readonly EDITOR=${EDITOR:-vim}
 readonly LAUNCH_CONF_TPL='CurrentLC.json'
+REQUIREMENTS=(jq sponge fzf)
+
 
 
 
 __install_deps() {
   local pkg_mng="${@}"
 
-  for dep in jq sponge fzf; do
+  for dep in "${REQUIREMENTS[@]}"; do
     which $dep &> /dev/null || {
       echo "Installing pkg \"$dep\"..."
       $pkg_mng $dep
