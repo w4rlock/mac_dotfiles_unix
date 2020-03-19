@@ -1,6 +1,6 @@
 # Print the current date.
 
-TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT="%F"
+TMUX_POWERLINE_SEG_DATE_FORMAT_DEFAULT="%x"
 
 generate_segmentrc() {
 	read -d '' rccontents  << EORC
@@ -17,7 +17,7 @@ __process_settings() {
 }
 
 run_segment() {
-        __process_settings
+  __process_settings
 	date +"$TMUX_POWERLINE_SEG_DATE_FORMAT"
 	return 0
 }

@@ -210,3 +210,9 @@ bindkey "[D" backward-word
 bindkey "[C" forward-word
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+iterm2_print_user_vars() {
+  iterm2_set_user_var test $TEST_EMA
+}
+

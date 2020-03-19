@@ -28,13 +28,16 @@ run_segment() {
 
 	case "$TMUX_POWERLINE_SEG_BATTERY_TYPE" in
 		"percentage")
-			output="${HEART_FULL} ${battery_status}%"
+			#output="${HEART_FULL} ${battery_status}%"
+			output="${battery_status}%"
 			;;
 		"cute")
 			output=$(__cutinate $battery_status)
 	esac
 	if [ -n "$output" ]; then
-		echo "$output"
+    let intPerc=${output//[!0-9]/}
+    local icon=$(get_battery_icon_status $intPerc)
+		echo -n "${icon}  ${output}"
 	fi
 }
 
@@ -45,6 +48,26 @@ __process_settings() {
 	if [ -z "$TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS" ]; then
 		export TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS="${TMUX_POWERLINE_SEG_BATTERY_NUM_HEARTS_DEFAULT}"
 	fi
+}
+
+
+get_battery_icon_status() {
+  local charge=${1:?'charge value is required'}
+  local icon=$icon_bat_100
+
+  if ((charge>99)); then
+    icon=$icon_bat_100
+  elif ((charge>70)); then
+    icon=$icon_bat_75
+  elif ((charge>30)); then
+    icon=$icon_bat_50
+  elif ((charge>10)); then
+    icon=$icon_bat_25
+  elif ((charge>0)); then
+    icon=$icon_bat_0
+  fi
+
+  echo $icon
 }
 
 __battery_osx() {
@@ -76,6 +99,8 @@ __battery_osx() {
 					fi
 					echo "-$charge"
 				fi
+
+
 				break
 			fi
 		done
