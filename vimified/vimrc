@@ -77,13 +77,36 @@ if count(g:vimified_packages, 'general')
     Bundle 'tpope/vim-unimpaired'
     Bundle 'maxbrunsfeld/vim-yankstack'
     Bundle 'tpope/vim-eunuch'
+
     Bundle 'junegunn/fzf', { 'do': './install --bin' }
     Bundle 'junegunn/fzf.vim'
-    "Bundle 'airblade/vim-gitgutter'
+    Bundle 'airblade/vim-gitgutter'
     Bundle 'easymotion/vim-easymotion'
+    "Bundle 'Yggdroot/indentLine'
+    Bundle 'sirver/ultisnips'
+		Bundle 'honza/vim-snippets'
+    Bundle 'pangloss/vim-javascript'
+    Bundle 'heavenshell/vim-jsdoc'
+
+    let g:jsdoc_allow_input_prompt = 1
+    let g:jsdoc_input_description = 1
+    let g:jsdoc_enable_es6 = 1
+
+		" Expandir snippet con Ctrl + j
+		let g:UltiSnipsExpandTrigger = '<c-j>'
+
+		" Ir a siguiente ubicacion con Ctrl + j
+		let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+		" Ir a anterior ubicacion con Ctrl + k
+		let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+
+    "Bundle 'neoclide/coc.nvim', {'branch': 'release'}
+    "Bundle 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    Bundle 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --js-completer' }
 
 
-    Bundle 'scrooloose/nerdtree'
+    "Bundle 'scrooloose/nerdtree'
+    Bundle 'preservim/nerdtree'
     " Disable the scrollbars (NERDTree)
     set guioptions-=r
     set guioptions-=L
@@ -162,7 +185,7 @@ if count(g:vimified_packages, 'coding')
     Bundle 'scrooloose/syntastic'
     let g:syntastic_enable_signs=1
     let g:syntastic_auto_loc_list=1
-    let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby', 'python', ], 'passive_filetypes': ['html', 'css', 'slim'] }
+    "let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby', 'python', ], 'passive_filetypes': ['html', 'css', 'slim'] }
 
     " --
 
@@ -190,29 +213,6 @@ endif
 if count(g:vimified_packages, 'go')
     Bundle 'fatih/vim-go'
     let g:go_disable_autoinstall = 1
-endif
-"
-
-" _. Ruby
-if count(g:vimified_packages, 'ruby')
-    Bundle 'vim-ruby/vim-ruby'
-    Bundle 'tpope/vim-rails'
-    Bundle 'nelstrom/vim-textobj-rubyblock'
-    Bundle 'ecomba/vim-ruby-refactoring'
-
-    autocmd FileType ruby,eruby,yaml set tw=80 ai sw=2 sts=2 et
-    autocmd FileType ruby,eruby,yaml setlocal foldmethod=manual
-    autocmd User Rails set tabstop=2 shiftwidth=2 softtabstop=2 expandtab
-endif
-"
-
-" _. Clang
-if count(g:vimified_packages, 'clang')
-    Bundle 'Rip-Rip/clang_complete'
-    Bundle 'LucHermitte/clang_indexer'
-    Bundle 'newclear/lh-vim-lib'
-    Bundle 'LucHermitte/vim-clang'
-    Bundle 'devx/c.vim'
 endif
 "
 
@@ -485,14 +485,14 @@ autocmd! BufWritePost vimrc source $MYVIMRC
 
 " Cursorline
 " Only show cursorline in the current window and in normal mode.
-augroup cline
-    au!
-    au WinLeave * set nocursorline
-    au WinEnter * set cursorline
-    au InsertEnter * set nocursorline
-    au InsertLeave * set cursorline
-augroup END
-"
+"augroup cline
+    "au!
+    "au WinLeave * set nocursorline
+    "au WinEnter * set cursorline
+    "au InsertEnter * set nocursorline
+    "au InsertLeave * set cursorline
+"augroup END
+
 
 " Trailing whitespace
 " Only shown when not in insert mode so I don't go insane.
@@ -522,6 +522,7 @@ set smartcase
 set showmatch
 set gdefault
 set hlsearch
+set cursorline
 
 " clear search matching
 noremap <leader><space> :noh<cr>:call clearmatches()<cr>
@@ -618,8 +619,6 @@ nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
 " --------------------
 
 set ofu=syntaxcomplete#Complete
-let g:rubycomplete_buffer_loading = 0
-let g:rubycomplete_classes_in_global = 1
 
 " showmarks
 let g:showmarks_enable = 1
@@ -642,7 +641,6 @@ map  N <Plug>(easymotion-prev)
 " _ Vim
 augroup ft_vim
     au!
-
     au FileType vim setlocal foldmethod=marker
     au FileType help setlocal textwidth=78
     au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
@@ -650,17 +648,10 @@ augroup END
 "
 
 " EXTENSIONS
-
-" _. Scratch
 exec ':so '.s:dotvim.'/functions/scratch_toggle.vim'
-"
-
-" _. Tab
 exec ':so '.s:dotvim.'/functions/insert_tab_wrapper.vim'
-"
-
-" _. Text Folding
 exec ':so '.s:dotvim.'/functions/my_fold_text.vim'
+
 "
 
 " _. Gist
@@ -706,6 +697,7 @@ if !exists('g:airline_symbols')
 endif
 
 
+
 " Files + devicons
 function! Fzf_dev()
   let l:fzf_files_options = '
@@ -740,41 +732,67 @@ function! Fzf_dev()
         \ 'source': <sid>files(),
         \ 'sink':   function('s:edit_file'),
         \ 'options': '-m ' . l:fzf_files_options,
-        \ 'down':    '60%' })
+        \ 'down':    '80%' })
 endfunction
 "custom fzf + web icons support
 nmap <silent> f; :call Fzf_dev()<cr>
 
-let g:gitgutter_highlight_lines = 1
-let g:gitgutter_realtime = 0
+let g:gitgutter_highlight_lines = 0
+let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 0
-let g:indent_guides_start_level=2
-let g:indent_guides_guide_size=1
-let g:gitgutter_override_sign_column_highlight = 0
+"let g:gitgutter_override_sign_column_highlight = 0
 
-hi WildMenu ctermbg=16 ctermfg=white
-hi GitGutterAddLine ctermfg=none
+hi LineNr ctermfg=236
+hi StatusLine ctermfg=236 ctermbg=black
+hi WildMenu ctermbg=16 ctermfg=1 cterm=bold
 hi GitGutterAddDefault cterm=bold
-hi GitGutterDeleteLine ctermbg=none
-hi GitGutterChangeLine ctermbg=none
 hi GitGutterAddLine ctermbg=none
 hi IndentGuidesOdd ctermbg=232
 hi IndentGuidesEven ctermbg=236
-hi Normal ctermbg=none
-hi NonText ctermbg=none
-hi Comment ctermfg=236
-hi CursorLineNr ctermfg=9
+hi Normal ctermbg=232
+hi NonText ctermbg=black
+hi Comment ctermfg=238
+hi LineNr ctermfg=236
+hi CursorLineNr ctermfg=9 cterm=bold
 hi CursorLine ctermbg=233
 hi Search ctermbg=1
-hi clear SignColumn
+"hi clear SignColumn
 hi GitGutterAdd ctermfg=2
 hi GitGutterChange ctermfg=3
 hi GitGutterDelete ctermfg=1
 hi GitGutterChangeDelete ctermfg=4
 hi GitGutterDeleteLine ctermbg=none ctermfg=none
-hi GitGutterAddLine ctermbg=none ctermfg=none
 hi GitGutterChangeLine ctermbg=none ctermfg=none
 hi ColorColumn ctermbg=233
+hi SpecialKey ctermbg=none ctermfg=236
+hi Pmenu ctermbg=black ctermfg=238
+hi PmenuSel cterm=bold ctermfg=232 ctermbg=154
+hi PmenuThumb ctermfg=1 ctermbg=black
+hi PmenuSbar ctermfg=1 ctermbg=233
+"hi airline_tab ctermfg=238 ctermbg=233
+hi NonText ctermfg=233
+hi VertSplit ctermfg=233 ctermbg=black
+
+"light style
+"hi Pmenu ctermbg=254
+"hi PmenuSel ctermbg=237 ctermfg=255
+
+
+
+let g:indentLine_char = '┊'
+let g:indentLine_bgcolor_term = 232
+let g:indentLine_enabled = 0
+"let g:indentLine_enabled = 1
+let g:indentLine_setConceal = 0
+"let g:indentLine_concealcursor = 'inc'
+let g:indentLine_conceallevel = 1
+
+
+
+"colorscheme elive
+"colorscheme sourcerer
+"colorscheme molokai
+"colorscheme badwolf
 
 
 "easy motion
@@ -783,3 +801,48 @@ hi ColorColumn ctermbg=233
 ",w
 ",b
 "
+"conceal t- replace code by icons
+set conceallevel=2
+set concealcursor=
+
+
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+let g:javascript_plugin_flow = 1
+
+
+
+
+let g:javascript_conceal_function             = "ƒ"
+"let g:javascript_conceal_null                 = "ø"
+let g:javascript_conceal_this                 = "@"
+let g:javascript_conceal_return               = "讀"
+let g:javascript_conceal_undefined            = "🍺 "
+"let g:javascript_conceal_NaN                  = "ℕ"
+"let g:javascript_conceal_prototype            = "¶"
+"let g:javascript_conceal_static               = "•"
+"let g:javascript_conceal_super                = "Ω"
+let g:javascript_conceal_arrow_function       = "ﰲ"
+"let g:javascript_conceal_noarg_arrow_function = "🞅"
+"let g:javascript_conceal_underscore_arrow_function = "🞅"
+
+let g:ycm_show_diagnostics_ui = 1
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_warning_symbol = '>>'
+let g:ycm_enable_diagnostic_highlighting = 1
+
+hi clear Conceal
+hi Conceal ctermfg=3 ctermbg=none
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+
+
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''

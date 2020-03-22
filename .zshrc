@@ -203,6 +203,7 @@ test -e ~/.dir_colors && eval `dircolors -b ~/.dir_colors`
 
 alias grep="grep --color=always"
 alias egrep="egrep --color=always"
+alias my-public-ip='curl ifconfig.co'
 # ls colors support
 
 # MAC OS KEYS
@@ -215,4 +216,8 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 iterm2_print_user_vars() {
   iterm2_set_user_var test $TEST_EMA
 }
+
+
+export PATH="/usr/local/bin:${PATH}"
+export LC_ALL=en_US.UTF-8
 
