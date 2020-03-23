@@ -40,13 +40,8 @@ if ! exists('g:vimified_packages')
 endif
 "
 
-" VUNDLE
-let s:bundle_path=s:dotvim."/bundle/"
-execute "set rtp+=".s:bundle_path."vundle/"
-call vundle#rc(s:bundle_path)
+call plug#begin('~/.vim/plugged')
 
-Bundle 'gmarik/vundle'
-"
 
 " PACKAGES
 
@@ -59,54 +54,58 @@ endif
 
 " _. General
 if count(g:vimified_packages, 'general')
-    Bundle 'editorconfig/editorconfig-vim'
+    Plug 'editorconfig/editorconfig-vim'
 
-    Bundle 'rking/ag.vim'
+    Plug 'rking/ag.vim'
     nnoremap <leader>a :Ag -i<space>
 
-    Bundle 'matthias-guenther/hammer.vim'
+    Plug 'matthias-guenther/hammer.vim'
     nmap <leader>p :Hammer<cr>
 
-    Bundle 'mhinz/vim-startify'
-    Bundle 'ryanoasis/vim-devicons'
-    Bundle 'junegunn/vim-easy-align'
-    Bundle 'tpope/vim-endwise'
-    Bundle 'tpope/vim-repeat'
-    Bundle 'tpope/vim-speeddating'
-    Bundle 'tpope/vim-surround'
-    Bundle 'tpope/vim-unimpaired'
-    Bundle 'maxbrunsfeld/vim-yankstack'
-    Bundle 'tpope/vim-eunuch'
+    Plug 'mhinz/vim-startify'
+    Plug 'ryanoasis/vim-devicons'
+    Plug 'junegunn/vim-easy-align'
+    Plug 'tpope/vim-endwise'
+    Plug 'tpope/vim-repeat'
+    Plug 'tpope/vim-speeddating'
+    Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-unimpaired'
+    Plug 'maxbrunsfeld/vim-yankstack'
+    Plug 'tpope/vim-eunuch'
 
-    Bundle 'junegunn/fzf', { 'do': './install --bin' }
-    Bundle 'junegunn/fzf.vim'
-    Bundle 'airblade/vim-gitgutter'
-    Bundle 'easymotion/vim-easymotion'
-    "Bundle 'Yggdroot/indentLine'
-    Bundle 'sirver/ultisnips'
-		Bundle 'honza/vim-snippets'
-    Bundle 'pangloss/vim-javascript'
-    Bundle 'heavenshell/vim-jsdoc'
+    Plug 'junegunn/fzf', { 'do': './install --bin' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'airblade/vim-gitgutter'
+    Plug 'easymotion/vim-easymotion'
+    "Plug 'Yggdroot/indentLine'
+    Plug 'sirver/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'pangloss/vim-javascript'
+    Plug 'heavenshell/vim-jsdoc'
+    "Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
+    Plug 'dense-analysis/ale'
+
 
     let g:jsdoc_allow_input_prompt = 1
     let g:jsdoc_input_description = 1
     let g:jsdoc_enable_es6 = 1
 
-		" Expandir snippet con Ctrl + j
-		let g:UltiSnipsExpandTrigger = '<c-j>'
+    " Expandir snippet con Ctrl + j
+    let g:UltiSnipsExpandTrigger = '<c-j>'
 
-		" Ir a siguiente ubicacion con Ctrl + j
-		let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-		" Ir a anterior ubicacion con Ctrl + k
-		let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+    " Ir a siguiente ubicacion con Ctrl + j
+    let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+    " Ir a anterior ubicacion con Ctrl + k
+    let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
 
-    "Bundle 'neoclide/coc.nvim', {'branch': 'release'}
-    "Bundle 'ternjs/tern_for_vim', { 'do': 'npm install' }
-    Bundle 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --js-completer' }
+    "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    "Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --js-completer' }
 
 
-    "Bundle 'scrooloose/nerdtree'
-    Bundle 'preservim/nerdtree'
+    "Plug 'scrooloose/nerdtree'
+    Plug 'preservim/nerdtree'
     " Disable the scrollbars (NERDTree)
     set guioptions-=r
     set guioptions-=L
@@ -114,19 +113,19 @@ if count(g:vimified_packages, 'general')
     set winfixwidth
 
 
-    Bundle 'kana/vim-textobj-user'
-    Bundle 'vim-scripts/YankRing.vim'
+    Plug 'kana/vim-textobj-user'
+    Plug 'vim-scripts/YankRing.vim'
     let g:yankring_replace_n_pkey = '<leader>['
     let g:yankring_replace_n_nkey = '<leader>]'
     let g:yankring_history_dir = s:dotvim.'/tmp/'
     nmap <leader>y :YRShow<cr>
 
-    Bundle 'michaeljsmith/vim-indent-object'
+    Plug 'michaeljsmith/vim-indent-object'
     let g:indentobject_meaningful_indentation = ["haml", "sass", "python", "yaml", "markdown"]
 
-    Bundle 'Spaceghost/vim-matchit'
-    Bundle 'vim-scripts/scratch.vim'
-    Bundle 'terryma/vim-multiple-cursors'
+    Plug 'Spaceghost/vim-matchit'
+    Plug 'vim-scripts/scratch.vim'
+    Plug 'terryma/vim-multiple-cursors'
 endif
 "
 
@@ -136,16 +135,16 @@ if count(g:vimified_packages, 'fancy')
     "call g:Check_defined('g:airline_right_sep', '')
     "call g:Check_defined('g:airline_branch_prefix', '')
 
-    Bundle 'vim-airline/vim-airline'
-    Bundle 'vim-airline/vim-airline-themes'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 endif
 "
 
 
 " _. OS
 if count(g:vimified_packages, 'os')
-    Bundle 'zaiste/tmux.vim'
-    Bundle 'benmills/vimux'
+    Plug 'zaiste/tmux.vim'
+    Plug 'benmills/vimux'
     map <Leader>rp :VimuxPromptCommand<CR>
     map <Leader>rl :VimuxRunLastCommand<CR>
 
@@ -158,33 +157,32 @@ endif
 " _. Coding
 
 if count(g:vimified_packages, 'coding')
-    Bundle 'majutsushi/tagbar'
+    Plug 'majutsushi/tagbar'
     nmap <leader>t :TagbarToggle<CR>
 
-    Bundle 'gregsexton/gitv'
+    Plug 'gregsexton/gitv'
 
-    "Bundle 'joonty/vdebug.git'
+    "Plug 'joonty/vdebug.git'
 
-    Bundle 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdcommenter'
     nmap <leader># :call NERDComment(0, "invert")<cr>
     vmap <leader># :call NERDComment(0, "invert")<cr>
 
-    " - Bundle 'msanders/snipmate.vim'
-    Bundle 'sjl/splice.vim'
+    " - Plug 'msanders/snipmate.vim'
+    Plug 'sjl/splice.vim'
 
-    Bundle 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive'
     nmap <leader>gs :Gstatus<CR>
     nmap <leader>gc :Gcommit -v<CR>
     nmap <leader>gac :Gcommit --amen -v<CR>
     nmap <leader>g :Ggrep
+    nmap <leader>x :AirlineTheme random<CR>
     " ,f for global git search for word under the cursor (with highlight)
     nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
     " same in visual mode
     :vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
-    Bundle 'scrooloose/syntastic'
-    let g:syntastic_enable_signs=1
-    let g:syntastic_auto_loc_list=1
+    "Plug 'scrooloose/syntastic'
     "let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['ruby', 'python', ], 'passive_filetypes': ['html', 'css', 'slim'] }
 
     " --
@@ -201,28 +199,28 @@ endif
 
 " _. Python
 if count(g:vimified_packages, 'python')
-    Bundle 'klen/python-mode'
-    Bundle 'python.vim'
-    Bundle 'python_match.vim'
-    Bundle 'pythoncomplete'
-    Bundle 'jmcantrell/vim-virtualenv'
+    Plug 'klen/python-mode'
+    Plug 'python.vim'
+    Plug 'python_match.vim'
+    Plug 'pythoncomplete'
+    Plug 'jmcantrell/vim-virtualenv'
 endif
 
 
 " _. Go
 if count(g:vimified_packages, 'go')
-    Bundle 'fatih/vim-go'
+    Plug 'fatih/vim-go'
     let g:go_disable_autoinstall = 1
 endif
 "
 
 " _. HTML
 if count(g:vimified_packages, 'html')
-    Bundle 'tpope/vim-haml'
-    Bundle 'juvenn/mustache.vim'
-    Bundle 'tpope/vim-markdown'
-    Bundle 'digitaltoad/vim-jade'
-    Bundle 'slim-template/vim-slim'
+    Plug 'tpope/vim-haml'
+    Plug 'juvenn/mustache.vim'
+    Plug 'tpope/vim-markdown'
+    Plug 'digitaltoad/vim-jade'
+    Plug 'slim-template/vim-slim'
 
     au BufNewFile,BufReadPost *.jade setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
     au BufNewFile,BufReadPost *.html setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
@@ -235,18 +233,18 @@ endif
 
 " _. CSS
 if count(g:vimified_packages, 'css')
-    Bundle 'wavded/vim-stylus'
-    Bundle 'lunaru/vim-less'
+    Plug 'wavded/vim-stylus'
+    Plug 'lunaru/vim-less'
     nnoremap ,m :w <BAR> !lessc % > %:t:r.css<CR><space>
 endif
 "
 
 " _. JS
 if count(g:vimified_packages, 'js')
-    Bundle 'kchmck/vim-coffee-script'
+    Plug 'kchmck/vim-coffee-script'
     au BufNewFile,BufReadPost *.coffee setl shiftwidth=2 tabstop=2 softtabstop=2 expandtab
 
-    Bundle 'alfredodeza/jacinto.vim'
+    Plug 'alfredodeza/jacinto.vim'
     au BufNewFile,BufReadPost *.coffee setl foldmethod=indent nofoldenable
     au BufNewFile,BufReadPost *.coffee setl tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 endif
@@ -254,16 +252,16 @@ endif
 
 " _. Clojure
 if count(g:vimified_packages, 'clojure')
-    Bundle 'guns/vim-clojure-static'
-    Bundle 'tpope/vim-fireplace'
-    Bundle 'tpope/vim-classpath'
+    Plug 'guns/vim-clojure-static'
+    Plug 'tpope/vim-fireplace'
+    Plug 'tpope/vim-classpath'
 endif
 "
 
 " _. Haskell
 if count(g:vimified_packages, 'haskell')
-    Bundle 'Twinside/vim-syntax-haskell-cabal'
-    Bundle 'lukerandall/haskellmode-vim'
+    Plug 'Twinside/vim-syntax-haskell-cabal'
+    Plug 'lukerandall/haskellmode-vim'
 
     au BufEnter *.hs compiler ghc
 
@@ -274,33 +272,33 @@ endif
 
 " _. Elixir
 if count(g:vimified_packages, 'elixir')
-    Bundle 'elixir-lang/vim-elixir'
+    Plug 'elixir-lang/vim-elixir'
 endif
 "
 
 " _. Rust
 if count(g:vimified_packages, 'rust')
-    Bundle 'wting/rust.vim'
+    Plug 'wting/rust.vim'
 endif
 "
 
 " _. Elm
 if count(g:vimified_packages, 'elm')
-    Bundle 'lambdatoast/elm.vim'
+    Plug 'lambdatoast/elm.vim'
 endif
 "
 
 " _. Color
 if count(g:vimified_packages, 'color')
-    Bundle 'sjl/badwolf'
-    Bundle 'altercation/vim-colors-solarized'
-    Bundle 'tomasr/molokai'
-    Bundle 'zaiste/Atom'
-    Bundle 'w0ng/vim-hybrid'
-    Bundle 'chriskempson/base16-vim'
-    Bundle 'Elive/vim-colorscheme-elive'
-    Bundle 'zeis/vim-kolor'
-    Bundle 'xero/sourcerer.vim'
+    Plug 'sjl/badwolf'
+    Plug 'altercation/vim-colors-solarized'
+    Plug 'tomasr/molokai'
+    Plug 'zaiste/Atom'
+    Plug 'w0ng/vim-hybrid'
+    Plug 'chriskempson/base16-vim'
+    Plug 'Elive/vim-colorscheme-elive'
+    Plug 'zeis/vim-kolor'
+    Plug 'xero/sourcerer.vim'
 
     " During installation the molokai colorscheme might not be avalable
     if filereadable(globpath(&rtp, 'colors/molokai.vim'))
@@ -311,6 +309,7 @@ if count(g:vimified_packages, 'color')
 else
     colorscheme default
 endif
+call plug#end()
 "
 
 "
@@ -610,11 +609,11 @@ nnoremap <leader>z zMzvzz
 
 " Quick editing
 
-nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
-exec 'nnoremap <leader>es <C-w>s<C-w>j:e '.s:dotvim.'/snippets/<cr>'
-nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
-nnoremap <leader>ez <C-w>s<C-w>j:e ~/.zshrc<cr>
-nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
+"nnoremap <leader>ev <C-w>s<C-w>j:e $MYVIMRC<cr>
+"exec 'nnoremap <leader>es <C-w>s<C-w>j:e '.s:dotvim.'/snippets/<cr>'
+"nnoremap <leader>eg <C-w>s<C-w>j:e ~/.gitconfig<cr>
+"nnoremap <leader>ez <C-w>s<C-w>j:e ~/.zshrc<cr>
+"nnoremap <leader>et <C-w>s<C-w>j:e ~/.tmux.conf<cr>
 
 " --------------------
 
@@ -681,15 +680,18 @@ endif
 "
 set fillchars=vert:\│
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 0
 "let g:airline#extensions#tabline#left_sep = ' '
 "let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_detect_modified = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#syntastic#enabled = 1
+"let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tabline#tabs_label = ' '
 let g:tender_airline = 1
 "let g:airline_theme = "powerlineish"
-let g:airline_theme = "hybrid"
+"let g:airline_theme = "hybrid"
+let g:airline_theme = "minimalist"
 set encoding=utf-8 " Necessary to show unicode glyphs
 
 if !exists('g:airline_symbols')
@@ -742,42 +744,6 @@ let g:gitgutter_realtime = 1
 let g:gitgutter_eager = 0
 "let g:gitgutter_override_sign_column_highlight = 0
 
-hi LineNr ctermfg=236
-hi StatusLine ctermfg=236 ctermbg=black
-hi WildMenu ctermbg=16 ctermfg=1 cterm=bold
-hi GitGutterAddDefault cterm=bold
-hi GitGutterAddLine ctermbg=none
-hi IndentGuidesOdd ctermbg=232
-hi IndentGuidesEven ctermbg=236
-hi Normal ctermbg=232
-hi NonText ctermbg=black
-hi Comment ctermfg=238
-hi LineNr ctermfg=236
-hi CursorLineNr ctermfg=9 cterm=bold
-hi CursorLine ctermbg=233
-hi Search ctermbg=1
-"hi clear SignColumn
-hi GitGutterAdd ctermfg=2
-hi GitGutterChange ctermfg=3
-hi GitGutterDelete ctermfg=1
-hi GitGutterChangeDelete ctermfg=4
-hi GitGutterDeleteLine ctermbg=none ctermfg=none
-hi GitGutterChangeLine ctermbg=none ctermfg=none
-hi ColorColumn ctermbg=233
-hi SpecialKey ctermbg=none ctermfg=236
-hi Pmenu ctermbg=black ctermfg=238
-hi PmenuSel cterm=bold ctermfg=232 ctermbg=154
-hi PmenuThumb ctermfg=1 ctermbg=black
-hi PmenuSbar ctermfg=1 ctermbg=233
-"hi airline_tab ctermfg=238 ctermbg=233
-hi NonText ctermfg=233
-hi VertSplit ctermfg=233 ctermbg=black
-
-"light style
-"hi Pmenu ctermbg=254
-"hi PmenuSel ctermbg=237 ctermfg=255
-
-
 
 let g:indentLine_char = '┊'
 let g:indentLine_bgcolor_term = 232
@@ -792,7 +758,7 @@ let g:indentLine_conceallevel = 1
 "colorscheme elive
 "colorscheme sourcerer
 "colorscheme molokai
-"colorscheme badwolf
+colorscheme badwolf
 
 
 "easy motion
@@ -810,39 +776,148 @@ let g:javascript_plugin_jsdoc = 1
 let g:javascript_plugin_ngdoc = 1
 let g:javascript_plugin_flow = 1
 
-
-
-
 let g:javascript_conceal_function             = "ƒ"
-"let g:javascript_conceal_null                 = "ø"
 let g:javascript_conceal_this                 = "@"
 let g:javascript_conceal_return               = "讀"
 let g:javascript_conceal_undefined            = "🍺 "
-"let g:javascript_conceal_NaN                  = "ℕ"
-"let g:javascript_conceal_prototype            = "¶"
-"let g:javascript_conceal_static               = "•"
-"let g:javascript_conceal_super                = "Ω"
 let g:javascript_conceal_arrow_function       = "ﰲ"
-"let g:javascript_conceal_noarg_arrow_function = "🞅"
-"let g:javascript_conceal_underscore_arrow_function = "🞅"
 
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_warning_symbol = '>>'
-let g:ycm_enable_diagnostic_highlighting = 1
 
 hi clear Conceal
-hi Conceal ctermfg=3 ctermbg=none
+hi Conceal ctermfg=9 ctermbg=none
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_warning_symbol = '>>'
+let g:ycm_enable_diagnostic_highlighting = 0
+
+
+"TODO: brew install checkbashisms
+let g:syntastic_enable_signs=1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_wq = 1
+let g:syntastic_aggregate_errors = 1
+"TODO: npm i -g eslint
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_python_checkers = ['pylint']
 
 
+
+"TODO Syntastic async ALE beer
+let g:airline#extensions#ale#enabled = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:ale_echo_msg_error_str = 'err'
+let g:ale_echo_msg_warning_str = 'warn'
+let g:ale_echo_msg_format = '  - [%severity%][%linter%] %s '
+
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 0
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_enter = 0
+"let g:ale_lint_on_insert_leave = 0
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'python': ['flake8'],
+\   'go': ['go', 'golint', 'errcheck']
+\}
+
+
+
+let NERDTreeShowHidden=0
+let NERDTreeWinSize=24
+let NERDTreeMinimalUI=1
+let NERDTreeMinimalMenu=1
+let NERDTreeStatusline='פּ Sources'
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
+
+hi NERDTreeDirSlash ctermbg=0 ctermfg=0
+hi NERDTreeDir cterm=bold ctermfg=239
+hi NERDTreeFile ctermfg=240
+hi NERDTreeFlags ctermfg=9
+hi NERDTreeCWD ctermfg=235 cterm=bold ctermbg=0
+
+
+"TODO: tagbar custom settings
+let g:tagbar_iconchars = ['+', '-']
+let g:tagbar_width = 30
+let g:tagbar_compact=1
+let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
+"let g:tagbar_autopreview = 1
+"let g:tagbar_previewwin_pos = "aboveleft"
+hi TagbarKind ctermbg=0 ctermfg=9 cterm=bold
+hi TagbarFoldIcon ctermbg=0 ctermfg=1 cterm=bold
+"let g:tagbar_type_javascript = {
+  "\ 'ctagstype': 'javascript',
+  "\ 'kinds': [
+  "\ 'A:arrays',
+  "\ 'P:properties',
+  "\ 'T:tags',
+  "\ 'O:objects',
+  "\ 'G:generator functions',
+  "\ 'F:functions',
+  "\ 'C:constructors/classes',
+  "\ 'M:methods',
+  "\ 'V:variables',
+  "\ 'I:imports',
+  "\ 'E:exports',
+  "\ 'S:styled components'
+  "\ ]}
+
+"TODO npm i -g prettier@1.18.2
+let g:prettier#autoformat = 0
+"let g:prettier#exec_cmd_async = 1
+"let g:prettier#config#parser = 'babylon'
+"
+"
+hi LineNr ctermfg=236
+hi StatusLine ctermfg=236 ctermbg=black
+hi WildMenu ctermbg=16 ctermfg=1 cterm=bold
+hi GitGutterAddDefault cterm=bold
+hi GitGutterAddLine ctermbg=none
+hi IndentGuidesOdd ctermbg=232
+hi IndentGuidesEven ctermbg=236
+hi Normal ctermbg=232
+hi NonText ctermbg=black ctermfg=0
+hi Comment ctermfg=236
+hi LineNr ctermfg=236
+hi CursorLineNr ctermfg=9 cterm=bold
+hi CursorLine ctermbg=233
+hi Search ctermbg=1
+hi GitGutterAdd ctermfg=2
+hi GitGutterChange ctermfg=3
+hi GitGutterDelete ctermfg=1
+hi GitGutterChangeDelete ctermfg=4
+hi GitGutterDeleteLine ctermbg=none ctermfg=none
+hi GitGutterChangeLine ctermbg=none ctermfg=none
+hi ColorColumn ctermbg=233
+hi SpecialKey ctermbg=none ctermfg=236
+hi airline_tabsel ctermbg=235 ctermfg=250
+" BLACK
+"hi Pmenu ctermbg=black ctermfg=238
+hi Pmenu ctermfg=239 ctermbg=234
+hi PmenuSel cterm=bold ctermfg=232 ctermbg=9
+hi PmenuSbar ctermfg=1 ctermbg=233
+"hi airline_tab ctermfg=238 ctermbg=233
+hi VertSplit ctermfg=233 ctermbg=0
+hi Visual ctermbg=235
+
+"TODO menu light style
+hi PmenuThumb ctermfg=239 ctermbg=236
+
+
+
+
+"TODO menu dark style
+"hi PmenuThumb ctermfg=1 ctermbg=black

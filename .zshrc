@@ -107,7 +107,7 @@ alias aws-cf-export-list='aws cloudformation list-exports  --output table | tail
 alias aws-get-domain-names='aws apigateway get-domain-names | jq -r ".items | .[] | .domainName"'
 alias aws-ssl-list="aws acm list-certificates --output text"
 
-alias sls="SLS_DEBUG=* sls"
+alias sls="SLS_DEBUG=* sls --verbose"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias rg-filename='rg -l'
 alias fzf-preview='fzf --preview="bat --theme="OneHalfDark" --style=numbers,changes --color always {}"'
@@ -173,7 +173,8 @@ export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+#source $(brew --prefix nvm)/nvm.sh
+source /usr/local/opt/nvm/nvm.sh
 
 autoload -U compinit && compinit
 
@@ -199,7 +200,6 @@ prompt_context() {}
 # ls colors support
 export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-test -e ~/.dir_colors && eval `dircolors -b ~/.dir_colors`
 
 alias grep="grep --color=always"
 alias egrep="egrep --color=always"
@@ -212,7 +212,13 @@ bindkey "[C" forward-word
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+test -e ~/.dir_colors \
+  && eval `dircolors -b ~/.dir_colors`
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" \
+  && source "${HOME}/.iterm2_shell_integration.zsh" \
+  || true
+
 iterm2_print_user_vars() {
   iterm2_set_user_var test $TEST_EMA
 }
