@@ -794,6 +794,10 @@ let g:ycm_show_diagnostics_ui = 0
 let g:ycm_enable_diagnostic_signs = 1
 let g:ycm_warning_symbol = '>>'
 let g:ycm_enable_diagnostic_highlighting = 0
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+
 
 
 "TODO: brew install checkbashisms
@@ -822,10 +826,12 @@ let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 0
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
+let g:ale_list_window_size = 5
 
 "let g:ale_lint_on_text_changed = 'never'
 "let g:ale_lint_on_enter = 0
 "let g:ale_lint_on_insert_leave = 0
+let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['flake8'],
@@ -857,6 +863,8 @@ let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
 "let g:tagbar_autopreview = 1
 "let g:tagbar_previewwin_pos = "aboveleft"
 hi TagbarKind ctermbg=0 ctermfg=9 cterm=bold
+hi TagbarType ctermfg=238
+hi TagbarScope cterm=bold ctermfg=9
 hi TagbarFoldIcon ctermbg=0 ctermfg=1 cterm=bold
 "let g:tagbar_type_javascript = {
   "\ 'ctagstype': 'javascript',
@@ -877,6 +885,7 @@ hi TagbarFoldIcon ctermbg=0 ctermfg=1 cterm=bold
 
 "TODO npm i -g prettier@1.18.2
 let g:prettier#autoformat = 0
+
 "let g:prettier#exec_cmd_async = 1
 "let g:prettier#config#parser = 'babylon'
 "
