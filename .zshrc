@@ -14,6 +14,7 @@ export ZSH="/Users/u0166409/.oh-my-zsh"
 #ZSH_THEME="powerlevel10k/powerlevel10k"
 ZSH_THEME="simpalt"
 #POWERLEVEL9K_MODE="awesome-patched"
+SIMPALT_PROMPT_SEGMENTS=(prompt_aws_profile prompt_status prompt_dir prompt_git)
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -117,17 +118,47 @@ print-1(){ awk '{ print $1 }' }
 print-2(){ awk '{ print $2 }' }
 print-3(){ awk '{ print $3 }' }
 only-az(){ sed "s/[^[:alnum:]_-]//g" }
+git-status() {
+git status -s \
+ | fzf --no-sort --reverse \
+	 --preview 'git diff --color=always {+2} | diff-so-fancy' \
+	 --bind=ctrl-j:preview-down --bind=ctrl-k:preview-up \
+	 --preview-window=right:80%:wrap
+}
+
 
 __fzf-zsh-fn() { fzf -1 -e --header-lines=1 -q "${1}" }
 
-aws-profiles-ls() { cat ~/.aws/credentials | grep --color=never -o '^\[[^]]*\]' }
-aws-set-profile() { _prf=$(aws-profiles-ls | only-az | fzf -1 -e -q "${1}"); [[ "${_prf}" != "" ]] && export AWS_PROFILE=$_prf }
+aws-iam-roles-ls-arn() { aws iam list-roles | jq -r '.Roles | .[] | .Arn' }
+aws-iam-roles-ls-names() { aws iam list-roles | jq -r '.Roles | .[] | .RoleName' }
+aws-profile-ls() { cat ~/.aws/credentials | grep --color=never -o '^\[[^]]*\]' }
+aws-profile-set() { _prf=$(aws-profile-ls \
+  | only-az \
+  | fzf --header="--☁️  Aws - Profiles ☁️ --" -1 -e -q "${1}");
 
-aws-s3-ls(){ aws s3 ls | fzf -m --preview="sleep .5 && aws s3 ls s3://{3}" | awk '{ print $3 }' }
+  [[ "${_prf}" != "" ]] && {
+    export AWS_PROFILE=$_prf
+    echo '[ ** ] - Fetching account info...'
+    aws sts get-caller-identity
+  }
+}
+
+aws-profile-assume-role() {
+  _arg=${@:-''}
+  _filter="AZAWS-${_arg}"
+  _role=$(aws-iam-roles-ls-arn \
+   | fzf --header="--☁️  Aws - Roles ☁️ --" -1 -e -q "${_filter}");
+
+  [[ "${_role}" != "" ]] && {
+    echo $_role
+  }
+}
+
+aws-s3-ls(){ aws s3 ls | fzf -1 -e -q "$1" -m --preview="sleep .5 && aws s3 ls s3://{3}" | awk '{ print $3 }' }
 aws-ecr-ls() { aws ecr describe-repositories  | jq -r '.repositories | .[] | .repositoryName' | fzf }
 
-aws-s3-rm(){ echo "Empty Bucket"; aws-s3-ls | xargs -I{} echo "aws s3 rm s3://{}/ --recursive" }
-aws-s3-rb(){ echo "Remove Empty Bucket"; aws-s3-ls | xargs -I{} echo "aws s3 rb s3://{}/ " }
+aws-s3-rm(){ echo "Empty Bucket"; aws-s3-ls "$@" | xargs -I{} echo "aws s3 rm s3://{}/ --recursive" }
+aws-s3-rb(){ echo "Remove Empty Bucket"; aws-s3-ls "$@" | xargs -I{} echo "aws s3 rb s3://{}/ " }
 aws-s3-mb(){ echo "Create New Bucket"; aws s3 mb s3://${1:?'bucket name is required'} }
 
 
@@ -163,9 +194,8 @@ PERL_MB_OPT="--install_base \"/Users/u0166409/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/u0166409/perl5"; export PERL_MM_OPT;
 
 
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
-export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" " --cycle --no-info'
-
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git -E node_modules'
+export FZF_DEFAULT_OPTS='--layout=reverse --color=16 --prompt=" " --cycle --no-info --bind=ctrl-j:preview-down --bind=ctrl-k:preview-up'
 
 export PATH="/Users/u0166409/.pyenv/bin:$PATH"
 export PATH="/Users/u0166409/.tools:$PATH"
@@ -219,10 +249,31 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" \
   && source "${HOME}/.iterm2_shell_integration.zsh" \
   || true
 
-iterm2_print_user_vars() {
-  iterm2_set_user_var test $TEST_EMA
+tmux_pwd() {
+  local _pwd=$(tmux display -p -F "#{pane_current_path}" 2> /dev/null || pwd)
+  _pwd=${_pwd/#$HOME/\~}
+  if [[ "${_pwd}" == "~" ]]; then
+    _pwd="${icon_home} ~/"
+  else
+    _pwd="${icon_folder_open} ${_pwd}"
+  fi
+  echo -n "${_pwd}"
 }
 
+iterm2_print_user_vars() {
+  _pwd=$(tmux_pwd)
+  iterm2_set_user_var 'pwd' $_pwd
+}
+
+if [[ -z "${TMUX}" ]]; then
+  while true; do
+    iterm2_print_user_vars
+    sleep 2.5
+  done &
+fi
+
+source ~/.fzf.zsh
+source ~/.fzf-tab/fzf-tab.plugin.zsh
 
 export PATH="/usr/local/bin:${PATH}"
 export LC_ALL=en_US.UTF-8

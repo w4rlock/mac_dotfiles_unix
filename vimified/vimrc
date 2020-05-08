@@ -55,13 +55,6 @@ endif
 " _. General
 if count(g:vimified_packages, 'general')
     Plug 'editorconfig/editorconfig-vim'
-
-    Plug 'rking/ag.vim'
-    nnoremap <leader>a :Ag -i<space>
-
-    Plug 'matthias-guenther/hammer.vim'
-    nmap <leader>p :Hammer<cr>
-
     Plug 'mhinz/vim-startify'
     Plug 'ryanoasis/vim-devicons'
     Plug 'junegunn/vim-easy-align'
@@ -77,35 +70,29 @@ if count(g:vimified_packages, 'general')
     Plug 'junegunn/fzf.vim'
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
+    "bug with conceal
     "Plug 'Yggdroot/indentLine'
-    Plug 'sirver/ultisnips'
+    Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
     Plug 'pangloss/vim-javascript'
     Plug 'heavenshell/vim-jsdoc'
-    "Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'nathanaelkane/vim-indent-guides'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
     Plug 'dense-analysis/ale'
+
 
 
     let g:jsdoc_allow_input_prompt = 1
     let g:jsdoc_input_description = 1
     let g:jsdoc_enable_es6 = 1
 
-    " Expandir snippet con Ctrl + j
-    let g:UltiSnipsExpandTrigger = '<c-j>'
-
-    " Ir a siguiente ubicacion con Ctrl + j
-    let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-    " Ir a anterior ubicacion con Ctrl + k
-    let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-
+    "NeoVim intelligence
     "Plug 'neoclide/coc.nvim', {'branch': 'release'}
     "Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --js-completer' }
-
-
-    "Plug 'scrooloose/nerdtree'
+    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
     Plug 'preservim/nerdtree'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
     " Disable the scrollbars (NERDTree)
     set guioptions-=r
     set guioptions-=L
@@ -157,8 +144,9 @@ endif
 " _. Coding
 
 if count(g:vimified_packages, 'coding')
-    Plug 'majutsushi/tagbar'
-    nmap <leader>t :TagbarToggle<CR>
+    "Plug 'majutsushi/tagbar'
+    "nmap <leader>t :Vista!!<CR>
+    "Plug 'liuchengxu/vista.vim'
 
     Plug 'gregsexton/gitv'
 
@@ -257,7 +245,6 @@ if count(g:vimified_packages, 'clojure')
     Plug 'tpope/vim-classpath'
 endif
 "
-
 " _. Haskell
 if count(g:vimified_packages, 'haskell')
     Plug 'Twinside/vim-syntax-haskell-cabal'
@@ -581,7 +568,6 @@ vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
 nmap <tab> :NERDTreeToggle<cr>
-let g:NERDTreeMinimalUI=1
 
 "
 
@@ -681,17 +667,17 @@ endif
 set fillchars=vert:\│
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 0
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_detect_modified = 1
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#tabs_label = ' '
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#show_buffers = 0
 let g:tender_airline = 1
 "let g:airline_theme = "powerlineish"
 "let g:airline_theme = "hybrid"
 let g:airline_theme = "minimalist"
+
 set encoding=utf-8 " Necessary to show unicode glyphs
 
 if !exists('g:airline_symbols')
@@ -792,10 +778,14 @@ set statusline+=%*
 
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_warning_symbol = '>>'
+let g:ycm_warning_symbol = '⚠'
 let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_goto_buffer_command = 'new-tab'
+
+nmap <leader>gd :YcmCompleter GoToDefinition<CR>
+nmap <leader>gr :YcmCompleter GoToReferences<CR>
 
 
 
@@ -816,27 +806,53 @@ let g:syntastic_python_checkers = ['pylint']
 "TODO Syntastic async ALE beer
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = '>>'
-let g:ale_sign_warning = '--'
+let g:ale_sign_error = '⚠'
+let g:ale_sign_warning = '⚠'
 let g:ale_echo_msg_error_str = 'err'
 let g:ale_echo_msg_warning_str = 'warn'
 let g:ale_echo_msg_format = '  - [%severity%][%linter%] %s '
+let g:ale_sign_offset = 1
+let g:ale_set_balloons = 1
 
+
+
+set mouse=a
+set ttymouse=sgr
+set balloondelay=250
+set ballooneval
+set balloonevalterm
+"TODO: test balloon funcion
+":call balloon_show(bufname('%'))
+"TODO: set ballon style for errors
+"hi Pmenu ctermbg=1 ctermfg=255
+
+let g:ale_enabled = 1
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 0
 let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
 let g:ale_list_window_size = 5
 
-"let g:ale_lint_on_text_changed = 'never'
-"let g:ale_lint_on_enter = 0
-"let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
+
+
 let b:ale_fixers = ['prettier', 'eslint']
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['flake8'],
 \   'go': ['go', 'golint', 'errcheck']
 \}
+
+hi ALEErrorSign ctermfg=1
+hi ALEWarningSign ctermbg=NONE ctermfg=yellow
+hi ALEErrorLine ctermfg=9
+hi qfFileName ctermfg=9 cterm=bold
+hi Type ctermfg=9 ctermbg=232
+
 
 
 
@@ -845,6 +861,7 @@ let NERDTreeWinSize=24
 let NERDTreeMinimalUI=1
 let NERDTreeMinimalMenu=1
 let NERDTreeStatusline='פּ Sources'
+let g:NERDTreeMinimalUI=1
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
 
@@ -856,40 +873,24 @@ hi NERDTreeCWD ctermfg=235 cterm=bold ctermbg=0
 
 
 "TODO: tagbar custom settings
-let g:tagbar_iconchars = ['+', '-']
-let g:tagbar_width = 30
-let g:tagbar_compact=1
-let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
-"let g:tagbar_autopreview = 1
-"let g:tagbar_previewwin_pos = "aboveleft"
+"let g:tagbar_iconchars = ['+', '-']
+"let g:tagbar_width = 30
+"let g:tagbar_compact=1
+"let g:tagbar_ctags_bin = "/usr/local/bin/ctags"
 hi TagbarKind ctermbg=0 ctermfg=9 cterm=bold
 hi TagbarType ctermfg=238
 hi TagbarScope cterm=bold ctermfg=9
 hi TagbarFoldIcon ctermbg=0 ctermfg=1 cterm=bold
-"let g:tagbar_type_javascript = {
-  "\ 'ctagstype': 'javascript',
-  "\ 'kinds': [
-  "\ 'A:arrays',
-  "\ 'P:properties',
-  "\ 'T:tags',
-  "\ 'O:objects',
-  "\ 'G:generator functions',
-  "\ 'F:functions',
-  "\ 'C:constructors/classes',
-  "\ 'M:methods',
-  "\ 'V:variables',
-  "\ 'I:imports',
-  "\ 'E:exports',
-  "\ 'S:styled components'
-  "\ ]}
+
+hi VistaTag cterm=none ctermfg=9
+
 
 "TODO npm i -g prettier@1.18.2
 let g:prettier#autoformat = 0
-
 "let g:prettier#exec_cmd_async = 1
 "let g:prettier#config#parser = 'babylon'
-"
-"
+
+
 hi LineNr ctermfg=236
 hi StatusLine ctermfg=236 ctermbg=black
 hi WildMenu ctermbg=16 ctermfg=1 cterm=bold
@@ -921,12 +922,43 @@ hi PmenuSbar ctermfg=1 ctermbg=233
 "hi airline_tab ctermfg=238 ctermbg=233
 hi VertSplit ctermfg=233 ctermbg=0
 hi Visual ctermbg=235
+hi MatchParen ctermfg=3 cterm=bold ctermbg=236
 
 "TODO menu light style
 hi PmenuThumb ctermfg=239 ctermbg=236
 
 
-
-
 "TODO menu dark style
 "hi PmenuThumb ctermfg=1 ctermbg=black
+let g:vista_default_executive = 'ctags'
+let g:vista_fzf_preview = ['right:50%']
+let g:vista#renderer#enable_icon = 1
+let g:vista_fold_toggle_icons=['-', '+']
+let g:vista#renderer#icons = {
+\   "classes": "\uf898",
+\   "constants": "\uf71b",
+\   "function": "\ue00a",
+\   "methods": "\ue620",
+\   "variable": "\ue620",
+\   "properties": "\ue620",
+\   "commands": "\uf489",
+\  }
+
+
+
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=233
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
+
+
+let g:UltiSnipsExpandTrigger = '<c-j>'
+let g:UltiSnipsJumpForwardTrigger = '<c-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetDirectories=['UltiSnips', $HOME.'/.vim/snipp']
+
+
+let g:DevIconsEnableFoldersOpenClose = 1
