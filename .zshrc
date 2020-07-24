@@ -106,7 +106,7 @@ alias k8s-list-all-resources='kubectl api-resources --verbs=list -o name | xargs
 alias aws-eks-clusters='aws eks list-clusters --region us-east-1 | jq -r ".clusters | .[]"'
 alias aws-cf-export-list='aws cloudformation list-exports  --output table | tail -n +5'
 alias aws-get-domain-names='aws apigateway get-domain-names | jq -r ".items | .[] | .domainName"'
-alias aws-ssl-list="aws acm list-certificates --output text"
+alias aws-acm-ls="aws acm list-certificates --output text"
 
 alias sls="SLS_DEBUG=* sls --verbose"
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
@@ -129,6 +129,7 @@ git status -s \
 
 __fzf-zsh-fn() { fzf -1 -e --header-lines=1 -q "${1}" }
 
+aws-cf-ls() { aws cloudformation describe-stacks | jq -r '.Stacks | .[] | .StackName' | fzf }
 aws-iam-roles-ls-arn() { aws iam list-roles | jq -r '.Roles | .[] | .Arn' }
 aws-iam-roles-ls-names() { aws iam list-roles | jq -r '.Roles | .[] | .RoleName' }
 aws-profile-ls() { cat ~/.aws/credentials | grep --color=never -o '^\[[^]]*\]' }
@@ -202,9 +203,11 @@ export PATH="/Users/u0166409/.tools:$PATH"
 export PATH="$HOME/Library/Python/3.7/bin:$PATH"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
-export NVM_DIR=~/.nvm
+#export NVM_DIR=~/.nvm
 #source $(brew --prefix nvm)/nvm.sh
-source /usr/local/opt/nvm/nvm.sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#source /usr/local/opt/nvm/nvm.sh
 
 autoload -U compinit && compinit
 
@@ -277,4 +280,11 @@ source ~/.fzf-tab/fzf-tab.plugin.zsh
 
 export PATH="/usr/local/bin:${PATH}"
 export LC_ALL=en_US.UTF-8
+
+_aws_restore_session() { . _aws-naranja --restore}
+_aws_restore_session
+
+aws-login() {  . _aws-naranja --login "${@}" }
+aws-re-login() {  . _aws-naranja --re-login }
+aws-logout() { . _aws-naranja --logout }
 

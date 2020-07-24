@@ -34,17 +34,14 @@ fi
 
 if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
   TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
-    "aws-profile ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
+    "aws-profile 232 3 #[bg=black,fg=colour3]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
     "kube-ns 232 88 #[fg=red,bg=colour232]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
     "aws_costs 232 1" \
     "vcs_branch 232 136" \
-    "vcs_compare 232 136" \
-    "vcs_modified 232 136" \
-    "vcs_others 232 136" \
     #"pwd 235 248" \
     #"vpn_any_connect 237 107" \
     "battery 232 107" \
-    #"xkb_layout_mac 232" \
+    "xkb_layout_mac 232 88 #[fg=red,bg=colour232]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
     "date 232 136" \
     "time 232 1 ${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
   )

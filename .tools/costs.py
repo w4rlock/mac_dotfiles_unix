@@ -30,6 +30,7 @@ nextmonth = nextmontharr[1]
 cmd = 'aws ce get-cost-and-usage --time-period Start={}-{}-01,End={}-{}-01 --granularity MONTHLY --metrics "BlendedCost"'
 try:
     output = subprocess.check_output(cmd.format(year, month, nextyear, nextmonth), shell=True)
+    # subprocess.check_output(cmd.format(year, month, nextyear, nextmonth), shell=True)
     output = output.decode('utf-8')
     output = json.loads(output)
     amount = output['ResultsByTime'][0]['Total']['BlendedCost']['Amount']

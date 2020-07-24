@@ -1,17 +1,24 @@
 run_segment() {
-    local today="$(date +'%F')"
-    local cacheFile="/tmp/${today}.aws.costs.cache"
+  # load aws env vars to load costs
+  source _aws-naranja --restore &> /dev/null || true
 
-    [ -f $cacheFile ] \
-      && cat $cacheFile \
-      && return $?
+  local today="$(date +'%F')"
+  local cacheFile="/tmp/${today}.${AWS_SESSION_NAME}.costs.cache"
 
-    icon=${AWS_COSTS_ICON:-" "}
+  if test -s $cacheFile; then
+    if grep 'to' $cacheFile &> /dev/null; then
+      echo
+      return 1
+    fi
 
-    python $HOME/.tools/costs.py \
-      | awk '{ print $2 }' \
-      | sed -ne "s/.*/${icon} &/p" \
-      | tee $cacheFile
-
+    cat $cacheFile
     return 0
+  fi
+
+  icon=${AWS_COSTS_ICON:-" "}
+  python $HOME/.tools/costs.py \
+    | awk '{ print $2 }' \
+    | sed -ne "s/.*/${icon} &/p" > $cacheFile
+
+  return 0
 }
