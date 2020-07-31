@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-_assume_rol='AZAWS-Architect'
-_aws_profile_to_fetch_accounts='wiru'
+_assume_rol='your_rol'
+_aws_profile_to_fetch_accounts='fetch_account_rol'
 
 # CMD ARGS
 _script_name=$0
