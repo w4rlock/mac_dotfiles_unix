@@ -1,0 +1,1 @@
+vim ~/.config/awesome/rc.lua
