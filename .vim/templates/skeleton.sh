@@ -9,7 +9,7 @@ set -o errexit
 BOLD=$(tput bold)
 C_RESET=$(tput sgr0)
 
-
+# util functions to print messages with colors
 red() {   printf "${BOLD}$(tput setaf 1)${1}${C_RESET}" ; }
 blue() {  printf "${BOLD}$(tput setaf 4)${1}${C_RESET}" ; }
 green() { printf "${BOLD}$(tput setaf 2)${1}${C_RESET}" ; }
@@ -17,7 +17,7 @@ log_info() { echo "$(blue '[')${BOLD}*$(blue ']') - ${@}" ; }
 
 
 
-# Show msg and exit program
+# show msg and exit program
 die() {
   echo "$(red 'Error:') ${@}" >&2
   exit 1
@@ -25,7 +25,7 @@ die() {
 
 
 
-# Util to check if your script has dependencies example:
+# util to check if your script has dependencies example:
 # check_required_programs wget rg fd fzf curl
 check_required_programs() {
   for dep in ${@}; do
@@ -35,6 +35,7 @@ check_required_programs() {
 
 
 
+# print usage program
 usage() {
   cat <<EOF
 
@@ -51,6 +52,8 @@ EOF
 }
 
 
+# parse script arguments
+# exit when unknown option is setted
 parse_arguments() {
   while [[ $# -gt 0 ]]; do
     case $1 in
@@ -73,6 +76,7 @@ parse_arguments() {
     shift  # past key
   done
 }
+
 
 parse_arguments $@
 
