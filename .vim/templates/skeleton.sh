@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-
-# strict mode
+# force strict mode
 set -o pipefail
 set -o nounset
 set -o errexit
@@ -10,12 +9,13 @@ set -o errexit
 BOLD=$(tput bold)
 C_RESET=$(tput sgr0)
 
-# util functions to print messages with colors
-red() {   printf "${BOLD}$(tput setaf 1)${1}${C_RESET}" ; }
-blue() {  printf "${BOLD}$(tput setaf 4)${1}${C_RESET}" ; }
-green() { printf "${BOLD}$(tput setaf 2)${1}${C_RESET}" ; }
-log_info() { echo "$(blue '[')${BOLD}*$(blue ']') - ${@}" ; }
 
+# util functions to print messages with colors
+red() {      printf "${BOLD}$(tput setaf 1)${1}${C_RESET}" ; }
+blue() {     printf "${BOLD}$(tput setaf 4)${1}${C_RESET}" ; }
+green() {    printf "${BOLD}$(tput setaf 2)${1}${C_RESET}" ; }
+log_info() { printf "${LOG_PREFFIX} ${@}\n" ; }
+LOG_PREFFIX="$(blue '[')${BOLD}*$(blue ']') -"
 
 
 # show msg and exit program
@@ -24,6 +24,13 @@ die() {
   exit 1
 }
 
+
+# confirm question and continue
+confirm() {
+  printf "\n${LOG_PREFFIX} ${@} [y/n]: "
+  read ans;
+  if [[ "${ans}" != "y" ]]; then exit 1; fi
+}
 
 
 # util to check if your script has dependencies example:
@@ -35,17 +42,21 @@ check_required_programs() {
 }
 
 
-
 # print usage program
 usage() {
+  local sh_name=$(basename $0)
+
   cat <<EOF
+$(blue 'NAME')
+    $sh_name
 
-$(green 'Script Utility for ...')
+$(blue 'DESCRIPTION')
+    Script Utility for ...
 
-$(blue 'Usage:')
-    $(green $0) [options] [args]
+$(blue 'SYNOPSIS')
+    $sh_name [options] [args]
 
-$(blue 'Options:')
+$(blue 'OPTIONS')
     -e | --example        (required)      Description here
     -h | --help                           This help screen"
 EOF
@@ -59,21 +70,17 @@ parse_arguments() {
   while [[ $# -gt 0 ]]; do
     case $1 in
       -e|--example)
-      EXAMPLE_VALUE="$2"
-      shift # past value
-      ;;
-      --default)
-      DEFAULT=YES
-      ;;
+        EXAMPLE_VALUE="${2}"
+        shift # past value
+        ;;
       -h|--help)
-      usage
-      ;;
+        usage
+        ;;
       *)
-      echo $(red "ERR: unknown option ${1}") >&2
-      usage
-      ;;
+        echo $(red "ERR: unknown option ${1}") >&2
+        usage
+        ;;
     esac
-
     shift  # past key
   done
 }
