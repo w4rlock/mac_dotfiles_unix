@@ -5,6 +5,7 @@ set -o pipefail
 set -o nounset
 set -o errexit
 
+
 # colors utils
 BOLD=$(tput bold)
 C_RESET=$(tput sgr0)
