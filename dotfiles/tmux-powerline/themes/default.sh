@@ -1,4 +1,6 @@
 # Default Theme
+export TMUX_POWERLINE_SEG_WEATHER_LOCATION='466861'
+export TMUX_POWERLINE_DIR_TEMPORARY='/tmp'
 
 if patched_font_in_use; then
   TMUX_POWERLINE_SEPARATOR_LEFT_BOLD=""
@@ -34,6 +36,9 @@ fi
 
 if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
   TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
+    "process 232 1 #[bg=colour232,fg=red]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
+    "weather_wttr 232 1 #[bg=colour232,fg=red]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}"
+    "dolar-blue 232 3 #[bg=colour232,fg=red]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
     "aws-profile 232 3 #[bg=black,fg=colour3]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
     "kube-ns 232 88 #[fg=red,bg=colour232]${TMUX_POWERLINE_SEPARATOR_LEFT_THIN}" \
     "aws_costs 232 1" \

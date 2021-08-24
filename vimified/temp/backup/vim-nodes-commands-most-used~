@@ -1,0 +1,21 @@
+yssiw" - WRAP WORD "aa"
+ds"    - REMOVE
+cs"'   - REPLACE
+yss(   - WRAP LINE (aaa aaaa vvv)
+ys2aw[ - WRAP 2 WORDS [ aaa bb ] aaaa cc
+
+- EASY MOTION
+,w
+,e
+,E
+,b
+,j
+,k
+
+
+- FIND ALL AND REPLACE
+const foo = 1
+
+<Esc> ,f
+:cdo s/foo/bar/c | update   " with confirm
+:cdo s/foo/bar/g | update   " with confirm

@@ -1,0 +1,20 @@
+before_script:
+  - env | sort
+
+include:
+  - project: 'cencosud-ds/cencommerce/utils/pipe-templates'
+  - local: hidden-jobs/docker.yml
+  - local: docker-linter.yml
+
+stages:
+  - check
+  - package
+
+pkg:container:
+  stage: package
+  extends: .docker
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+
+
+

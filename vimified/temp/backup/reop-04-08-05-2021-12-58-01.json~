@@ -1,0 +1,52 @@
+[
+  {
+    "key": "REPO_TYPE",
+    "value": "",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|INFRA|MOBILE)$/",
+    "comment": "IMPORTANTE: NO es posible determinar un valor para esta variable. por favor, agregue un valor manualmente."
+  },
+  {
+    "key": "REPO_STATUS",
+    "value": "ACTIVE",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_LICENSE_KEY",
+    "value": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",
+    "protected": false,
+    "masked": true,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_LABELS",
+    "value": "pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:28559309",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-repo-04-stg2-stg",
+    "protected": true,
+    "masked": false,
+    "environment_scope": "staging",
+    "expectedValue": "/^cl-.*-stg$/",
+    "comment": "IMPORTANTE: Valor modificado por el script. VALOR ANTES: 'cl-repo-04-stg2-staging' => VALOR NUEVO: 'cl-repo-04-stg2-stg'"
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-repo-04-prod2-prod",
+    "protected": true,
+    "masked": false,
+    "environment_scope": "production",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  }
+]

@@ -1,0 +1,576 @@
+#!/usr/bin/env node
+// TODO:
+// 1- Dado un group_id de gitlab (seria la carpeta donde un equipo tiene todos sus repositorios)
+//    Esto se espefifica exportando la variable de entorno GITLAB_GROUP_ID
+// 2- Obtenemos un listado con todos los repositorios de ese grupo
+// 3- Procesamos cada repo individualmente
+// 4- Obtenemos todas las variables del Settings del repo (CI/CD-> Variables)
+// 5- Procesamos nuestro modelo que definimos en variables del archivo validations.js
+// comparandolo con las variables que obtuvimos en el paso 4... por cada variable
+// procesada se genera un obj status.. para verificar si la variable es valida o no..
+// 6- Imprimimos por consola el resultado de las variables para que el usr tenga un pantallazo del resultado
+// 7- Verificamos si las variables son fixeables dado que hay repos que no tienen ninguna
+// variable configurada entonces el script deberia skipear ese repositorio y continuar con otro
+// 8- Fixea las variables de acuerdo a lo implementado en validations.js.variables.fixValue()
+// 9- Imprimimos el resultado de las variables fixeada.
+// 10- Damos la posibilidad al usr de modificar las variables anteriores antes de actualizar
+// los cambios en Gitlab -> Settings -> Variables
+// 11- Verificamos que el archivo quede consistente luego de ser modificado por
+// el usuario
+const { black, blue, green, red, yellow, white } = require('chalk');
+const figlet = require('figlet');
+const logo = figlet.textSync('Gitlab Sanity Vars');
+const programVersion = '1.0.0';
+
+const yargs = require('yargs')
+yargs(process.argv.slice(2))
+.version(programVersion)
+.usage(`${yellow(logo)}\nUsage: ${red('./$0')} <option>`)
+.option('gitlab-token',    { describe: 'Token de gitlab para consumir las apis' })
+.option('gitlab-group-id', { describe: 'Es el id de la "carpeta" en gitlab donde estan todos los repositorios' })
+.option('autofix',         { describe: 'Fixea automaticamente las variables erroneas' })
+.option('auto-confirm',    { describe: 'Confirma los mensajes sin interactuar con el usuario' })
+.option('delay-text',      { describe: 'Es el tiempo expresados en ms del efecto de maquina de escribir' })
+.option('print-config',    { describe: 'Imprime la configuracion del script util para solucionar problemas' })
+.option('debug',           { describe: 'Aumenta el nivel de log util para solucionar problemas' })
+.option('verbose',         { describe: 'Muestra una tabla con los valores de las variables de gitlab del repo procesado' })
+.example(`$ ${red('./$0')} --gitlab-token as3aj3k2jsa --gitlab-group-id 1234911`)
+.example(`$ ${red('./$0')} --gitlab-token as3aj3k2jsa --gitlab-group-id 1234911 --verbose`)
+.example(`$ ${red('./$0')} --gitlab-token as3aj3k2jsa --gitlab-group-id 1234911 --print-config --autofix`)
+.example(`\n$ ${yellow('export')} GITLAB_TOKEN=as3aj3k2jsa \n$ ${yellow('export')} GITLAB_GROUP_ID=1234911 \n$ ${red('./$0')} --print-config --autofix`)
+.help()
+.wrap(120)
+.argv
+
+// si ejecuto el comando sin ningun parametro
+if (Object.keys(yargs.argv).length < 3) {
+  yargs.showHelp();
+  process.exit(1);
+}
+
+const _ = require('lodash');
+const util = require('util');
+const uiTable = require('cli-table');
+
+const utils = require('./src/utils');
+const gitlabService = require('./src/gitlabService');
+const messages = require('./src/messages').spanish;
+const { getConfig } = require('./src/config');
+const readline = require("readline").createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const question = util.promisify(readline.question).bind(readline);
+
+const DEBUG_MODE = getConfig('debug');
+const AUTO_CONFIRM_YES = getConfig('auto-confirm');
+const GITLAB_GROUP_ID = getConfig('gitlab-group-id', true);
+const TEMP_DIR = getConfig('temp-dir', false, './temp');
+
+
+
+const initialize = async() => {
+  utils.logoText('Gitlab  Sanity Vars');
+  console.log(white('* ') + green(`Version: ${programVersion}`));
+  await utils.matrixLog(white('* ') + green('Inicializando script...'));
+  utils.mkdir(TEMP_DIR);
+}
+
+
+const validateModel = (model) => {
+  for (const v of model.variables) {
+    if (!v.key || !v.validate) {
+      console.log(black.bgRed(`Error con la variable: ${v.key}`));
+      const msg = red(`Su configuracion no es valida. Verifique su modelo de variables (en model.js)
+       La variable debe tener un nombre que es pasada en su constructor y que implemente el metodo
+      'expectedValue'; `);
+      throw new Error(msg);
+    }
+  }
+}
+
+// podemos tener varios modelos esto lo podemos especificar con
+// el arg --model ./mi-model.js
+const model = utils.requireModelFile();
+validateModel(model);
+const modelVariables = model.variables.map(v => v.build());
+
+
+
+// Cuando no existe la variable en gitlab.. creamos una nueva variable a
+// partir del modelo que definimos en el validate.js y completamos
+// usando campos con defaults values.
+const createCiVariableForModel = (cfgModelCiVar) => _.defaultsDeep(cfgModelCiVar, {
+  value: undefined,
+  variable_type:'env_var',
+  protected: false,
+  masked: false,
+  environment_scope: '*',
+});
+
+
+
+
+const getVarsWithInvalidValues = (vars = []) =>
+  vars.filter(v => !_.get(v, 'status.valid', false));
+
+
+
+
+const findVariableByKeyAndScope = (vars, target) => {
+  const targetScope = _.get(target, 'environment_scope', '*');
+
+  const validateScope = (currentScope = '*') => {
+    if (targetScope instanceof RegExp) {
+      return targetScope.test(currentScope);
+
+    } else if (currentScope instanceof RegExp) {
+      return currentScope.test(targetScope);
+    }
+    return targetScope === currentScope;
+  }
+
+
+  return vars.find(v => v.key === target.key && validateScope(v.environment_scope));
+}
+
+
+
+
+// Agregamos el obj status
+const validateGitlabVariables = async(repo, gitlabVariables) => {
+  const processedVariables = [];
+  let ciVar, status;
+
+  for (const cfgVar of modelVariables) {
+    ciVar = findVariableByKeyAndScope(gitlabVariables, cfgVar);
+    // la variable esta definida en nuestro modelo
+    // pero puede ser que no este creada en gitlab ci/cd
+    if (!ciVar) {
+      ciVar = createCiVariableForModel(cfgVar);
+    }
+
+    if (_.isFunction(cfgVar.validate)) {
+      status = cfgVar.validate(repo, ciVar);
+    }
+    else {
+
+      let isValid = false;
+      if (cfgVar.validate instanceof RegExp) {
+        isValid = cfgVar.validate.test(ciVar.value);
+      } else {
+        isValid = cfgVar.validate === ciVar.value;
+      }
+
+      status = {
+        valid: isValid,
+        expectedValue: cfgVar.validate,
+        currentValue: ciVar.value
+      }
+    }
+
+    processedVariables.push({ ...ciVar, status });
+  }
+
+  return processedVariables;
+}
+
+
+
+
+// TODO: pintamos con color rojo las cosas que estan mal !!
+const printRepoStatus = (current, total) => (repo, vars = []) => {
+  const zeros='0'.repeat(total.toString().length-current.toString().length);
+
+  const totalDefined = vars.length;
+  const totalImplemented = vars.filter(v => _.get(v, 'status.currentValue')).length;
+  const totalOk = vars.filter(v => _.get(v, 'status.valid', false)).length;
+  const totalErr = totalImplemented - totalOk;
+
+  const icon = totalErr == 0 && totalImplemented == totalDefined
+    ? green('✔')
+    : red('✘');
+
+  const errStr = totalErr > 0
+    ? red(`ERR:${totalErr}`)
+    : `ERR:${totalErr}`;
+
+  const impStr = totalDefined - totalImplemented > 0
+    ? red(`IMP:${totalImplemented}/${totalDefined}`)
+    : `IMP:${totalImplemented}/${totalDefined}`;
+
+  const repoUrl = blue(repo.http_url_to_repo);
+  const summary = `${impStr} OK:${totalOk} ${errStr}`;
+  const msg = `${zeros}${current}/${total} - ${icon} - ${summary} -- ${repoUrl}`;
+
+  console.log(msg);
+}
+
+
+
+
+const autoFixVariables = (repo, processedVars) => {
+  const invalidsVars = getVarsWithInvalidValues(processedVars);
+  let newValue, modelVar, scope;
+
+  for (const invalidVar of invalidsVars) {
+    modelVar = findVariableByKeyAndScope(modelVariables, invalidVar);
+
+    if (!_.isEmpty(modelVar)) {
+
+      if (_.isFunction(modelVar.fixValue)) {
+        newValue = modelVar.fixValue(repo, invalidVar);
+      } else {
+        newValue = modelVar.fixValue;
+      }
+
+      invalidVar.status.fixedValue = newValue;
+
+      // TODO: esto sirve cuando en nuestro modelo definimos
+      // una variable tipo secreto masked = true y en gitlab esta variable
+      // esta como masked = false... la idea es actualizar en gitlab atributos
+      // mal configurados
+      if (modelVar.hasOwnProperty('masked')) { invalidVar.masked = modelVar.masked; }
+      if (modelVar.hasOwnProperty('protected')) { invalidVar.protected = modelVar.protected; }
+      if (modelVar.hasOwnProperty('variable_type')) { invalidVar.variable_type = modelVar.variable_type; }
+    }
+  }
+}
+
+
+
+// por temas de espacio (width) mostramos siempre 3 columnas de informacion
+const printVariables = (variables = [], showFixedValue = false) => {
+  if (!(getConfig('verbose') || getConfig('autofix'))) {
+    return;
+  }
+
+  const head = ['  ', 'VARIABLE NAME', 'SCOPE', 'ORIGINAL CI/CD VALUE'];
+  const colWidths = [4, 26, 13, 60];
+
+  if (showFixedValue) {
+    head.push('FIXED VALUE');
+    colWidths.push(60);
+  }
+
+  const table = new uiTable({ head, colWidths });
+
+  variables.forEach(v => {
+    const icon = _.get(v, 'status.valid') || _.get(v, 'status.fixedValue')
+      ? green('✔')
+      : red('✘');
+
+    let originalValue = _.get(v, 'value', '');
+    let fixedValue = _.get(v, 'status.fixedValue', '');
+    let { key } = v;
+    // al momento de imprimir la tabla pintamos el nombre de la variable
+    // en rojo cuando esa variable es fixeada por el script o si la variable
+    // no pudo ser fixeada por el script
+    if (_.isEmpty(originalValue) || !_.isEmpty(fixedValue)) {
+      key = red(key);
+    }
+
+    const values = [icon, key, v.environment_scope, originalValue];
+    if (showFixedValue) {
+      values.push(fixedValue);
+    }
+
+    table.push(values);
+  });
+
+  console.log(table.toString());
+}
+
+
+
+
+const dumpProcessedVarsToFile = (repo, processedVars) => {
+  const time = utils.getDateYYYYMMDDHHMMSS();
+  const fileName = `${TEMP_DIR}/${repo.name}-${time}.json`;
+  utils.writeFileSync(`${fileName}`, processedVars);
+
+  return fileName;
+}
+
+
+
+// TODO: la idea es que al momento de editar las variables el usuario
+// solo vea las variables que puede modificar. no mostramos variables que no son
+// relevantes !!
+const getFriendlyProcessedVars = (processedVars = []) => {
+  return processedVars.map(v => {
+    const humanObj = _.pick(v, [
+      'key',
+      'value',
+      'protected',
+      'masked',
+      'environment_scope'
+    ]);
+
+    if (v.status.valid) {
+      humanObj.comment = messages.VAR_UNCHANGED;
+    }
+    else {
+      humanObj.value = v.status.fixedValue || v.value;
+      humanObj.expectedValue = v.status.expectedValue.toString();
+      if (!humanObj.value) {
+        humanObj.value = '';
+        humanObj.comment = messages.VAR_UNDETERMINED;
+      } else if (!v.value){
+        humanObj.comment = messages.VAR_NEW;
+      } else {
+        humanObj.comment = messages.VAR_CHANGED_FN(v.status.currentValue, v.status.fixedValue);
+      }
+    }
+    return humanObj;
+  });
+}
+
+
+
+const processVariablesAfterEdit = (processedVars = [], friendlyProcessedVars = []) => {
+  // friendlyProcessedVars es nula cuando el usuario decidio NO editar las
+  // variables antes de actualizar en gitlab
+  const finalVars = _.isEmpty(friendlyProcessedVars) ? processedVars : friendlyProcessedVars;
+
+  return finalVars.map(f => {
+      const newModel = _.pick(f, [
+        'key',
+        'value',
+        'protected',
+        'masked',
+        'environment_scope',
+        'variable_type',
+      ]);
+
+      const fullVar = findVariableByKeyAndScope(processedVars, f);
+      let action;
+
+      if (!fullVar) {
+        // este caso ocurre cuando el usuario cambia la key no deberia
+        // pasar pero puede hacerlo
+        action = 'CREATE';
+      }
+      else if (fullVar.status.valid) {
+        action = 'KEEP_NO_CHANGES';
+      }
+      // Si la variable no tenia un valor y fue asignada automaticamente
+      // por el script o el usuario
+      else if ((!_.isEmpty(fullVar.status.fixedValue) || !_.isEmpty(newModel.value))
+              && _.isEmpty(fullVar.status.currentValue)) {
+        action = 'CREATE';
+      } else {
+        action = 'UPDATE';
+      }
+
+      return { action, variable: newModel };
+  });
+}
+
+
+
+// Quedaria por estudiar en el caso de que se use AUTO_CONFIRM
+// y que el modelo no pueda fixear una variable
+// skipeamos esa variable? skipeamos el repo? creamos las variables que esten
+// ok?
+const userEditVariablesValues = async(repo, processedVars = []) => {
+  let isValidFile = false;
+  let friendlyProcessedVars;
+  let emptyValueVar;
+  let error;
+  let msg;
+
+  // Si tiene algun valor nulo o el script no pudo fixear el valor
+  // es necesario editar el archivo si o si..
+  const isAllOk = processedVars.every(v =>
+    _.get(v, 'status.valid', false) || _.get(v, 'status.fixedValue'));
+
+
+  if (!isAllOk) {
+    msg = messages.VALIDATION_VARS_WITH_ERR;
+    console.log(yellow(msg));
+    await question(yellow('Presione <ENTER> para continuar...'));
+    resp = 'y';
+  } else if (AUTO_CONFIRM_YES) {
+    resp = 'n';
+  } else {
+    msg = messages.CONFIRM_VARS_BEFORE_PUSH_TO_GITLAB;
+    resp = await question(yellow(msg));
+  }
+
+  // por mas que el usuario no edite las variables devolvemos el nuevo
+  // modelo que necesitamos para enviar la data a gitlab
+  // TODO: no mover esta linea ya que este modelo siempre debe ser generado
+  friendlyProcessedVars = getFriendlyProcessedVars(processedVars);
+
+  if (/y/.test(resp)) {
+    file = dumpProcessedVarsToFile(repo, friendlyProcessedVars);
+    do {
+      try {
+        error = '';
+        isValidFile = false;
+        utils.editFile(file);
+        // para requerir el mismo archivo mas de una vez es necesario
+        // borrarlo de la cache para ver reflejado los nuevos cambios
+        delete require.cache[require.resolve(file)];
+        friendlyProcessedVars = require(file);
+
+        // validamos que todas las variables tengan asignado un valor
+        emptyValueVar = friendlyProcessedVars.find(fv => _.isEmpty(fv.value))
+        if (emptyValueVar) {
+          error = messages.VALIDATION_VAR_UNDEFINED_FN(emptyValueVar.key);
+        }
+
+      } catch (e) {
+        error = messages.FILE_WITH_SYNTAX_ERROR;
+      }
+
+      if (_.isEmpty(error)) {
+        isValidFile = true;
+      }
+      else {
+        error=red(`ERROR: ${error}`);
+        await utils.matrixLog(error, 20);
+        // el tiempo es para que el usr pueda ver el mensaje antes de que abra
+        // automaticamente el editor vim
+        await utils.sleep(3000);
+        isValidFile = false;
+      }
+    } while(!isValidFile);
+  }
+
+  return friendlyProcessedVars;
+}
+
+
+
+// En el caso de que el modelo no pueda asignar un valor
+// El script abre un editor (vim) para que el usuario asigne un valor
+// Ademas antes de publicar las variables en gitlab el usuario
+// puede o no editar las variables
+const runAutoFixProcess = async(repo, processedVars = []) => {
+  let variablesAfterEdit = [];
+  let invalidsVars = [];
+
+  autoFixVariables(repo, processedVars);
+  invalidVars = getVarsWithInvalidValues(processedVars);
+  printVariables(processedVars, true);
+
+  if (_.isEmpty(invalidVars)) {
+    return processedVars;
+  }
+
+  variablesAfterEdit = await userEditVariablesValues(repo, processedVars);
+  // si el usuario no edito crea un nuevo modelo a partir de processedVars
+  variablesAfterEdit = processVariablesAfterEdit(processedVars, variablesAfterEdit);
+
+  return variablesAfterEdit;
+}
+
+
+
+
+// Mostramos al usuario todas las variables del modelo
+const printModelVariables = async() => {
+  for (const _var of modelVariables) {
+    await utils.matrixLog('- ' + white(_var.key), 28);
+  }
+  console.log('');
+}
+
+
+
+
+// Flush data
+// Actualizamos o insertamos en Gitlab las variables
+const updateVariables = async (repo, variables = []) => {
+  if (DEBUG_MODE) console.log(variables);
+  for (const vvar of variables) {
+    await gitlabService.variableUpSert(repo.id, vvar.variable, vvar.action);
+  }
+  console.log();
+}
+
+
+
+// Validamos el group_id y mostramos el path
+const validateGroupId = async() => {
+  await utils.matrixLog(white('* ') + green(`Validando group_id: ${GITLAB_GROUP_ID} ...`));
+  const gInfo = await gitlabService.getGroupInfo(GITLAB_GROUP_ID);
+  if (_.isEmpty(gInfo)) {
+    throw new Error(red(`El group_id no es valido. verifiquelo`));
+  }
+
+  await utils.matrixLog(green(`  Grupo encontrado: '${gInfo.full_path}'`));
+  return gInfo;
+}
+
+
+
+const main = async() => {
+  await initialize();
+
+  let gitlabVariables = [],
+    processedVars = [],
+    friendlyProcessedVars = [],
+    variablesReady = [],
+    hasVariablesWithInvalidValues = false;
+
+  await validateGroupId();
+
+  // FETCH REPOSITORIOS
+  await utils.matrixLog(white('* ') + green(messages.FETCHING_REPO_DATA));
+  const repositorios = await gitlabService.getAllRepositories(GITLAB_GROUP_ID);
+  await utils.matrixLog(green(`  Repositorios encontrados: ${repositorios.length}\n`));
+
+
+  if (_.isEmpty(repositorios)) {
+    console.log('Verifique variable GITLAB_TOKEN');
+    return;
+  }
+
+
+
+  let msg = messages.INFO_REPO_GROUP_MODEL_VARS_FN(repositorios.length,
+    GITLAB_GROUP_ID, modelVariables.length);
+  await utils.matrixLog(white('* ') + green(msg));
+
+  await printModelVariables();
+
+
+  console.log(white('* ') + green('Prosesando repositorios...'));
+  for (const [i, repo] of repositorios.entries()) {
+    // Para no mostrar tanta informacion de golpe..
+    await utils.sleep(350);
+    gitlabVariables = await gitlabService.getVariablesFromRepo(repo.id) || [];
+    processedVars = await validateGitlabVariables(repo, gitlabVariables);
+    printRepoStatus(i+1, repositorios.length)(repo, processedVars);
+
+    // no corregimos repositorios que no cumplen con ningun estandar.
+    if (!model.shouldBeRunAutoFix(repo, processedVars)) {
+      continue;
+    }
+
+    hasVariablesWithInvalidValues = !_.isEmpty(getVarsWithInvalidValues(processedVars));
+
+    // imprimimos la tabla solo con los valores originales del ci / cd
+    // para los casos donde los repos estan bien si especifico --verbose
+    // mostramos los valores,
+    // cuando tienen valores invalidos la tabla se muestra luego del autofix
+    if ((getConfig('verbose') && !hasVariablesWithInvalidValues) || !getConfig('autofix')) {
+      printVariables(processedVars);
+    }
+
+    // sh$ ./gitlab-sanity --autofix
+    if (getConfig('autofix') && hasVariablesWithInvalidValues) {
+      variablesReady = await runAutoFixProcess(repo, processedVars);
+      await updateVariables(repo, variablesReady);
+    }
+  }
+
+  process.exit(0);
+}
+
+
+main();

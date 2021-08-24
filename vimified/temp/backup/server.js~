@@ -1,0 +1,21 @@
+const newrelic = require('newrelic');
+global.CONFIG = require('./config.json');
+
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const {
+    GraphQLSchema
+} = require('graphql');
+
+const app = express();
+
+let schema = new GraphQLSchema({
+    query: require('./src/objectType/mainQuery')
+});
+
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    graphiql: true,
+}));
+app.listen(CONFIG.port);
+console.log(`Running a GraphQL API server at localhost:${CONFIG.port}/graphql [http://g500603nt0051:${CONFIG.port}/graphql]`);

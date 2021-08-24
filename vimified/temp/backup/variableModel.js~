@@ -1,0 +1,44 @@
+class VariableModel {
+  constructor(varName) {
+    this.key = varName;
+    return this;
+  }
+
+  masked() {
+    this.isMasked = true;
+    return this;
+  }
+
+  protected() {
+    this.isProtected = true;
+  }
+
+  expectedValue(valueOrFn) {
+    this.validate = valueOrFn;
+    return this;
+  }
+
+  fixValueIfNeed(valueOrFn) {
+    this.fixValue = valueOrFn;
+    return this;
+  }
+
+  environmentScope(environment_scope) {
+    this.environment_scope = environment_scope;
+    return this;
+  }
+
+  build() {
+    return {
+      key: this.key,
+      masked: this.isMasked,
+      fixValue: this.fixValue,
+      environment_scope: this.environment_scope || '*',
+      protected: this.isProtected,
+      validate: this.validate
+    }
+  }
+}
+
+
+module.exports = VariableModel;

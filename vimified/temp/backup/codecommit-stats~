@@ -1,0 +1,246 @@
+#!/usr/bin/env node
+process.env.AWS_REGION='us-east-1';
+
+const batchSize = 2;
+const shell = require('shelljs');
+const _ = require('lodash');
+const batchAsync = require('batch-promises');
+const AWS = require('aws-sdk');
+
+const fs = require('fs');
+const report = require('./report');
+
+const codecommit = new AWS.CodeCommit();
+
+const BASE_REPO_URL = 'https://console.aws.amazon.com/codesuite/codecommit/repositories';
+const REPORT_XLS_OUT = 'Report-Aws-Repositories';
+const reposCacheFilePath = './cache/repositories-aws.json';
+const resultFileProcessed = './result-repositories-processed.json';
+
+
+const persists = (file, data) => fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
+
+
+const getRepositories = async () => {
+  let repos = { repositories: [] };
+  let response = {};
+  const params = {
+    order: 'ascending',
+    sortBy: 'repositoryName',
+  };
+
+  if (fs.existsSync(reposCacheFilePath)) {
+    console.log('Reading repositories from cache ' + reposCacheFilePath);
+    repos = require(reposCacheFilePath);
+  }
+
+  const total = _.get(repos, 'repositories', []).length;
+  if (total < 1) {
+    do {
+      // aws pagination using next token
+      if (response.nextToken) {
+        params.nextToken = response.nextToken;
+      }
+      console.log('Fetching repositories..');
+      response = await codecommit.listRepositories(params).promise();
+      repos.repositories = repos.repositories.concat(response.repositories);
+    }
+    while(!_.isEmpty(response.nextToken));
+    persists(reposCacheFilePath, repos);
+  }
+
+  return repos;
+};
+
+
+const getPullsRequestsIds = async(repositoryName) => {
+  const params = { repositoryName }
+  const res = await codecommit.listPullRequests(params).promise();
+  return res.pullRequestIds;
+}
+
+
+const getRepositoryResourceTags = async(resourceArn) => {
+  return await codecommit.listTagsForResource({ resourceArn }).promise();
+}
+
+const getPullsRequestDetail = async(pullId) => {
+  return await codecommit.getPullRequest({ pullRequestId: pullId }).promise();
+}
+
+const getBranches = async(repositoryName) => {
+  return await codecommit.listBranches({ repositoryName }).promise();
+}
+
+const processRepository = (total, current=0) => async(repo) => {
+  current++;
+  const zeros='0'.repeat(total.toString().length-current.toString().length);
+  console.log(`${zeros}${current}/${total} - Processing repo '${repo.repositoryName}"`);
+
+  const data = await codecommit.getRepository({ repositoryName: repo.repositoryName }).promise();
+  repo.metadata = {
+    Arn: data.repositoryMetadata.Arn,
+    description: data.repositoryMetadata.repositoryDescription,
+    defaultBranch: data.repositoryMetadata.defaultBranch,
+    lastModifiedDate: data.repositoryMetadata.lastModifiedDate,
+    creationDate: data.repositoryMetadata.creationDate
+  }
+
+  const repoDetail = await getRepositoryResourceTags(repo.metadata.Arn);
+  repo.tags = repoDetail.tags;
+
+
+  const respBr = await getBranches(repo.repositoryName);
+  repo.branches = respBr.branches;
+
+  repo.pullsIds = await getPullsRequestsIds(repo.repositoryName);
+  const pullsDetails = await batchAsync(3, repo.pullsIds, getPullsRequestDetail);
+  if (!_.isEmpty(pullsDetails)) {
+    console.log(`Total pulls for '${repo.repositoryName}": `, pullsDetails.length);
+    persists(`cache/pulls/${repo.repositoryName}-pulls.json`, pullsDetails);
+  }
+
+  return repo;
+}
+
+
+
+const getPullsRequestsMetrics = (repoName) => {
+  let metric = {};
+
+  try {
+    const pullsData = require(`./cache/pulls/${repoName}-pulls.json`);
+    metric.open = pullsData.filter(pr =>
+      _.get(pr, 'pullRequest.pullRequestStatus', '') === 'OPEN').length;
+
+    metric.merged = pullsData.filter(pr =>
+      _.get(pr, 'pullRequest.pullRequestTargets[0].mergeMetadata.isMerged', false)).length;
+
+    const apmPr = pullsData.find(pr =>
+      _.get(pr, 'pullRequest.pullRequestTargets[0].sourceReference', '').includes('New.Relic.APM'));
+
+    if (!_.isEmpty(apmPr)) {
+      let apmPrStatus = _.get(apmPr, 'pullRequest.pullRequestStatus', '');
+      const apmPrIsMerged = _.get(apmPr,
+        'pullRequest.pullRequestTargets[0].mergeMetadata.isMerged', false);
+
+      metric.apmPullStatus = (apmPrStatus === 'CLOSED' && apmPrIsMerged)
+        ? 'MERGED' : apmPrStatus
+    }
+
+  } catch(err) {
+
+  }
+
+  return metric;
+}
+
+
+const showStats = () => {
+  let dataProcesed;
+  try {
+    dataProcesed = require(resultFileProcessed);
+  } catch (err) {
+    console.log('please before run this script.');
+    return
+  }
+
+  const xlsApps = require('./project_excel_list.json');
+  const searchExcelApp = repoName => xlsApps.apps.find(app => app.Componente === repoName);
+  const hasBranchStrategy = (branches = []) => !_.isEmpty(branches.find(br => /(qa|dev|stage|staging)/.test(br)));
+  const hasNewRelicApmBranch = (branches = []) => branches.includes('CCMR-X.New.Relic.APM');
+  const reposWithApm = dataProcesed.filter(r => hasNewRelicApmBranch(r.branches));
+  const appsNotInXls = dataProcesed.filter(r => !searchExcelApp(r.repositoryName));
+  const toSiNo = (boolVar) => boolVar ? 'Si' : 'No';
+
+  let appExcel = {}
+  let pullsMetrics = {}
+  const xlsData = [];
+
+  for (const repo of dataProcesed) {
+    appExcel = searchExcelApp(repo.repositoryName);
+    pullsMetrics = getPullsRequestsMetrics(repo.repositoryName);
+
+    xlsData.push({
+      ['Nombre Componente']: repo.repositoryName,
+      ['Provider']: 'AWS-CodeCommit',
+      ['Description']: _.get(repo, 'metadata.description'),
+      ['Owner']: _.get(repo, 'tags.Owner', ''),
+      ['Team']: _.get(appExcel, 'Equipo Responsable', ''),
+      ['Has Branch Strategy']: toSiNo(hasBranchStrategy(repo.branches)),
+      ['Has AWS Resource Tags']: toSiNo(!_.isEmpty(repo.tags)),
+      ['APM Pull Status']: _.get(pullsMetrics, 'apmPullStatus'),
+      ['Pulls Open']: _.get(pullsMetrics, 'open', 0),
+      ['Pulls Merged']: _.get(pullsMetrics, 'merged', 0),
+      ['Creation Repo Date']: _.get(repo, 'metadata.creationDate'),
+      ['Last Repo Activity']: _.get(repo, 'metadata.lastModifiedDate'),
+      ['Repository Url']: `${BASE_REPO_URL}/${repo.repositoryName}/browse?region=us-east-1`,
+    });
+  }
+
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+  const repName = `${dateStr}-${REPORT_XLS_OUT}.xls`;
+  report.generate(repName, xlsData);
+
+  return xlsData;
+
+  //console.log('------------------------------------------');
+  //console.log(`TOTAL AWS REPOS: ${dataProcesed.length}`);
+  //console.log('------------------------------------------');
+  //console.log('');
+  //console.log('');
+
+  //console.log('------------------------------------------');
+  //console.log('REPOS BRANCHES PROBLEMS');
+  //console.log('------------------------------------------');
+  //const branchProblems = dataProcesed.filter(repo => repo.branches.length <= 1)
+  //const onlyMaster = branchProblems.filter(repo => repo.branches.indexOf('master') > -1);
+  //console.log(`Repos without branch strategy: ${branchProblems.length}`);
+  //console.log(`  - Only master: ${onlyMaster.length}`);
+  //console.log(`  - Branch missing: ${branchProblems.length - onlyMaster.length}`);
+
+  //console.log('');
+  //console.log('');
+  //console.log('------------------------------------------');
+  //console.log('AWS RESOURCES TAGS');
+  //console.log('------------------------------------------');
+  //const withOutTags = dataProcesed.filter(repo => _.isEmpty(repo.tags));
+  //console.log(`With out Tags: ${withOutTags.length}`);
+  //const withAppNameTag = dataProcesed.filter(repo => _.get(repo, 'tags.ApplicationName'));
+  //console.log(`With ApplicationName Tag: ${withAppNameTag.length}`);
+
+
+  //console.log('');
+  //console.log('');
+  //console.log('------------------------------------------');
+  //console.log('TEAMS PROBLEMS - APPS NOT MAPPING');
+  //console.log('------------------------------------------');
+  //console.log(`Apps not mapping: ${appsNotInXls.length}`);
+}
+
+
+const main = async() => {
+  try {
+      const data = await getRepositories()
+      // Si el batchSize is greater than 3 aws retusn rate limit exceed
+      const total = data.repositories.length;
+
+      console.log('--------------------------------------------');
+      console.log(`TOTAL AWS REPOS: ${total}`);
+      console.log('--------------------------------------------');
+
+      const result = await batchAsync(batchSize, data.repositories, processRepository(total));
+      console.log(result);
+      console.log('DONE');
+
+      persists(resultFileProcessed, result);
+
+    } catch (e) {
+      console.log('unable de fetch respotitories ', e);
+    }
+}
+
+main();
+showStats();
+

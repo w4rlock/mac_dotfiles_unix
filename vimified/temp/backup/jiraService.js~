@@ -1,0 +1,80 @@
+import axios from 'axios';
+
+async function createJiraTicket(repoName) {
+  try {
+    const url = 'https://cencosud.atlassian.net/rest/api/3/issue';
+    const creds = `${process.env.JIRA_API_USER}:${process.env.JIRA_API_TOKEN}`;
+    const creds64 = Buffer.from(creds).toString('base64');
+    const headers = { Authorization: `Basic ${creds64}` };
+
+    const params = {
+      fields: {
+        summary: `New Relic APM: ${repoName}`,
+        customfield_10014: 'CCMR-934', // epic link
+        customfield_10054: [
+          {
+            // equipo
+            value: 'Devops',
+          },
+        ],
+        customfield_10083: {
+          // tipo presupuesto
+          value: 'OPEX',
+        },
+        customfield_10084: 0, // monto presupuesto
+        issuetype: {
+          id: '10040', // infrastructure ticket
+        },
+        customfield_10039: {
+          // PO aprover
+          id: '557058:c5120c11-5902-4f0a-95ba-1fbf3d842ec4',
+        },
+        customfield_10081: {
+          // Infra aprover
+          id: '601061ab1959540115ab5bd0',
+        },
+        assignee: { id: '601061ab1959540115ab5bd0' },
+        project: {
+          key: 'CCMR',
+        },
+        description: {
+          type: 'doc',
+          version: 1,
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  text: `Este ticket representa la integración del APM para New Relic en repositorio ${repoName}`,
+                  type: 'text',
+                },
+              ],
+            },
+          ],
+        },
+        // 'labels': [
+        //     'new_relic_apm'
+        // ]
+      },
+    };
+
+    const jiraResponse = await axios.post(url, params, { headers });
+    return `${jiraResponse.data.key}.New.Relic.APM`;
+  } catch (error) {
+    console.log('DEBUG -> createJiraTicket -> error', error);
+    if (error.response.status !== 200) {
+      console.log('Error creating jira issue: ', repoName);
+      console.log(
+        'DEBUG -> createJiraTicket -> error.response',
+        error.response
+      );
+    }
+    throw error;
+  }
+
+  return 'CCMR-11944.New.Relic.APM';
+}
+
+module.exports = {
+  createJiraTicket,
+};

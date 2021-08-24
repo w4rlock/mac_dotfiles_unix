@@ -1,0 +1,113 @@
+// REFERENCES: https://blog.tericcabrel.com/upload-file-to-google-drive-with-nodejs/
+// Generate token for the user
+// https://developers.google.com/oauthplayground
+
+const fs = require('fs');
+const _ = require('lodash');
+const readline = require('readline');
+const { google } = require('googleapis');
+const redirectUri = 'https://developers.google.com/oauthplayground'
+
+const clientId = process.env.GOOGLE_APP_ID;
+const clientSecret = process.env.GOOGLE_APP_SECRET;
+const refreshToken = process.env.GOOGLE_ACCOUNT_ABRAHAM_TOKEN;
+
+
+if (!clientId) {
+  throw new Error('Environment variable "GOOGLE_APP_ID" is required');
+}
+if (!clientSecret) {
+  throw new Error('Environment variable "GOOGLE_APP_SECRET" is required');
+}
+if (!refreshToken) {
+  throw new Error('Environment variable "GOOGLE_ACCOUNT_ABRAHAM_TOKEN" is required');
+}
+
+
+const getAuthentication = () => {
+  const auth = new google.auth.OAuth2(clientId, clientSecret, redirectUri);
+  auth.setCredentials({ refresh_token: refreshToken });
+
+  return auth;
+}
+
+const listFiles = async(searchByName = undefined) => {
+  const auth = getAuthentication();
+  const drive = google.drive({version: 'v3', auth});
+
+  try {
+    const opts = { pageSize: 10, fields: 'nextPageToken, files(id, name)' };
+    if (searchByName) {
+      opts.q = `name = '${searchByName}'`
+    }
+
+    const documents = await drive.files.list(opts);
+    return _.get(documents, 'data.files', []);
+
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+// https://developer.mozilla.org/es/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+const uploadFile = async(fileNameWithPath, contentType, driveFileName = undefined, parentFolderId = undefined) => {
+  const auth = getAuthentication();
+  const drive = google.drive({ version: 'v3', auth });
+
+  const parents = [];
+  //parameter to upload in any Google Drive folder
+  if (parentFolderId) {
+    parents.push(parentFolderId);
+  }
+
+  let fileName;
+  if (driveFileName) {
+    fileName = driveFileName;
+  } else {
+    fileName = (fileNameWithPath.includes('/'))
+      ? fileNameWithPath.split('/').pop()
+      : fileNameWithPath;
+  }
+
+  const fileMetadata = {
+    name: fileName,
+    parents,
+  };
+
+  const media = {
+    mimeType: contentType,
+    body: fs.createReadStream(fileNameWithPath)
+  };
+
+  try {
+    let resp;
+    const filesSameName = await listFiles(fileMetadata.name);
+
+    if (!_.isEmpty(filesSameName)) {
+      for (const file of filesSameName) {
+        console.log(`Ya existe en google drive un archivo con nombre '${fileMetadata.name}' con id '${file.id}'`);
+        console.log(`Actualizando archivo...`);
+        delete fileMetadata.parents;
+        media.body = fs.createReadStream(fileNameWithPath)
+        resp = await drive.files.update({ resource: fileMetadata, media, fields: 'id', fileId: file.id });
+      }
+    }
+    else {
+      console.log(`Creando nuevo archivo en google drive '${fileMetadata.name}'...`);
+      resp = await drive.files.create({ resource: fileMetadata, media, fields: 'id' });
+    }
+
+    return resp.data.id;
+
+  } catch(err) {
+    console.log(err);
+  }
+}
+
+
+module.exports = {
+  listFiles,
+  uploadFile
+}
+

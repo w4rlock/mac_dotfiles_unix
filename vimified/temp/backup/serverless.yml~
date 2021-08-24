@@ -1,0 +1,44 @@
+# TODO :
+# El secreto en secret manager debe ser guardado como json ex. { LicenseKey: 'value' }
+service: poc-newrelic-lambda-logs
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  timeout: 10
+  versionFunctions: false
+
+plugins:
+  - serverless-iam-roles-per-function
+
+package:
+  patterns:
+    - '!**'
+    - handler.js
+
+functions:
+  newrelicapm:
+    handler: newrelic-lambda-wrapper.handler
+    name: poc-newrelic-logs-2${sls:stage}
+    description: lambda new relic apm
+    memorySize: 256
+    timeout: 10
+    provisionedConcurrency: 2
+    environment:
+      NEW_RELIC_ACCOUNT_ID: 2941593
+      NEW_RELIC_LAMBDA_HANDLER: handler.hello
+      NEW_RELIC_LICENSE_KEY_SECRET: /payment/NEW_RELIC_LICENSE_KEY
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: true
+    layers:
+      - arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49
+    # el permiso del s3 es solo para probar la traza de llamados en new relic
+    iamRoleStatements:
+      - Effect: Allow
+        Resource: "arn:aws:s3:::*"
+        Action:
+          - s3:ListAllMyBuckets
+      - Effect: Allow
+        Resource: "arn:aws:secretsmanager:us-east-1:116948010203:secret:/payment/NEW_RELIC_LICENSE_KEY-ZBSStE"
+        Action:
+          - secretsmanager:GetSecretValue

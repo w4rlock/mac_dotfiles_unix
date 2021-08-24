@@ -1,0 +1,53 @@
+[
+  {
+    "key": "REPO_TYPE",
+    "value": "",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|MOBILE)$/",
+    "comment": "IMPORTANTE: NO es posible determinar un valor para esta variable. por favor, agregue un valor manualmente."
+  },
+  {
+    "key": "REPO_STATUS",
+    "value": "ACTIVE",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(ACTIVE|DEPRECATED)$/",
+    "comment": "IMPORTANTE: Esta variable actualmente NO EXISTE en Gitlab CI/CD Variables. Sera creada automaticamente."
+  },
+  {
+    "key": "NEW_RELIC_LICENSE_KEY",
+    "value": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",
+    "protected": false,
+    "masked": true,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_LABELS",
+    "value": "pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:26394869",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:26394869",
+    "comment": "IMPORTANTE: Valor modificado por el script. VALOR ANTES: 'pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectID:26394869' => VALOR NUEVO: 'pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:26394869'"
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-jumboapp-orders-stg",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "develop",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-jumboapp-orders-prod",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "production",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  }
+]

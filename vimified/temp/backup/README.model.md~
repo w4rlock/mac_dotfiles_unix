@@ -1,0 +1,75 @@
+## Modelo
+Este script trabaja a partir de un modelo.
+Es decir nosotros definimos en un archivo "model.js" las variables que deseamos validar.
+
+
+## Model
+Se creo una clase builder que nos ayuda a crear facilmente nuestro modelo.
+### Ejemplo con todas las opciones:
+
+```javascript
+  new VariableModel('VARIABLE_NAME')
+    .masked()                                                                  <-- opcional
+    .protected()                                                               <-- opcional
+    .environmentScope(/^(master|prod|production)$/)                            <-- opcional
+    // expectedValue recibe como argumento, una expresion regular o un string o un
+    // numero o una function (ver ejemplo avanzado
+    .expectedValue(/^(POSIBLE_VALUE__1|POSIBLE_VALUE__2|POSIBLE_VALUE__3)$/)
+    // fixValueIfNeed recibe como argumento, una expresion regular o un string o un
+    // numero o una function (ver ejemplo avanzado)
+    .fixValueIfNeed('ACTIVE'),
+
+```
+### Ejemplo avanzado:
+Para dar mayor flexibilidad "expectedValue" y "fixValueIfNeed" pueden ser
+funciones donde nosotros podemos poner nuestra propia logica.
+Recordemos que deberia ser lo mas agnostico posible ya que el script correra
+sobre muchos repositorios con diversidad de valores
+
+En el siguiente ejemplo validamos que exista una variable
+llamada NEW_RELIC_APP_NAME que el environment scope sea 'master' o 'prod'
+o 'production' y cuyo valor empiece con 'cl-' y termine con '-prod'
+ejemplo 'cl-payment-prod' en el caso que tenga un valor distinto el script
+intentara fixearla.
+
+```javascript
+  new VariableModel('NEW_RELIC_APP_NAME')
+    .environmentScope(/^(master|prod|production)$/)
+    .expectedValue((repo, gvar) => gvar.value && /^cl-.*-prod$/.test(gvar.value))
+    .fixValueIfNeed((repo, gvar) => {
+      if (!gvar.value) return undefined;
+      let newVal = gvar.value.replace(/(-prd|-production)$/,'-prod');
+      if (!newVal.endsWith('-prod')) { newVal+='-prod'; }
+      return newVal;
+    }),
+```
+
+
+Ejemplo Basico:
+En este escenario de ejemplo lo que hacemos es crear/validar una variable para
+todos los repositorios de un grupo.. Si la variable ya existe en algunos de los
+repo verifica que su valor sea "ACTIVE" o "DEPRECATED" en el caso de que tenga
+otro valor tenemos la posibilidad que el script lo corrija automaticamente
+```javascript
+// Contenido del archivo model.js
+// Lo recomendable es usar expresiones regulares ya que el script corre sobre muchos repositorios y muchas veces no estan estandarizados
+const VariableModel = require('./src/variableModel');
+
+const GitlabVariablesModel = [
+  new VariableModel('REPO_STATUS')
+    .expectedValue(/^(ACTIVE|DEPRECATED)$/)
+    .fixValueIfNeed('ACTIVE'),
+]
+
+// Este metodo es utilizado para dar la posibilidad de 'skipear' el repositorio luego de validar las variables
+// Muchas veces necesitamos procesar solamente repos que ya tienen variables definidas
+const shouldBeRunAutoFix = (repo, processedVars = []) => {
+  return true;
+}
+
+module.exports = {
+  variables: GitlabVariablesModel.map(v => v.build()),
+  shouldBeRunAutoFix,
+}
+
+```

@@ -1,0 +1,30 @@
+'use strict'
+const express = require('express')
+const bodyParser = require('body-parser')
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const app = express()
+const awsSecret = require('./lib/secret')
+require('newrelic')
+
+global.node_env = process.env.NODE_ENV || 'development'
+const router = express.Router()
+function main () {
+  awsSecret.get().then((data) => {
+    global.ENV = require('./config/config').ENV
+    const refund = require('./routes/routes')
+    router.use(bodyParser.json())
+    router.use(bodyParser.urlencoded({ extended: true }))
+    router.use(awsServerlessExpressMiddleware.eventContext())
+    global.events = require('./util/event').events
+    global.table = require('./util/event').table
+    const config = global.ENV[global.node_env]
+    console.log(`path config ${config.pathApiGateway}`)
+    router.get(config.pathApiGateway + '/refund/health', (req, res) => {
+      res.json({ statusCode: 200, consumer: req.headers['x-consumer-username'] ? req.headers['x-consumer-username'] : null })
+    })
+    app.use(router)
+    app.use(config.pathApiGateway + '/refund', refund)
+  })
+}
+main()
+module.exports = app

@@ -1,0 +1,176 @@
+import path from 'path';
+import fs from 'fs';
+import yaml from 'js-yaml';
+import axios from 'axios';
+import shell from 'shelljs';
+
+
+export function find(fileName) {
+  return shell.exec(`find -name ${fileName}`, { silent: true }).stdout;
+}
+
+export async function downloadFile(url, destination) {
+  if (fs.existsSync(destination)) {
+    console.log('File already exists...OK');
+    return true;
+  }
+  try {
+    const response = await axios.get(url, {
+      headers: { 'PRIVATE-TOKEN': process.env.GITLAB_API_TOKEN },
+      responseType: 'arraybuffer',
+    });
+    fs.writeFileSync(destination, response.data);
+  } catch (error) {
+    console.log('Error Downloading file from url:', url);
+    return false;
+  }
+  return true;
+}
+
+export function replaceLineFromFile(fileName, matchRegex, replaceString) {
+  let data = fs.readFileSync(fileName, { encoding: 'utf8' });
+
+  if (!matchRegex.test(data)) {
+    return false;
+  }
+
+  data = data.replace(matchRegex, replaceString);
+  fs.writeFileSync(fileName, data);
+
+  return true;
+}
+
+export function searchContent(fileName, matchRegEx) {
+  let data = fs.readFileSync(fileName, { encoding: 'utf8' });
+  return data.match(matchRegEx);
+}
+
+// Writes a line before or after the first line found with the regex
+// searchContent
+export function writeLineToFile(
+  filename,
+  { writeBefore, writeAfter, findLast },
+  matchRegex,
+  writeString
+) {
+  var data = fs.readFileSync(filename, { encoding: 'utf8' }).split('\n');
+  if (!matchRegex) {
+    // append to end of file
+    fs.appendFileSync(filename, writeString);
+    return true;
+  }
+  //find match string
+  let lineNumber;
+  if (!findLast) {
+    lineNumber = data.findIndex((line) => matchRegex.test(line));
+  } else {
+    // BUG
+    lineNumber = [...data].reverse().findIndex((line) => matchRegex.test(line));
+    lineNumber = data.length - lineNumber;
+  }
+
+  if (lineNumber == -1) {
+    console.log(`ERROR: ${matchRegex} not found`);
+    return false;
+  }
+
+  if (writeAfter) {
+    lineNumber += 1;
+  }
+
+  data.splice(lineNumber, 0, writeString);
+  var text = data.join('\n');
+
+  fs.writeFileSync(filename, text);
+  return true;
+}
+
+
+
+export function findFilesByRegex(dir, filename_regex, content_regex, recursive) {
+  // console.log('Searching for file: ', filename_regex);
+  const results = pickFilesByCallback(
+    dir,
+    (file, content) =>
+      (filename_regex ? filename_regex.test(file) : true) &&
+      (content_regex ? content_regex.test(content) : true),
+    recursive
+  );
+  if (results.length > 0) {
+    // console.log('Found files matching ', filename_regex);
+    return results;
+  }
+  return undefined;
+}
+
+
+
+export function pickFilesByCallback(startPath, callback, recursive) {
+  let results = [];
+  if (!fs.existsSync(startPath)) {
+    return results;
+  }
+  let files = fs.readdirSync(startPath);
+  //sort files first
+  files = files.sort(function (a, b) {
+    const aIsDir = fs.statSync(path.join(startPath, a)).isDirectory();
+    const bIsDir = fs.statSync(path.join(startPath, b)).isDirectory();
+
+    if (aIsDir && !bIsDir) {
+      return 1;
+    }
+
+    if (!aIsDir && bIsDir) {
+      return -1;
+    }
+
+    return a.localeCompare(b);
+  });
+  for (let i = 0; i < files.length; i++) {
+    const filename = files[i];
+    const filePath = path.join(startPath, filename);
+    const stat = fs.lstatSync(filePath);
+    if (stat.isDirectory() && recursive && !['.git'].includes(filename)) {
+      results = results.concat(
+        pickFilesByCallback(filePath, callback, recursive, results)
+      ); //recurse
+    } else if (!stat.isDirectory()) {
+      const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
+      const callbackResult = callback(filename, fileContent);
+      if (callbackResult) {
+        results.push(filePath);
+      }
+    }
+  }
+  return results;
+}
+
+export function readYamlFile(fileName) {
+  let data;
+
+  try {
+    let fileContents = fs.readFileSync(fileName, 'utf8');
+    data = yaml.safeLoad(fileContents);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+  return data;
+}
+
+
+
+export function writeYamlFile(fileName, data) {
+O
+  const yamlStr = yaml.safeDump(data);
+  fs.writeFileSync(fileName, yamlStr, 'utf8');
+}
+
+
+
+export function checkFileContentByRegExprs(basePath, fileNameRegExpr, arrRegExprs, recursive = false) {
+  return pickFilesByCallback(basePath,
+    (currentFile, content) => fileNameRegExpr.test(currentFile) && arrRegExprs.every(rex => rex.test(content)),
+    recursive).length > 0;
+}
+

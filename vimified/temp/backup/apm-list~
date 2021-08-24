@@ -1,0 +1,100 @@
+#!/usr/bin/env node
+const _ = require('lodash');
+const path = require('path');
+const mailer = require('./src/mailer');
+const newRelicCollector = require('./src/newRelicCollector');
+const gitlabCollector = require('./src/gitlabCollector');
+const excel = require('./src/xlsx');
+const googleDrive = require('./src/googleDrive');
+const REPORT_NAME = `report-new-relic-apms`;
+
+const now = new Date();
+const dateFormated = `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+const REPORT_OUT_DIR = './dist';
+
+const collectors = [
+  newRelicCollector,
+  gitlabCollector
+]
+
+
+const sendEmailNotification = async(bodyHtml, attachmentFullPath = undefined) => {
+  const subject = `Report Apm List - ${dateFormated}`;
+  const attachments = [];
+
+  if (attachmentFullPath) {
+    attachments.push({
+      filename: path.basename(attachmentFullPath),
+      path: attachmentFullPath,
+    });
+  }
+
+  return await mailer.sendEmail(subject, bodyHtml, attachments);
+}
+
+
+
+const uploadToDrive = async(reportName) => {
+  // used for google data studio
+  console.log('Uploading report to google drive...');
+  const parentFolderId = process.env.GOOGLE_DRIVE_PARENT_FOLDER_ID;
+  const driveFileName = process.env.GOOGLE_DRIVE_FILE_NAME;
+  const xlsMimeType = process.env.GOOGLE_DRIVE_CONTENT_TYPE
+    || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+  const id = await googleDrive.uploadFile(reportName,
+    xlsMimeType,
+    driveFileName,
+    parentFolderId);
+
+  console.log(`Google Drive File Id: ${id}`);
+
+  return id;
+}
+
+
+const generateReports = async() => {
+  const sheets = [];
+  const reportName = `${REPORT_OUT_DIR}/${REPORT_NAME}-${dateFormated}.xlsx`
+  let detailSheetName,
+      detailReportData,
+      metricsSheetName,
+      metricsReportData,
+      newRelicData;
+
+  for (const collector of collectors) {
+    console.log(`Collecting data from ${collector.PROVIDER_NAME} ...`);
+
+    //  verbose details
+    detailSheetName = collector.getReportDetailSheetName();
+    detailReportData = await collector.getReportDetailData();
+
+    // esto es para enviar un resumen en el body del mail
+    if (collector.PROVIDER_NAME === newRelicCollector.PROVIDER_NAME) {
+      newRelicData = detailReportData;
+    }
+
+    console.log(`Total data collected: ${detailReportData.length}`);
+
+    // resumen
+    metricsSheetName = collector.getMetricsSheetName();
+    metricsReportData = collector.getMetricsReportData(detailReportData);
+
+    console.log(`Adding excel sheet "${detailSheetName}"`);
+    console.log(`Adding excel sheet "${metricsSheetName}"`);
+
+    sheets.push({ sheetName: detailSheetName, value: detailReportData });
+    sheets.push({ sheetName: metricsSheetName, value: metricsReportData });
+  }
+
+  excel.generate(sheets, reportName);
+  console.log(`Report generated '${reportName}'`);
+
+  await uploadToDrive(reportName);
+
+  const bodyHtml = newRelicCollector.getEmailBody(newRelicData);
+  await sendEmailNotification(bodyHtml, reportName);
+}
+
+
+generateReports();

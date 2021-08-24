@@ -1,0 +1,82 @@
+import chalk from 'chalk';
+import * as fileUtils from '../file_utils.js';
+import * as scriptUtils from '../utils.js';
+import { matrixLog } from '../utils.js';
+
+export function injectApmInDockerFile() {
+  const lines = [
+    '\n\nRUN mkdir -p /opt/newrelic',
+    'ADD http://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic.jar /opt/newrelic/newrelic.jar',
+    'ADD http://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic.yml /opt/newrelic/newrelic.yml',
+  ];
+  const entrypoint = 'ENTRYPOINT ["java", "-javaagent:/opt/newrelic/newrelic.jar"';
+
+  return fileUtils.writeLineToFile('Dockerfile', { writeBefore: true }, /ENTRYPOINT/gm, lines.join('\n'))
+     && fileUtils.replaceLineFromFile('Dockerfile', /ENTRYPOINT\s+\["java"/, entrypoint);
+}
+
+
+export function injectBuildArgs() {
+  const tpl = [
+    '--build-arg=NEW_RELIC_APP_NAME=${NEW_RELIC_APP_NAME}',
+    '--build-arg=NEW_RELIC_LICENSE_KEY=${NEW_RELIC_LICENSE_KEY} ',
+  ];
+
+  const results = fileUtils.searchContent('.gitlab-ci.yml', /BUILD_IMAGE_EXTRA_ARGS\s*:/g);
+  if (results && results.length > 0) {
+    return fileUtils.replaceLineFromFile('.gitlab-ci.yml',
+      /BUILD_IMAGE_EXTRA_ARGS\s*:\s*"?/g,
+      `BUILD_IMAGE_EXTRA_ARGS: '${tpl.join(' ')}`);
+  }
+
+  return true;
+}
+
+export const javaStandaloneRecipe = {
+  async preCheck() {
+    const dockerFileExprs = [
+      /http.*newrelic\.jar/gm,
+      /http.*newrelic\.yml/gm,
+      /^ARG NEW_RELIC_APP_NAME/gm,
+      /^ARG NEW_RELIC_LICENSE_KEY/gm,
+      /^ARG NEW_RELIC_LABELS/gm,
+      /^ENV NEW_RELIC_LICENSE_KEY=/gm,
+      /^ENV NEW_RELIC_APP_NAME=/gm,
+      /^ENV NEW_RELIC_LABELS=/gm,
+      /javaagent/gm,
+    ];
+
+    if (fileUtils.checkFileContentByRegExprs('.', /Dockerfile/, dockerFileExprs)) {
+      console.log('complete-integration');
+      return 'complete-integration';
+    }
+
+    return 'success';
+  },
+  async execute({ repo }) {
+    repo.isJavaProject = true;
+
+    try {
+      await matrixLog(chalk.red('1- Injecting environment into Dockerfile...'));
+      if (!scriptUtils.injectDockerFileEnvironment(repo)) {
+        return false;
+      }
+
+      await matrixLog(chalk.red('2- Injecting APM into Dockerfile...'));
+      if (!injectApmInDockerFile(repo)) {
+        return false;
+      }
+
+      await matrixLog(chalk.red('3- Injecting Gitlab-ci.yml ...'));
+      if (!injectBuildArgs(repo)) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+
+    return false;
+  },
+};

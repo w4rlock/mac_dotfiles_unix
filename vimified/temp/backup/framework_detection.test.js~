@@ -1,0 +1,27 @@
+const scriptUtils = require("../script_utils")
+
+const test_dir = "tests"
+
+test('Detect python project', () => {
+    expect(scriptUtils.checkProjectFramework(`${test_dir}/python`)).toBe("python");
+  });
+
+
+test('Detect python docker project', () => {
+  expect(scriptUtils.checkProjectFramework(`${test_dir}/python_docker`)).toBe("python-docker");
+});
+
+
+test('Detect javascript nestjs project', () => {
+  expect(scriptUtils.checkProjectFramework(`${test_dir}/javascript-nestjs`)).toBe("javascript-nestjs");
+});
+
+
+test('Detect javascript express project', () => {
+  expect(scriptUtils.checkProjectFramework(`${test_dir}/javascript-express`)).toBe("javascript-express");
+});
+
+
+test('Test unknown project', () => {
+  expect(scriptUtils.checkProjectFramework(`${test_dir}/.`)).toBe("unknown");
+});

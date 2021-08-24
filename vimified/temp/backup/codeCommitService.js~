@@ -1,0 +1,31 @@
+import fs from 'fs';
+import shell from 'shelljs';
+import AWS from 'aws-sdk';
+
+const codecommit = new AWS.CodeCommit();
+
+export async function createPullRequest(title, repositoryName, source, destination) {
+  const params = {
+    title,
+    targets: [
+      {
+        repositoryName,
+        sourceReference: source,
+        destinationReference: destination,
+      },
+    ],
+  };
+
+  try {
+    const resp = await codecommit.createPullRequest(params).promise();
+  } catch (e) {
+    console.log(
+      `Error: creating pull request for ${repositoryName} ${source} ${destination}`,
+    );
+    console.log(e);
+    return false;
+  }
+
+  return true;
+}
+

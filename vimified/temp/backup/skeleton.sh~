@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+# force strict mode
+set -o pipefail
+set -o nounset
+set -o errexit
+
+
+readonly IMAGE_NAME='observability/gitlab-tags'
+
+
+# colors utils
+readonly BOLD=$(tput bold)
+readonly C_RESET=$(tput sgr0)
+
+
+# print messages with colors and reset
+red() {      printf "${BOLD}$(tput setaf 1)${1}${C_RESET}" ; }
+blue() {     printf "${BOLD}$(tput setaf 4)${1}${C_RESET}" ; }
+green() {    printf "${BOLD}$(tput setaf 2)${1}${C_RESET}" ; }
+
+# util log function
+readonly LOG_PREFFIX="$(blue '[')$(green '*')$(blue ']') -"
+log_info() { printf "${LOG_PREFFIX} ${@}\n" ; }
+
+
+# show msg and exit program
+die() {
+  echo "$(red 'Error:') ${@}" >&2
+  exit 1
+}
+
+
+# confirm question and continue
+confirm() {
+  printf "\n${LOG_PREFFIX} ${@} [y/n]: "
+  read ans;
+  if [[ "${ans}" != "y" ]]; then exit 1; fi
+}
+
+
+# util to check if your script has dependencies example:
+# check_required_programs wget rg fd fzf curl
+check_required_programs() {
+  for dep in ${@}; do
+    which $dep &> /dev/null || die "program '${dep}' is required."
+  done
+}
+
+
+
+
+run_action() {
+  local gitlab_token=$()
+  local gitlab_group_id=$()
+
+  docker run --rm -it $IMAGE_NAME \
+    --gitlab-token $gitlab_token \
+    --gitlab-group-id $gitlab_group_id \
+    $EXTRA_ARGS
+}
+
+
+
+build_action() {
+  local version=$()
+  docker build . \
+    -t ${IMAGE_NAME}:${version} \
+    -t $IMAGE_NAME:latest
+}
+
+
+# print usage program
+usage() {
+  local sh_name=$(basename $0)
+
+  cat <<-EOF
+  $(blue 'NAME')
+      $sh_name
+
+  $(blue 'DESCRIPTION')
+      Script Utility for build or run docker image...
+
+  $(blue 'SYNOPSIS')
+      $sh_name [options] [args]
+
+  $(blue 'OPTIONS')
+      -r | --run                            Run docker gitlab-tags
+      -b | --build                          Build docker image gitlab-tags
+      -h | --help | help                    Print this help screen
+EOF
+
+  exit 0
+}
+
+
+# parse script arguments
+# exit when unknown option is setted
+parse_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      -b|--build|build)
+        build_action
+        ;;
+      -r|--run|run)
+        run_action
+        ;;
+      help|--help|-h)
+        usage
+        ;;
+      *)
+        echo $(red "ERR: unknown option ${1}") >&2
+        usage
+        ;;
+    esac
+    shift  # past key
+  done
+}
+
+
+check_required_programs docker
+parse_arguments $@
+
+
+
+
+

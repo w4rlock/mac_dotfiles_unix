@@ -1,0 +1,56 @@
+{
+  "name": "apm-inyector",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Aca esta el script que queremos correr masivamente en todos los repos de cencommerce para inyectar el APM de New Relic",
+  "main": "inject_new_relic_apm.js",
+  "scripts": {
+    "start": "node .",
+    "lint": "eslint ./",
+    "lint:fix": "eslint ./ --fix",
+    "prettier": "prettier \"**/*.{js,jsx,css}\"",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/cencosud-ds/cencommerce/devexp/new-relic-utils/inyeccion-apm-masivo.git"
+  },
+  "keywords": [
+    "new_relic"
+  ],
+  "author": "Andrés Peñaloza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/cencosud-ds/cencommerce/devexp/new-relic-utils/inyeccion-apm-masivo/issues"
+  },
+  "homepage": "https://gitlab.com/cencosud-ds/cencommerce/devexp/new-relic-utils/inyeccion-apm-masivo#readme",
+  "devDependencies": {
+    "convert-excel-to-json": "1.7.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "jest": "^26.6.3"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      ".*/package.json"
+    ]
+  },
+  "dependencies": {
+    "async": "3.2.0",
+    "aws-sdk": "2.908.0",
+    "axios": "^0.21.1",
+    "batch-promises": "0.0.3",
+    "chalk": "4.1.1",
+    "enquirer": "2.3.6",
+    "eslint-plugin-import": "2.24.1",
+    "figlet": "1.5.2",
+    "inquirer": "8.1.2",
+    "js-yaml": "3.14.1",
+    "lodash": "4.17.21",
+    "lolcatjs": "2.4.1",
+    "shelljs": "^0.8.4",
+    "standard-version": "9.3.1",
+    "xlsx": "0.12.13",
+    "yargs": "15.4.1"
+  }
+}

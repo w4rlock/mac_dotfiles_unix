@@ -1,0 +1,640 @@
+locals {
+  payment_common_tags = {
+    aplicacion      = "Buying Experience"
+    ApplicationName = "CL-PAYMENT"
+    propietario     = "claudio.uribesolar@cencosud.cl"
+    proyecto        = "CL-PAYMENT"
+    Owner           = "Sebastian Valenzuela"
+    epm             = "opex"
+  }
+}
+
+### ********************** CCMR-5005 ***************************
+
+resource "aws_sns_topic" "cencommerce-buying-experience-cl-epay-bankfer-core" {
+  name = "cl-epay-bankfer-core"
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.bankfer.core",
+      plataforma = "sns"
+    }
+  )
+}
+
+resource "aws_sns_topic" "cencommerce-buying-experience-cl-epay-bankfer-core-qa" {
+  name = "cl-epay-bankfer-core-qa"
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.bankfer.core.qa",
+      plataforma = "sns"
+    }
+  )
+}
+
+### ******************** SQS *********************************
+
+resource "aws_sqs_queue" "cencommerce-buying-experience-cl-epay-bankfer-notifications" {
+  name                       = "cl-epay-bankfer-notifications"
+  delay_seconds              = 90
+  max_message_size           = 2048
+  message_retention_seconds  = 86400
+  receive_wait_time_seconds  = 10
+  visibility_timeout_seconds = 90
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.bankfer.notifications",
+      plataforma = "sqs"
+    }
+  )
+}
+
+
+resource "aws_sqs_queue_policy" "cencommerce-buying-experience-cl-epay-bankfer-notifications-policy" {
+  queue_url = aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications.id
+
+  policy = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "${aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications.arn}",
+    "Statement": [
+      {
+        "Sid": "Sid1590516609435",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "SQS:*",
+        "Resource": "${aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications.arn}"
+      }
+    ]
+  }
+POLICY
+}
+
+resource "aws_sqs_queue" "cencommerce-buying-experience-cl-epay-bankfer-notifications-qa" {
+  name                       = "cl-epay-bankfer-notifications-qa"
+  delay_seconds              = 90
+  max_message_size           = 2048
+  message_retention_seconds  = 86400
+  receive_wait_time_seconds  = 10
+  visibility_timeout_seconds = 90
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.bankfer.notifications.qa",
+      plataforma = "sqs"
+    }
+  )
+}
+
+resource "aws_sqs_queue_policy" "cencommerce-buying-experience-cl-epay-bankfer-notifications-qa-policy" {
+  queue_url = aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications-qa.id
+
+  policy = <<POLICY
+  {
+    "Version": "2012-10-17",
+    "Id": "${aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications-qa.arn}",
+    "Statement": [
+      {
+        "Sid": "Sid1590516609434",
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": "SQS:*",
+        "Resource": "${aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications-qa.arn}"
+      }
+    ]
+  }
+POLICY
+}
+
+### ******************** SQS SUSCRIPTIONS *********************************
+
+resource "aws_sns_topic_subscription" "cencommerce-buying-experience-cl-epay-bankfer-core-suscription" {
+  topic_arn = aws_sns_topic.cencommerce-buying-experience-cl-epay-bankfer-core.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications.arn
+}
+
+resource "aws_sns_topic_subscription" "cencommerce-buying-experience-cl-epay-bankfer-core-qa-suscription" {
+  topic_arn = aws_sns_topic.cencommerce-buying-experience-cl-epay-bankfer-core-qa.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications-qa.arn
+}
+
+### ********************** CCMR-5005 *************************** ok
+
+### ********************** CCMR-5587 ***************************
+resource "aws_iam_role" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa" {
+  name = "cl-epay-labmda-qa"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-attach1" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-attach2" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-attach3" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-attach4" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-attach5" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-attach6" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+}
+
+resource "aws_lambda_function" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-lambda" {
+  filename      = "${path.module}/scripts/lambda/lambda_function_payload.zip"
+  function_name = "cl-epay-bankfer-notification-qa"
+  role          = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification-qa.arn
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 512
+
+  runtime = "nodejs12.x"
+
+  environment {
+    variables = {
+      NODE_ENV                     = "qa"
+      ENV                          = "qa"
+      secret                       = "epay-bankfer-notification-qa"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "index.notification"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    subnet_ids         = var.private_subnets
+    security_group_ids = [aws_security_group.cencommerce-buying-experience-cl-epay-bankfer-notification-sg.id]
+  }
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.bankfer.notifications.qa",
+      plataforma = "lambda"
+    }
+  )
+
+}
+
+resource "aws_lambda_event_source_mapping" "cencommerce-buying-experience-cl-epay-bankfer-notification-qa-mapping" {
+  event_source_arn = aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications-qa.arn
+  function_name    = aws_lambda_function.cencommerce-buying-experience-cl-epay-bankfer-notification-qa-lambda.arn
+}
+
+### ********************** CCMR-5587 ***************************
+
+
+### ********************** CCMR-5652 ***************************
+resource "aws_iam_role" "cencommerce-buying-experience-cl-epay-bankfer-notification" {
+  name = "cl-epay-labmda"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-attach1" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-attach2" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-attach3" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-attach4" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-attach5" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "cencommerce-buying-experience-cl-epay-bankfer-notification-attach6" {
+  role       = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
+resource "aws_security_group" "cencommerce-buying-experience-cl-epay-bankfer-notification-sg" {
+  name_prefix = "cl-epay-bankfer-notification-sg"
+  vpc_id      = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      plataforma = "vpcSg"
+    }
+  )
+}
+
+resource "aws_lambda_function" "cencommerce-buying-experience-cl-epay-bankfer-notification-lambda" {
+  filename      = "${path.module}/scripts/lambda/lambda_function_payload.zip"
+  function_name = "cl-epay-bankfer-notification"
+  role          = aws_iam_role.cencommerce-buying-experience-cl-epay-bankfer-notification.arn
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 512
+
+  runtime = "nodejs12.x"
+
+  environment {
+    variables = {
+      NODE_ENV                     = "prod"
+      ENV                          = "prod"
+      secret                       = "epay-bankfer-notification"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "index.notification"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = var.private_subnets
+    security_group_ids = [aws_security_group.cencommerce-buying-experience-cl-epay-bankfer-notification-sg.id]
+  }
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.bankfer.notifications",
+      plataforma = "lambda"
+    }
+  )
+
+}
+
+resource "aws_lambda_event_source_mapping" "cencommerce-buying-experience-cl-epay-bankfer-notification-mapping" {
+  event_source_arn = aws_sqs_queue.cencommerce-buying-experience-cl-epay-bankfer-notifications.arn
+  function_name    = aws_lambda_function.cencommerce-buying-experience-cl-epay-bankfer-notification-lambda.arn
+}
+
+### ********************** CCMR-5652 ***************************
+
+### ********************** CCMR-7940 ***************************
+
+resource "aws_sqs_queue" "epay_easy_orchest_sqs" {
+  name                       = "cl-epay-easy-orchest"
+  delay_seconds              = 0
+  max_message_size           = 2048
+  message_retention_seconds  = 86400
+  receive_wait_time_seconds  = 10
+  visibility_timeout_seconds = 90
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.easy.orchest",
+      plataforma = "sqs"
+    }
+  )
+}
+
+resource "aws_sqs_queue" "epay_easy_orchest_sqs_qa" {
+  name                       = "cl-epay-easy-orchest-qa"
+  delay_seconds              = 0
+  max_message_size           = 2048
+  message_retention_seconds  = 86400
+  receive_wait_time_seconds  = 10
+  visibility_timeout_seconds = 90
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.easy.orchest.qa",
+      plataforma = "sqs"
+    }
+  )
+}
+
+resource "aws_iam_role" "epay_easy_orchest_role" {
+  name = "cl-epay-easy-orchest"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_role_attach1" {
+  role       = aws_iam_role.epay_easy_orchest_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_role_attach2" {
+  role       = aws_iam_role.epay_easy_orchest_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_role_attach3" {
+  role       = aws_iam_role.epay_easy_orchest_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_role_attach4" {
+  role       = aws_iam_role.epay_easy_orchest_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_role_attach5" {
+  role       = aws_iam_role.epay_easy_orchest_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_role_attach6" {
+  role       = aws_iam_role.epay_easy_orchest_role.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
+resource "aws_security_group" "epay_easy_orchest_sg" {
+  name_prefix = "cl-epay-easy-orchest-sg"
+  vpc_id      = var.vpc_id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      plataforma = "vpcSg"
+    }
+  )
+}
+
+resource "aws_lambda_function" "epay_easy_orchest_lambda_qa" {
+  filename      = "${path.module}/scripts/lambda/lambda_function_payload.zip"
+  function_name = "cl-epay-easy-orchest-qa"
+  role          = aws_iam_role.epay_easy_orchest_role.arn
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 512
+  runtime       = "nodejs12.x"
+
+  environment {
+    variables = {
+      NODE_ENV                     = "qa"
+      ENV                          = "qa"
+      secret                       = "epay-easy-orchest-qa"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "index.handler"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = var.private_subnets
+    security_group_ids = [aws_security_group.epay_easy_orchest_sg.id]
+  }
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.easy.orchest.qa",
+      plataforma = "lambda"
+    }
+  )
+
+}
+
+resource "aws_lambda_event_source_mapping" "epay_easy_orchest_mapping" {
+  event_source_arn = aws_sqs_queue.epay_easy_orchest_sqs_qa.arn
+  function_name    = aws_lambda_function.epay_easy_orchest_lambda_qa.arn
+}
+
+
+resource "aws_lambda_function" "epay_easy_svgloader_lambda_qa" {
+  filename      = "${path.module}/scripts/lambda/lambda_function_payload.zip"
+  function_name = "cl-epay-easy-svgloader-qa"
+  role          = aws_iam_role.epay_easy_orchest_role.arn # utiliza el mismo de easy_orchest
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 512
+  runtime       = "nodejs12.x"
+
+  environment {
+    variables = {
+      NODE_ENV                     = "qa"
+      ENV                          = "qa"
+      secret                       = "epay-easy-svgloader-qa"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "index.handler"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = var.private_subnets
+    security_group_ids = [aws_security_group.epay_easy_orchest_sg.id] # utiliza el mismo de easy_orchest
+  }
+
+  tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_buying_experience_tribe,
+    local.payment_common_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.easy.svgloader.qa",
+      plataforma = "lambda"
+    }
+  )
+
+}
+
+### E502 ALTO LAS CONDES
+
+resource "aws_cloudwatch_event_rule" "epay_easy_svgloader_ev_rule1_qa" {
+  name                = "epay_easy_svgloader1_qa"
+  description         = "Fires every 15 minutes"
+  schedule_expression = "cron(0/15 * * * ? *)"
+  is_enabled          = false
+}
+
+resource "aws_cloudwatch_event_target" "epay_easy_svgloader_ev_target1_qa" {
+  rule      = aws_cloudwatch_event_rule.epay_easy_svgloader_ev_rule1_qa.name
+  target_id = "epay_easy_svgloader_qa"
+  arn       = aws_lambda_function.epay_easy_svgloader_lambda_qa.arn
+  input     = "{\"local\":\"E502\"}" # E502 ALTO LAS CONDES
+}
+
+resource "aws_lambda_permission" "lambda_cw_schedule1_ev_permission" {
+  statement_id  = "AllowExecutionFromCloudWatch1"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.epay_easy_svgloader_lambda_qa.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.epay_easy_svgloader_ev_rule1_qa.arn
+}
+
+### E503 MAIPU
+
+resource "aws_cloudwatch_event_rule" "epay_easy_svgloader_ev_rule2_qa" {
+  name                = "epay_easy_svgloader2_qa"
+  description         = "Fires every 15 minutes"
+  schedule_expression = "cron(1/15 * * * ? *)"
+  is_enabled          = false
+}
+
+resource "aws_cloudwatch_event_target" "epay_easy_svgloader_ev_target2_qa" {
+  rule      = aws_cloudwatch_event_rule.epay_easy_svgloader_ev_rule2_qa.name
+  target_id = aws_lambda_function.epay_easy_svgloader_lambda_qa.function_name
+  arn       = aws_lambda_function.epay_easy_svgloader_lambda_qa.arn
+  input     = "{\"local\":\"E503\"}" # E503 MAIPU
+}
+
+resource "aws_lambda_permission" "lambda_cw_schedule2_ev_permission" {
+  statement_id  = "AllowExecutionFromCloudWatch2"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.epay_easy_svgloader_lambda_qa.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.epay_easy_svgloader_ev_rule2_qa.arn
+}
+
+### E510 LA FLORIDA
+
+resource "aws_cloudwatch_event_rule" "epay_easy_svgloader_ev_rule3_qa" {
+  name                = "epay_easy_svgloader3_qa"
+  description         = "Fires every 15 minutes"
+  schedule_expression = "cron(2/15 * * * ? *)"
+  is_enabled          = false
+}
+
+resource "aws_cloudwatch_event_target" "epay_easy_svgloader_ev_target3_qa" {
+  rule      = aws_cloudwatch_event_rule.epay_easy_svgloader_ev_rule3_qa.name
+  target_id = aws_lambda_function.epay_easy_svgloader_lambda_qa.function_name
+  arn       = aws_lambda_function.epay_easy_svgloader_lambda_qa.arn
+  input     = "{\"local\":\"E510\"}" # E510 LA FLORIDA
+}
+
+resource "aws_lambda_permission" "lambda_cw_schedule3_ev_permission" {
+  statement_id  = "AllowExecutionFromCloudWatch3"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.epay_easy_svgloader_lambda_qa.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.epay_easy_svgloader_ev_rule3_qa.arn
+}
+
+#test
+### ********************** CCMR-7940 ***************************

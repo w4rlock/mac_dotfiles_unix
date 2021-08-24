@@ -1,0 +1,117 @@
+import _ from 'lodash';
+import * as fileUtils from '../file_utils.js';
+import * as scriptUtils from '../utils.js';
+
+const BUILD_FILE = 'buildspec.yml';
+
+
+function appendObjectFieldAt(obj, key, value, index) {
+  // Create a temp object and index variable
+  const temp = {};
+  let i = 0;
+  // Loop through the original object
+  for (const prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      // If the indexes match, add the new item
+      if (i === index && key && value) {
+        temp[key] = value;
+      }
+      // Add the current item in the loop to the temp obj
+      temp[prop] = obj[prop];
+      // Increase the count
+      i++;
+    }
+  }
+  // If no index, add to the end
+  if (!index && key && value) {
+    temp[key] = value;
+  }
+
+  return temp;
+}
+
+
+function injectBuildSpecSecret(project) {
+  const teamName = project['Equipo Responsable'].toLowerCase().replace(/\s/g, '-');
+  const baseKeyPath = `/CodeBuild/${teamName}`;
+  const addEnv = `\nenv:\n  parameter-store:\n    NEW_RELIC_LICENSE_KEY: ${baseKeyPath}/NEW_RELIC_LICENSE_KEY\n`;
+  return (fileUtils.writeLineToFile(BUILD_FILE, { writeAfter: true }, /.*/gm, addEnv));
+
+  // let teamName = project['Equipo Responsable'];
+  // teamName = teamName.toLowerCase();
+  // teamName = teamName.replace(/\s/g, '-');
+  // const baseKeyPath = `/CodeBuild/${teamName}`;
+
+  // try {
+  // let origObj = fileUtils.readYamlFile(BUILD_FILE);
+  // let copyObj = _.cloneDeep(origObj);
+
+
+  /// / for cost optimization use parameter-store
+  // _.merge(copyObj, {
+  // env: {
+  // 'parameter-store': {
+  // NEW_RELIC_LICENSE_KEY: `${baseKeyPath}/NEW_RELIC_LICENSE_KEY`
+  // },
+  // },
+  // });
+
+  // delete origObj.env;
+  /// / agrego las nuevas variables estrategicamente para que cuando se escriba el
+  /// / archivo queden es su lugar correspondiente
+  // origObj = appendObjectFieldAt(origObj, 'env', copyObj.env, 1);
+  // fileUtils.writeYamlFile(BUILD_FILE, origObj);
+  // } catch(e) {
+  // return false;
+  // }
+  // return true;
+}
+
+
+function injectBuildSpecDockerBuildArgs(proj) {
+  let buildArgs = '--build-arg NEW_RELIC_LICENSE_KEY=$NEW_RELIC_LICENSE_KEY ';
+  if (proj.isJavaProject) {
+    buildArgs += '--build-arg NEW_RELIC_APP_NAME=$IMAGE_REPO_NAME';
+  }
+
+  return fileUtils.replaceLineFromFile(BUILD_FILE, /docker build/, `docker build ${buildArgs}`);
+}
+
+
+export function injectDockerFileEnvironment(repo) {
+  const app = scriptUtils.parseProjectName(repo.name, '', 'cl');
+  const nodeEnvVarName = (fileUtils.pickFilesByCallback('.', (f, c) => /Dockerfile/.test(f) && /^ARG NODE_ENV_BUILD/gm.test(c), false).length > 0)
+    ? 'NODE_ENV_BUILD'
+    : 'NODE_ENV';
+
+  const envAppName = `ENV NEW_RELIC_APP_NAME=\'${app}-\${${nodeEnvVarName}}\'`;
+  if (fileUtils.writeLineToFile('Dockerfile', { writeAfter: true }, /^FROM/gm, 'ARG NEW_RELIC_LICENSE_KEY')
+      && fileUtils.writeLineToFile('Dockerfile', { writeAfter: true }, /^ENV.*NODE_ENV_BUILD/gm, 'ENV NEW_RELIC_LICENSE_KEY=$NEW_RELIC_LICENSE_KEY')
+      && fileUtils.writeLineToFile('Dockerfile', { writeAfter: true }, /^ENV.*NODE_ENV_BUILD/gm, envAppName)) {
+    return true;
+  }
+  return false;
+}
+
+
+export function injectEnvironmentVariables(project) {
+  return injectBuildSpecSecret(project) && injectBuildSpecDockerBuildArgs(project);
+}
+
+
+export function injectApmInDockerFile(project) {
+  const isCatalina = fileUtils.checkFileContentByRegExprs('.', /Dockerfile/, [/CATALINA_HOME/gm]);
+
+  if (isCatalina) {
+    const lines = [
+      '\n\nADD http://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic.jar $CATALINA_HOME/newrelic.jar',
+      'ADD http://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic.yml $CATALINA_HOME/newrelic.yml',
+      'ENV CATALINA_OPTS $CATALINA_OPTS -javaagent:$CATALINA_HOME/newrelic.jar\n\n',
+    ];
+
+    return fileUtils.writeLineToFile('Dockerfile', { writeBefore: true }, /^CMD/gm, lines.join('\n'));
+  }
+
+  return false;
+}
+

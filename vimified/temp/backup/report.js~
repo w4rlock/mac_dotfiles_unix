@@ -1,0 +1,17 @@
+const reader = require('xlsx')
+
+
+const generate = (file, data) => {
+  // Sample data set
+  const workBook = reader.utils.book_new()
+  const ws = reader.utils.json_to_sheet(data)
+
+  reader.utils.book_append_sheet(workBook, ws, 'Sheet3")
+
+  // Writing to our file
+  reader.writeFile(workBook, file);
+}
+
+module.exports = {
+  generate
+}

@@ -1,0 +1,18 @@
+# Inyeccion APM Masivo
+
+Aca esta el script que queremos correr masivamente en todos los repos de cencommerce para inyectar el APM de New Relic
+
+## Comandos de npm
+ - npm start: para ejecutar el script con la lista de proyectos definida en project_list.json
+ - npm test: un test con la verificacion de la deteccion del framework
+
+## Requerimientos del script
+El script no funciona a menos que estebn declaradas un par de variables de entorno:
+|Nombre|Formato|Descripcion|
+|---|---|---|
+|GITLAB_API_TOKEN|string|Para la integracion con la api de gitlab. Necesita permisos de escritura y lectura.|
+|JIRA_API_USER|string|El usuario de jira, para interactuar con la api|
+|JIRA_API_TOKEN|string|El token del usuario de jira, para interactuar con la api|
+|NEW_RELIC_LICENSE_DICT|'{\'Equipo1\':\'Token1\', ...}"|Un diccionario con las licensias de New Relic para cada equipo|
+
+Ademas, el script necesita el cli de git para funcionar.

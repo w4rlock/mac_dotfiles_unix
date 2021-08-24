@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+readonly API="https://www.dolarsi.com/api/api.php?type=valoresprincipales"
+
+data=$(curl -sk ${API});
+echo $data | jq -r '.[] | select(.casa.nombre | contains("Dolar Oficial")) | "USD$ " + .casa.compra + "\nUSD$ " + .casa.venta'
+echo
+echo $data | jq -r '.[] | select(.casa.nombre | contains("Dolar Blue")) | "USD$ " + .casa.compra + "\nUSD$ " + .casa.venta'

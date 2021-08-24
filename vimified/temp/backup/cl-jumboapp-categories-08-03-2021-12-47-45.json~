@@ -1,0 +1,54 @@
+[
+  {
+    "key": "REPO_TYPE",
+    "value": "",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|MOBILE)$/",
+    "comment": "IMPORTANTE: NO es posible determinar un valor para esta variable. por favor, agregue un valor manualmente."
+  },
+  {
+    "key": "REPO_STATUS",
+    "value": "ACTIVE",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(ACTIVE|DEPRECATED)$/",
+    "comment": "IMPORTANTE: Esta variable actualmente NO EXISTE en Gitlab CI/CD Variables. Sera creada automaticamente."
+  },
+  {
+    "key": "NEW_RELIC_LICENSE_KEY",
+    "value": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",
+    "protected": false,
+    "masked": true,
+    "environment_scope": "*",
+    "expectedValue": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",
+    "comment": "IMPORTANTE: Valor modificado por el script. VALOR ANTES: '88bc515ed43da6739fea3c47035cf572FFFFNRAL' => VALOR NUEVO: '73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL'"
+  },
+  {
+    "key": "NEW_RELIC_LABELS",
+    "value": "pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:25868213",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:25868213",
+    "comment": "IMPORTANTE: Valor modificado por el script. VALOR ANTES: 'pais:cl;ApplicationName:CL-CCOM-JUMBOAPP;GitProjectID:25868213' => VALOR NUEVO: 'pais:cl;ApplicationName:CL-JUMBOAPP;GitProjectId:25868213'"
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-jumboapp-categories-stg",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "develop",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-jumboapp-categories-prod",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "production",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  }
+]

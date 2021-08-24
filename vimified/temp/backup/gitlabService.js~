@@ -1,0 +1,348 @@
+import axios from 'axios';
+import _ from 'lodash';
+import batchAsync from 'batch-promises';
+import * as scriptUtils from '../utils.js';
+import * as fileUtils from '../file_utils.js';
+import getConfig from '../config.utils.js';
+
+const GITLAB_TOKEN = getConfig('gitlab-token');
+
+
+const GitlabHttp = axios.create({
+  baseURL: 'https://gitlab.com/api/v4',
+  headers: { 'PRIVATE-TOKEN': GITLAB_TOKEN },
+});
+
+
+
+export async function getVariablesFromRepo(project, variableName = undefined) {
+  try {
+    let url = `/projects/${project}/variables`;
+    if (variableName) {
+      url += `/${variableName}`;
+    }
+    const response = await GitlabHttp.get(url);
+    return response.data || [];
+  } catch (error) {
+    return error.data;
+  }
+}
+
+
+
+export async function getAllGroups(results = [], page = 1) {
+  const _fetch = async (p) => {
+    const params = { per_page: 100, page: p };
+    // console.log(`  - Fetching page ${page}`);
+    const resp = await GitlabHttp.get('/groups/9497411/descendant_groups', { params });
+    return resp;
+  };
+
+  const resp = await _fetch(1);
+  results = results.concat(resp.data);
+
+  if (results.length < 100) {
+    return results;
+  }
+
+  // PAGINATION
+  const totalPages = Number(resp.headers['x-total-pages']);
+  const fillPages = Array.from(Array(totalPages).keys());
+  fillPages.shift();
+
+  // 3 request in parallel
+  const groups = await batchAsync(3, fillPages, async (pageNumber) => {
+    const r = await _fetch(pageNumber + 1);
+    return r.data;
+  });
+
+  return results.concat(_.flatten(groups));
+}
+
+
+
+
+export async function hasNewRelicIntegration(repositoryId) {
+  const vars = await getVariablesFromRepo(repositoryId);
+  const varLicence = vars.find((v) => v.key === 'NEW_RELIC_LICENSE_KEY');
+  const varNameApms = vars.filter((v) => v.key === 'NEW_RELIC_APP_NAME');
+
+  if (!_.isEmpty(varNameApms)) {
+    varNameApms.forEach((v) => console.log(` - NEW_RELIC_APP_NAME: ${v.value}`));
+  }
+
+  return _.get(varLicence, 'value') && !_.isEmpty(varNameApms);
+}
+
+
+
+
+export async function createGitlabProjectVariable(repoId, environmentName, variableKey, variableValue, setMasked = false) {
+  try {
+    const response = await GitlabHttp.post(`/${repoId}/variables`, {
+      id: repoId,
+      key: variableKey,
+      value: variableValue,
+      variable_type: 'env_var',
+      protected: false,
+      masked: setMasked,
+      environment_scope: environmentName,
+    });
+
+    if (!response.status === 201) {
+      console.log(`Error creating variable: ${variableKey}`);
+      return false;
+    }
+
+    console.log(`Variable created: ${variableKey}`);
+  } catch (error) {
+    if (JSON.stringify(error.response.data).includes('has already been taken')) {
+      return true;
+    }
+    console.log('DEBUG -> createGitlabProjectVariable -> error', error.response.data);
+    console.log(`Error creating variable: ${variableKey}`);
+    return false;
+  }
+  return true;
+}
+
+
+
+
+export const createEnvironment = async (repoId, environmentName) => {
+  const param = { id: repoId, name: environmentName };
+  const resp = await GitlabHttp.post(`/projects/${repoId}/environments`, param);
+
+  if (resp.status !== 201) {
+    console.log(`Error creating environmnt '${environmentName}' for project: `);
+    return undefined;
+  }
+  console.log(`Created environment '${environmentName}' for project: `);
+};
+
+
+
+export async function addGitlabProjectEnvironments(repoId) {
+  try {
+    const response = await GitlabHttp.get(`/projects/${repoId}/environments`);
+
+    if (response.status === 200) {
+      const environmentsFound = response.data;
+      console.log(`total environments ${environmentsFound.length}`);
+      console.log(environmentsFound.map((e) => e.name));
+
+      if (environmentsFound.length > 1) {
+        if (environmentsFound.filter((environment) => /prod|stag|dev/.test(environment.name)).length > 1) {
+          return {
+            staging: environmentsFound.find((environment) => /stag/.test(environment.name)),
+            develop: environmentsFound.find((environment) => /dev/.test(environment.name)),
+            production: environmentsFound.find((environment) => /prod/.test(environment.name)),
+          };
+        }
+
+        console.log('Project environments not named correctly: ');
+        console.log(environmentsFound);
+        return undefined;
+      } if (environmentsFound.length < 2) {
+        console.log('\nProject has no environments configured yet: ');
+        try {
+          if (!environmentsFound.find((environment) => /stag/.test(environment.name))) {
+            await createEnvironment(repoId, 'staging');
+          }
+
+          if (!environmentsFound.find((environment) => /prod/.test(environment.name))) {
+            await createEnvironment(repoId, 'production');
+          }
+
+          if (!environmentsFound.find((environment) => /dev/.test(environment.name))) {
+            await createEnvironment(repoId, 'develop');
+          }
+          // return newly created envs
+          return addGitlabProjectEnvironments(repoId);
+        } catch (error) {
+          console.log('Error creating environmnts for project: ');
+          return undefined;
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    if (error.response.status !== 200) {
+      console.log('Error fetching project environments: ');
+    }
+  }
+
+  return undefined;
+}
+
+
+
+export async function addGitlabProjectVariables(repo, repoType, applicationName, licenceKey, gitlabEnvs, detectedFramework) {
+  if (detectedFramework === 'lambda') {
+    return true;
+  }
+
+  const environments = {
+    production: 'prod',
+    staging: 'stg',
+    develop: 'dev',
+  };
+
+
+  const variables = [{
+    key: 'REPO_TYPE',
+    value: repoType,
+  }, {
+    key: 'REPO_STATUS',
+    value: 'ACTIVE',
+  }, {
+    key: 'NEW_RELIC_LICENSE_KEY',
+    value: licenceKey,
+    masked: true,
+  }, {
+    key: 'NEW_RELIC_LABELS',
+    value: `pais:cl;ApplicationName:${applicationName};GitProjectID:${repo.id}`,
+  }];
+
+
+  // TODO: En algunos casos esta variable esta configurado en el
+  // pipeline.yml en ese caso no la creamos como variable de entorno
+  if (!fileUtils.findFilesByRegex('.', /.gitlab-ci.yml/, /BUILD_IMAGE_EXTRA_ARGS/, false)) {
+    let extraArgsValue = '--build-arg NEW_RELIC_APP_NAME=$NEW_RELIC_APP_NAME';
+    extraArgsValue += ' --build-arg NEW_RELIC_LICENSE_KEY=$NEW_RELIC_LICENSE_KEY';
+    extraArgsValue += ' --build-arg NEW_RELIC_LABELS=$NEW_RELIC_LABELS';
+
+    variables.push({ key: 'BUILD_IMAGE_EXTRA_ARGS', value: extraArgsValue });
+  }
+
+  try {
+    // list existing project variables
+    const response = await GitlabHttp.get(`/${repo.id}/variables`);
+    if (response.status === 200) {
+      const variablesFound = response.data;
+      // console.log('DEBUG -> addGitabProjectVariables -> variablesFound', variablesFound.map(v => v.key));
+      for (const _var of variables) {
+        if (!variablesFound.find((variable) => variable.key === _var.key)) {
+          if (!await createGitlabProjectVariable(repo.id, '*', _var.key, _var.value, _var.masked)) {
+            console.log(`ERROR: Creando variable '${_var.key}'`);
+          }
+        }
+      }
+
+
+      let projectNameWithStage;
+      let remoteEnvironmentName;
+
+      for (const [envName, envShort] of Object.entries(environments)) {
+        projectNameWithStage = scriptUtils.parseProjectName(repo.name, envShort, 'cl');
+        remoteEnvironmentName = gitlabEnvs[envName].name;
+
+        if (!variablesFound.find((_var) => _var.key === 'NEW_RELIC_APP_NAME' && _var.environment_scope === remoteEnvironmentName)) {
+          await createGitlabProjectVariable(
+            repo.id,
+            remoteEnvironmentName,
+            'NEW_RELIC_APP_NAME',
+            projectNameWithStage,
+          );
+        }
+      }
+
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+    console.log(`Error fetching project variables: '${repo.name}' `);
+  }
+
+  return false;
+}
+
+
+// TODO: @deprecated
+export async function getGitlabProjectId(project) {
+  let repoId = '';
+  let gitlabProjectName = (project.Repositorio.match(/cencosud.*/) || []).pop();
+  if (gitlabProjectName) {
+    gitlabProjectName = gitlabProjectName.replaceAll('/', '%2F');
+    try {
+      const response = await GitlabHttp.get(`/projects/${gitlabProjectName}`);
+      if (response.status === 200 && 'id' in response.data) {
+        repoId = response.data.id;
+      }
+    } catch (error) {
+      console.log(error);
+      console.log('Could not get project id from gitlab api: ', project.Componente);
+      return undefined;
+    }
+  } else {
+    console.log('Could not get project name from repo url: ', project.Componente);
+    return undefined;
+  }
+  return repoId;
+}
+
+
+
+
+
+export async function getProjectById(projectId) {
+  const response = await GitlabHttp.get(`/projects/${projectId}`);
+  return response.data;
+}
+
+
+
+
+
+export async function createGitlabMR(repoId, targetBranch, sourceBranch, detectedFramework) {
+  try {
+    await GitlabHttp.post(`/projects/${repoId}/merge_requests`, {
+      id: repoId,
+      source_branch: sourceBranch,
+      target_branch: targetBranch,
+      title: 'DRAFT: Leeme :D! New Relic APM',
+      description: scriptUtils.getMarkdownForFramework(detectedFramework),
+    });
+
+    console.log('Created Merge Request');
+    return true;
+  } catch (error) {
+    console.log(error);
+    if (error.response && error.response.status !== 200) {
+      if (error.response.status === 409) {
+        console.log('Merge request aleady exists: ');
+      } else {
+        console.log('Error creating merge request: ');
+      }
+    }
+  }
+  return false;
+}
+
+
+
+export async function getProjects(idGroup, page = 1) {
+  const params = {
+    include_subgroups: true,
+    per_page: 100,
+    page,
+  };
+
+  const response = await GitlabHttp.get(`/groups/${idGroup}/projects`, { params });
+  return response;
+}
+
+
+export const getRepositoriesByGroupID = async (groupId) => {
+  let page = 0;
+  let result = [];
+  let resp = {};
+
+  do {
+    resp = await getProjects(groupId, ++page);
+    result = result.concat(resp.data);
+  } while (resp.data && resp.data.length === 100);
+
+  return result;
+};
+

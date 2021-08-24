@@ -1,0 +1,165 @@
+black='colour16'
+white='colour255'
+gray='colour236'
+dark_gray='colour232'
+yellow='colour215'
+light_purple='colour57'
+c_red='colour196'
+dark_purple='colour98'
+
+
+set -g default-terminal "screen-256color"
+# hidde session name
+#set -g status-left ''
+
+set -g status "on"
+set-option -g status-interval 5
+set-option -g status-position top #bottom
+set-option -g status-left " \
+${icon_debian} #S \
+#[fg=${dark_gray},reverse]${icon_sep_right}\
+${icon_sep_alt_right}${icon_sep_alt_right} "
+
+
+set-option -g status-left-style "fg=${white},bg=${dark_purple}"
+set-window-option -g monitor-activity on
+
+
+set-window-option -g window-status-current-format "\
+#[fg=${c_red},bg=${black}] ${icon_shell} #I:#W \
+#[bg=colour233,fg=colour239]"
+
+#set-window-option -g window-status-current-style "fg=black,bg=${white}"
+
+set -g window-status-style 'bg=black,fg=black'
+set -g window-status-activity-style 'bg=colour232'
+
+set-window-option -g window-status-separator ''
+setw -g window-status-format "#[bg=colour237] \
+${icon_shell} #I\
+#[fg=colour237]:\
+#[fg=colour250]#W \
+#[fg=colour244]#F \
+#[fg=colour239,bg=colour233]"
+
+
+set-window-option -g window-status-style "fg=${yellow},bg=${black}"
+
+# command prefix
+set -g prefix C-b
+
+# start window indexing at one instead of zero
+set -g base-index 1
+set-option -g automatic-rename on
+set-option -g allow-rename off
+
+
+# BIND KEYS
+unbind % # remove default binding since replacing
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+bind - split-window -v
+bind | split-window -h
+
+bind -r H resize-pane -L 12
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 12
+
+bind-key Z split-window -h "vim ~/.zshrc"
+bind-key T split-window -h "vim ~/.tmux.conf"
+bind-key V split-window -h "vim ~/.vimrc"
+
+#bind-key ` run-shell -b ~/.tools/tmux-switch-pane.sh
+
+# BIND KEYS
+bind R source-file ~/.tmux.conf \; display-message " Tmux: reloading config..."
+
+# TODO: zen mode toggle status bar hide/show
+bind-key z resize-pane -Z \; if-shell "tmux list-panes -F '#F' | grep -q Z" "set -g status off" "set -g status on"
+
+
+set -g message-style "bold,fg=colour196,bg=colour233"
+#set -g message-style "bold,blink,fg=colour196,bg=black"
+set -g message-command-style "fg=colour196,bg=colour232"
+
+
+set-option -g default-shell $SHELL
+
+
+#set -g status-justify "centre"
+#set -g status-left-style "none"
+#set -g status-right-style "none"
+# RED
+#set -g pane-active-border-style "fg=colour1,bg=black"
+# GREEN
+#set -g pane-active-border-style "fg=colour9,bg=black"
+#set -g pane-active-border-style "fg=colour2,bg=black"
+set -g pane-active-border-style "fg=colour233,bg=colour232"
+#set -g window-active-style "fg=black,bg=black"
+set -g window-active-style 'fg=default,bg=default'
+#set -g window-active-style 'fg=default,bg=colour234'
+#set -g window-active-style 'fg=default,bg=black'
+#set -g status-utf8 "on"
+set -g status-style "bg=colour232,none"
+set -g pane-border-style "fg=colour237"
+set -g status-right-length "190"
+set -g status-left-length "190"
+
+set-option -g status on
+set-option -g status-justify "left" #options: centre
+#set-option -g status-left "#(~/dotfiles/tmux-powerline/powerline.sh left)"
+#set-option -g status-right "#(~/dotfiles/tmux-powerline/powerline.sh right)"
+
+
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run -b '~/.tmux/plugins/tpm/tpm'
+
+
+# set mouse on with prefix m
+set -g mouse on
+
+bind m \
+    set -g mouse on \;\
+    display 'MOUSE:   - ON'
+# set mouse off with prefix M
+bind M \
+    set -g mouse off \;\
+    display 'MOUSE:   - OFF'
+
+# To copy, left click and drag to highlight text in yellow,
+# once you release left click yellow text will disappear and will automatically be available in clibboard
+# # Use vim keybindings in copy mode
+#setw -g mode-keys vi
+# Update default binding of `Enter` to also use copy-pipe
+#unbind -T copy-mode-vi Enter
+#bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -sel clip -i"
+#bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -sel clip -i"
+
+# Use vim keybindings in copy mode
+set-option -g mouse on
+setw -g mode-keys vi
+set-option -s set-clipboard off
+bind P paste-buffer
+#bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X rectangle-toggle
+unbind -T copy-mode-vi Enter
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel 'pbcopy'
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel 'pbcopy'
+
+# paste from right click
+unbind-key MouseDown3Pane
+bind-key -n MouseDown3Pane run " \
+  X=$(xclip -o -sel clipboard); \
+  tmux set-buffer \"$X\"; \
+  tmux paste-buffer -p; \
+  tmux display-message 'pasted!' \
+"

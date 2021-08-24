@@ -1,0 +1,8 @@
+.idea
+.vscode
+temp*
+node_modules
+.environment
+test*.sh
+test*.js
+aws-stats/cache/*

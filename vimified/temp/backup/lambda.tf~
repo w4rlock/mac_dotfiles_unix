@@ -1,0 +1,289 @@
+
+## **********************CCMR-11996****************************
+
+resource "aws_iam_role" "epay_easy_orchest_iam" {
+  name = "cl-epay-easy-orchest-iam"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+  tags = merge(
+    local.payment_common_tags,
+    local.cencosud_tags,
+    local.buying_experience_tags,
+    local.tf_tags
+  )
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_iam_attach1" {
+  role       = aws_iam_role.epay_easy_orchest_iam.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_iam_attach2" {
+  role       = aws_iam_role.epay_easy_orchest_iam.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_iam_attach3" {
+  role       = aws_iam_role.epay_easy_orchest_iam.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_iam_attach4" {
+  role       = aws_iam_role.epay_easy_orchest_iam.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_iam_attach5" {
+  role       = aws_iam_role.epay_easy_orchest_iam.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_easy_orchest_iam_attach6" {
+  role       = aws_iam_role.epay_easy_orchest_iam.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
+resource "aws_security_group" "epay_easy_orchest_sgroup" {
+  name_prefix = "cl-epay-easy-orchest-sgroup"
+  vpc_id      = data.aws_vpc.vpc.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(
+    local.payment_common_tags,
+    local.cencosud_tags,
+    local.buying_experience_tags,
+    local.tf_tags,
+    {
+      plataforma = "vpcSg"
+    }
+  )
+}
+
+resource "aws_lambda_function" "epay_easy_orchest_lambda" {
+  filename      = "${path.root}/../../dummies/lambdas/lambda_function_payload.zip"
+  function_name = "cl-epay-easy-orchest"
+  role          = aws_iam_role.epay_easy_orchest_iam.arn
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 512
+  runtime       = "nodejs12.x"
+
+  environment {
+    variables = {
+      NODE_ENV                     = "prod"
+      ENV                          = "prod"
+      secret                       = "epay-easy-orchest"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "index.handler"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = data.aws_subnet_ids.private.ids
+    security_group_ids = [aws_security_group.epay_easy_orchest_sgroup.id]
+  }
+
+  tags = merge(
+    local.payment_common_tags,
+    local.cencosud_tags,
+    local.buying_experience_tags,
+    local.tf_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.easy.orchest",
+      plataforma = "lambda"
+    }
+  )
+
+}
+
+resource "aws_lambda_event_source_mapping" "epay_easy_orchest_evmap" {
+  event_source_arn = "arn:aws:sqs:us-east-1:103413823818:cl-epay-easy-orchest" #aws_sqs_queue.epay_easy_orchest_sqs.arn --> creado en repo v1, debe ser migrado
+  function_name    = aws_lambda_function.epay_easy_orchest_lambda.arn
+}
+
+
+resource "aws_lambda_function" "epay_easy_svgloader_lambda" {
+  filename      = "${path.root}/../../dummies/lambdas/lambda_function_payload.zip"
+  function_name = "cl-epay-easy-svgloader"
+  role          = aws_iam_role.epay_easy_orchest_iam.arn # utiliza el mismo de easy_orchest
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 512
+  runtime       = "nodejs12.x"
+
+  environment {
+    variables = {
+      NODE_ENV                     = "prod"
+      ENV                          = "prod"
+      secret                       = "epay-easy-svgloader"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "index.handler"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = data.aws_subnet_ids.private.ids
+    security_group_ids = [aws_security_group.epay_easy_orchest_sgroup.id] # utiliza el mismo de easy_orchest
+  }
+
+  tags = merge(
+    local.payment_common_tags,
+    local.cencosud_tags,
+    local.buying_experience_tags,
+    local.tf_tags,
+    {
+      name       = "cencosud.prod.ccom.cl.epay.easy.svgloader",
+      plataforma = "lambda"
+    }
+  )
+
+}
+
+## **********************CCMR-11996****************************
+
+#-- CCMR-20785
+
+resource "aws_iam_role" "epay_cl_epay_users_manager_role" {
+  name = "cl-epay-users-manager"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+
+  tags = merge(
+    local.payment_common_tags,
+    local.cencosud_tags,
+    local.buying_experience_tags,
+    local.tf_tags,
+  )
+
+}
+
+resource "aws_iam_role_policy_attachment" "epay_cl_epay_users_manager_role_attach1" {
+  role       = aws_iam_role.epay_cl_epay_users_manager_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_cl_epay_users_manager_role_attach2" {
+  role       = aws_iam_role.epay_cl_epay_users_manager_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_cl_epay_users_manager_role_attach3" {
+  role       = aws_iam_role.epay_cl_epay_users_manager_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_cl_epay_users_manager_role_attach4" {
+  role       = aws_iam_role.epay_cl_epay_users_manager_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_cl_epay_users_manager_role_attach5" {
+  role       = aws_iam_role.epay_cl_epay_users_manager_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "epay_cl_epay_users_manager_role_attach6" {
+  role       = aws_iam_role.epay_cl_epay_users_manager_role.name
+  policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+}
+
+resource "aws_security_group" "epay_cl_epay_users_manager_sg" {
+  name_prefix = "cl-epay-users-manager"
+  vpc_id      = data.aws_vpc.vpc.id
+  description = "cl-epay-users-manager"
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = merge(
+    local.cencosud_tags,
+    local.tf_tags,
+    local.buying_experience_tags,
+    local.payment_common_tags,
+    {
+      plataforma = "vpcSg"
+    }
+  )
+}
+
+resource "aws_lambda_function" "epay_cl_epay_users_manager_lambda" {
+  filename      = "${path.root}/../../dummies/lambdas/lambda_function_payload.zip"
+  function_name = "cl-epay-users-manager"
+  role          = aws_iam_role.epay_cl_epay_users_manager_role.arn
+  handler       = "newrelic-lambda-wrapper.handler"
+  layers        = ["arn:aws:lambda:us-east-1:451483290750:layer:NewRelicNodeJS12X:49"]
+  timeout       = 90
+  memory_size   = 256
+  runtime       = "nodejs12.x"
+
+  environment {
+    variables = {
+      ENV                          = "qa"
+      ENV_SECRET                   = "cl-epay-users-manager"
+      NEW_RELIC_ACCOUNT_ID         = 2941593
+      NEW_RELIC_LAMBDA_HANDLER     = "server.handler"
+      NEW_RELIC_LICENSE_KEY_SECRET = "/payment/NEW_RELIC_LICENSE_KEY"
+      NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS = true
+    }
+  }
+
+  vpc_config {
+    subnet_ids         = data.aws_subnet_ids.private.ids
+    security_group_ids = [aws_security_group.epay_cl_epay_users_manager_sg.id]
+  }
+
+  tags = merge(
+    local.payment_common_tags,
+    local.cencosud_tags,
+    local.buying_experience_tags,
+    local.tf_tags,
+  )
+}
+
+
+

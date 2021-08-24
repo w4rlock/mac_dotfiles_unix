@@ -1,0 +1,43 @@
+[
+  {
+    "key": "REPO_STATUS",
+    "value": "ACTIVE",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_LICENSE_KEY",
+    "value": "88bc515ed43da6739fea3c47035cf572FFFFNRAL",
+    "protected": false,
+    "masked": true,
+    "environment_scope": "*",
+    "expectedValue": "88bc515ed43da6739fea3c47035cf572FFFFNRAL",
+    "comment": "IMPORTANTE: Valor modificado por el script. VALOR ANTES: 'pepedd' => VALOR NUEVO: '88bc515ed43da6739fea3c47035cf572FFFFNRAL'"
+  },
+  {
+    "key": "NEW_RELIC_LABELS",
+    "value": "pais:cl;ApplicationName:CL-PAYMENT;GitProjectId:28559309",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-repo-04-stg",
+    "protected": true,
+    "masked": false,
+    "environment_scope": "staging",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-repo-04-prod2-prod",
+    "protected": true,
+    "masked": false,
+    "environment_scope": "production",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  }
+]

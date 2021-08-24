@@ -1,0 +1,66 @@
+import * as scriptUtils from '../utils.js';
+import * as validate from '../../config.validations.js';
+import * as fileUtils from '../file_utils.js';
+import * as codeCommitRecipe from './codeCommitRecipe.js';
+import { matrixLog } from '../utils.js';
+
+export const javascriptExpressRecipe = {
+  async preCheck() {
+    // check if APM already integrated
+    // if find any hints of integration, abort
+    const fileResult = scriptUtils.detectFile('newrelic.js');
+    const requireResult = scriptUtils.detectRequireJS();
+    const libraryResult = scriptUtils.detectLibraryJS();
+    if (fileResult && requireResult && libraryResult) {
+      return 'complete-integration';
+    }
+    if (requireResult) {
+      return 'partial-integration';
+    }
+
+    // check if integration would succeed
+    if (!fileUtils.findFilesByRegex('.', /package.json/, undefined, true)
+        || !fileUtils.findFilesByRegex('.', /index.js|app.js|server.js/, undefined, true)) {
+      return 'error';
+    }
+    return 'success';
+  },
+  async execute({ repo }) {
+    try {
+      await matrixLog(chalk.red('1- Injecting newrelic.js...'));
+      if (!await fileUtils.downloadFile('https://gitlab.com/api/v4/snippets/2109967/files/master/newrelic.js/raw', 'newrelic.js')) {
+        return false;
+      }
+
+      await matrixLog(chalk.red('2- Injecting library in package.json...'));
+      if (!scriptUtils.injectPackageJson()) {
+        return false;
+      }
+
+      await matrixLog(chalk.red('3- Injecting require(\'newrelic\') into project files...'));
+      if (!scriptUtils.injectRequireJS(repo)) {
+        return false;
+      }
+
+      await matrixLog(chalk.red('4- Injecting environment into Dockerfile...'));
+      if (validate.isGitlabRepo(repo.ssh_url_to_repo) && !scriptUtils.injectDockerFileEnvironment(repo)) {
+        return false;
+      }
+
+      if (validate.isAwsRepo(repo.ssh_url_to_repo)) {
+        if (!codeCommitRecipe.injectDockerFileEnvironment(repo)) {
+          return false;
+        }
+        await matrixLog(chalk.red('5- Injecting environment into BuildSpec (aws) file ...'));
+        if (!codeCommitRecipe.injectEnvironmentVariables(repo)) {
+          return false;
+        }
+      }
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+};

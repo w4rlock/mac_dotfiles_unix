@@ -1,0 +1,104 @@
+import chalk from 'chalk';
+import * as gitlabService from '../services/gitlabService.js';
+import * as ui from '../ui.js';
+import * as config from '../../config.js';
+
+
+const { black, red, yellow } = chalk;
+
+
+export const chooseGitlabGroup = async () => {
+  await ui.printTask('*', 'Obteniendo informacion de los grupos de gitlab ...');
+  const groups = await gitlabService.getAllGroups();
+  await ui.printTask(' ', `Grupos encontrados: ${groups.length}`);
+  console.log('');
+
+  // await scriptUtils.matrixLog(red('* Escriba algo para filtrar.'))
+  await ui.printSlowTextAndRemove(red('* Use las flechitas del teclado para navegar / escriba algo para filtrar.'));
+
+  const groupsChoices = groups.map((g) => {
+    const arrPathName = g.full_name.replace('Cencosud Department Stores / ', '  ').split('/');
+    arrPathName[arrPathName.length - 1] = red(arrPathName[arrPathName.length - 1]);
+    const name = `${yellow(g.id)} -- ${arrPathName.join('/')}`;
+
+    return { name, value: g.id };
+  }).sort();
+
+  const groupId = await ui.autoComplete('Seleccione o filtre por su gitlab group name: ', groupsChoices);
+  return groupId;
+};
+
+
+
+
+export const chooseGitlabRepositories = async (groupId) => {
+  await ui.printTask('*', `Buscando repositorios para el grupo '${groupId}' ...`);
+
+  let repos;
+  try {
+    repos = await gitlabService.getRepositoriesByGroupID(groupId);
+    await ui.printTask(' ', `Repositorios encontrados: ${repos.length}`);
+  } finally {
+    if (!repos || repos.length < 1) {
+      throw new Error(black.bgRed(`El grupo seleccionado '${groupId}' no tiene repositorios.`));
+    }
+  }
+
+  const reposChoices = repos.map((repo) => ({ name: repo.web_url, value: repo.id }));
+  let reposUrlsSelected = [];
+  const msg = 'Seleccione o filtre sus repositorios (use la barra espaciadora para seleccionar):';
+  do {
+    reposUrlsSelected = await ui.autoComplete(msg, reposChoices, 28, true);
+  } while (reposSelected.length < 1);
+
+  const reposSelected = reposUrlsSelected.map((url) => repos.find((repo) => repo.web_url === url));
+  return reposSelected;
+};
+
+
+
+
+export const hasNewRelicIntegration = async (repo) => {
+  await ui.printTask('\n*', `Validando si el apm ya fue inyectado en el proyecto: '${repo.name}' ...`);
+  const hasNewRelicIntegration = await gitlabService.hasNewRelicIntegration(repo.id);
+
+  return hasNewRelicIntegration;
+};
+
+
+
+
+
+export const chooseRepoType = async (repo) => {
+  const { REPO_TYPES } = config;
+  const repoType = await ui.autoComplete(`Seleccione un Tipo de Repositorio para '${repo.name}': `, REPO_TYPES);
+  return repoType;
+};
+
+
+
+
+
+export const chooseApplicationName = async (repo) => {
+  console.log();
+  const { APPLICATION_NAMES } = config;
+  const appName = await ui.autoComplete(`Seleccione el ApplicationName para '${repo.name}': `, APPLICATION_NAMES);
+  return appName;
+};
+
+
+
+
+export const getProjectById = async (projectId) => {
+  let project;
+  try {
+    project = await gitlabService.getProjectById(projectId);
+  } finally {
+    if (!project) {
+      throw new Error(black.bgRed(`El id '${projectId}' del repositorio especificado no es valido.`));
+    }
+  }
+  return project;
+};
+
+

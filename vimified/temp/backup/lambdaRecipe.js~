@@ -1,0 +1,246 @@
+import fs from 'fs';
+import * as fileUtils from '../src/file_utils.js';
+import * as config from '../../config.js';
+
+const nr_licenses_cf_stack = 'NewRelicLicenses';
+
+
+// New Relic aws account id este valor no deberia cambiarse nunca
+const nrAwsAccountId = '451483290750';
+
+// Nestra new reclic account id
+const nrAccountId = '2941593';
+
+// el original  handler de la funcion es reemplazado por
+// el handler de new relic este handler se encuentra dentro del layer
+const nrHandlers = {
+  java: 'com.newrelic.java.HandlerWrapper::handleRequest',
+  nodejs: 'newrelic-lambda-wrapper.handler',
+  python: 'newrelic_lambda_wrapper.handler',
+};
+
+// Dependiendo del runtime del proyecto sera el layerArn de new relic que usara
+// Los layers estan hosteados en aws pero en la cuenta de new relic externa
+const _baseLayer = `arn:aws:lambda:\${AWS::Region}:${nrAwsAccountId}:layer`;
+const layersNrArn = {
+  java8: `${_baseLayer}:NewRelicJava8:4`,
+  java11: `${_baseLayer}:NewRelicJava11:13`,
+  'python2.7': `${_baseLayer}:NewRelicPython27:50`,
+  'python3.6': `${_baseLayer}:NewRelicPython36:50`,
+  'python3.7': `${_baseLayer}:NewRelicPython37:51`,
+  'python3.8': `${_baseLayer}:NewRelicPython38:47`,
+  'nodejs10.x': `${_baseLayer}:NewRelicNodeJS10X:52`,
+  'nodejs12.x': `${_baseLayer}:NewRelicNodeJS12X:50`,
+  'nodejs14.x': `${_baseLayer}:NewRelicNodeJS14X:20`,
+};
+
+const getLambdaHandlerValue = (infraFile) => {
+  let handler;
+  const results = fileUtils.searchContent(infraFile, /Handler:(.*)/);
+  if (results && results.length > 1) {
+    handler = results[1].trim();
+  }
+
+  return handler;
+};
+
+const getLambdaRuntime = (infraFile) => {
+  let runtime;
+  const results = fileUtils.searchContent(infraFile, /Runtime:(.*)/);
+
+  if (results && results.length > 1) {
+    runtime = results[1].trim();
+  }
+
+  return runtime;
+};
+
+const getNewRelicLayerForLambdaRuntime = (infraFile) => {
+  let layer;
+  // toda la infra as code esta dentro del template.yaml
+  // que seria una template de cloud formation
+  const runtime = getLambdaRuntime(infraFile);
+  if (runtime) {
+    layer = layersNrArn[runtime];
+
+    if (!layer) {
+      throw new Error(
+        `Unable to detect new relic lambda layer for runtime '${runtime}'`,
+      );
+    }
+  }
+
+  return layer;
+};
+
+const injectLambdaLayerArn = (infraFile) => {
+  const identArn = ' '.repeat(8);
+  const identLayer = ' '.repeat(6);
+  const layerArn = getNewRelicLayerForLambdaRuntime(infraFile);
+  // usamos !Sub para que resuelva la variable region en cloud formation
+  const tplLayer = `${identLayer}Layers:\n${identArn}- !Sub ${layerArn}`;
+  console.log(layerArn);
+
+  return fileUtils.writeLineToFile(
+    infraFile,
+    { writeBefore: true },
+    /Environment:/gm,
+    tplLayer,
+  );
+};
+
+const isCloudFormationTemplate = (filePath) => /template.yaml/.test(filePath)
+  && fileUtils.searchContent(filePath, /AWSTemplateFormatVersion/);
+
+const injectEnvironmentVars = (cfLicenceKeyName, infraFile) => {
+  const originalHandler = getLambdaHandlerValue(infraFile);
+  const ident = ' '.repeat(10);
+
+  // TODO: el license key internamente el layer hace un llamado a secret manager
+  const vars = [
+    `${ident}NEW_RELIC_ACCOUNT_ID: ${nrAccountId}`,
+    `${ident}NEW_RELIC_LAMBDA_HANDLER: ${originalHandler}`,
+    `${ident}NEW_RELIC_LICENSE_KEY_SECRET: /${cfLicenceKeyName}/NEW_RELIC_LICENSE_KEY`,
+    `${ident}NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: true`,
+  ];
+
+  return fileUtils.writeLineToFile(
+    infraFile,
+    { writeAfter: true },
+    /Variables:/gm,
+    vars.join('\n'),
+  );
+};
+
+
+const wrapLambdaHandler = (infraFile) => {
+  let newHandler;
+  const runtime = getLambdaRuntime(infraFile);
+
+  if (runtime.includes('python')) {
+    newHandler = nrHandlers.python;
+  } else if (runtime.includes('java')) {
+    newHandler = nrHandlers.java;
+  } else if (runtime.includes('nodejs')) {
+    newHandler = nrHandlers.nodejs;
+  }
+
+  fileUtils.replaceLineFromFile(
+    infraFile,
+    /Handler:(.*)/,
+    `Handler: ${newHandler}`,
+  );
+};
+
+
+const checkEnvironmentKey = (infraFile) => {
+  const results = fileUtils.searchContent(infraFile, /Variables:/);
+  if (results) {
+    return;
+  }
+
+  const ident = ' '.repeat(6);
+  const tpl = [
+    `${ident}Environment:`,
+    `${ident}  Variables:`,
+  ];
+
+  return fileUtils.writeLineToFile(
+    infraFile,
+    { writeBefore: true },
+    /Runtime:/gm,
+    tpl.join('\n'),
+  );
+};
+
+
+
+const injectPolicyForSecret = (cfLicenceKeyName, infraFile) => {
+  const ident = ' '.repeat(6);
+  const arn = `${nr_licenses_cf_stack}-${cfLicenceKeyName}LicenseSecretARN`;
+
+  const tpl = [
+    `${ident}Policies:`,
+    `${ident}  - AWSSecretsManagerGetSecretValuePolicy:`,
+    `${ident}      SecretArn: !ImportValue ${arn}`,
+  ];
+
+  return fileUtils.writeLineToFile(
+    infraFile,
+    { writeBefore: true },
+    /Environment:/gm,
+    tpl.join('\n'),
+  );
+};
+
+const findInfrastructureFiles = () => {
+  const files = fileUtils.find('template.yaml').split('\n');
+  files.pop();
+  return files;
+};
+
+
+
+export const lambdaRecipe = {
+  async preCheck() {
+    const re = [
+      /NEW_RELIC_ACCOUNT_ID/,
+      /NEW_RELIC_LAMBDA_HANDLER/,
+      /NEW_RELIC_LICENSE_KEY_SECRET/,
+      /NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS/,
+      /Layers/,
+    ];
+
+    const files = findInfrastructureFiles();
+    // comprueba que todos los archivos de infra tenga la integracion
+    const hasAllIntegration = files.every((file) => {
+      const fileContents = fs.readFileSync(file, 'utf8');
+      return re.every((ex) => {
+        console.log(`${file} ${ex}`);
+        return ex.test(fileContents);
+      });
+    });
+
+    if (hasAllIntegration) {
+      console.log('complete-integration');
+      return 'complete-integration';
+    }
+
+    return 'success';
+  },
+  async execute({ repo, applicationName }) {
+    try {
+      // TODO: En algunos proyectos tienen mas de 1 archivo de infrastructura de
+      // acuerdo al entorno (dev, prod)
+      const files = findInfrastructureFiles();
+      const cfLicenceKeyName = config.APPS_LICENCES_MAP[applicationName];
+
+      for (const currentFile of files) {
+        if (isCloudFormationTemplate(currentFile)) {
+          console.log(`- Processing infra file '${currentFile}'`);
+
+          console.log('- Checking environment key');
+          checkEnvironmentKey(currentFile);
+
+          console.log('- Injecting Layer Arn');
+          injectLambdaLayerArn(currentFile);
+
+          console.log('- Injecting environment variables');
+          injectEnvironmentVars(cfLicenceKeyName, currentFile);
+
+          console.log('- Injecting policy for read secret');
+          injectPolicyForSecret(cfLicenceKeyName, currentFile);
+
+          console.log('- Wrapping lambda handler');
+          wrapLambdaHandler(currentFile);
+        }
+      }
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+};
+

@@ -1,0 +1,15 @@
+import { lambdaRecipe } from './lambdaRecipe';
+import { javaCatalinaRecipe } from './javaCatalinaRecipe';
+import { pythonDockerRecipe } from './pythonDockerRecipe';
+import { javascriptNestJSRecipe } from './javascriptNestJSRecipe';
+import { javascriptExpressRecipe } from './javascriptExpressRecipe';
+import { javaStandaloneRecipe } from './javaStandaloneRecipe';
+
+export default {
+  pythonDockerRecipe,
+  javaCatalinaRecipe,
+  javaStandaloneRecipe,
+  javascriptExpressRecipe,
+  javascriptNestJSRecipe,
+  lambdaRecipe,
+};

@@ -1,0 +1,396 @@
+#!/usr/bin/env node
+const fs = require('fs');
+const { yellow, red } = require('chalk');
+const shell = require('shelljs');
+const figlet = require('figlet');
+const lolcatjs = require('lolcatjs');
+const yargs = require('yargs');
+const _ = require('lodash');
+const ui = require('./src/ui');
+const gitlabCtrl = require('./src/controller/gitlab.controller');
+const newRelicCtrl = require('./src/controller/newrelic.controller');
+
+const scriptUtils = require('./script_utils');
+const frameworkRecipes = require('./src/recipes');
+const gitlabService = require('./src/services/gitlabService');
+const jiraService = require('./src/services/jiraService');
+const git = require('./src/git');
+
+/// ///////////////////////////////////////////////////////////////
+//  Setup
+/// ///////////////////////////////////////////////////////////////
+const programVersion = '1.0.0';
+// http://patorjk.com/software/taag/#p=display&f=Slant&t=Type%20Something%20
+const logo = figlet.textSync('Apm  Inyector', { font: 'Slant' });
+
+yargs(process.argv.slice(2))
+  .version(programVersion)
+  .usage(`${yellow(logo)}\nUsage: ${red('./$0')} <option>`)
+  .option('gitlab-token', { describe: 'Token de gitlab para consumir las apis' })
+  .option('gitlab-group-id', { describe: 'Id de la \'carpeta\' en gitlab donde estan todos los repositorios' })
+  .option('gitlab-repo-id', { describe: 'Id del \'proyecto\' al que queremos aplicar el apm.' })
+  .option('temp-dir', { describe: 'Directorio de trabajo usado para clonar los repositorios.' })
+  .option('delay-text', { describe: 'Es el tiempo expresados en ms del efecto de maquina de escribir' })
+  .option('print-config', { describe: 'Imprime la configuracion del script util para solucionar problemas' })
+  .option('debug', { describe: 'Aumenta el nivel de log util para solucionar problemas' })
+  .option('verbose', { describe: 'Muestra una tabla con los valores de las variables de gitlab del repo procesado' })
+  .example(`$ ${red('./$0')} --gitlab-token as3aj3k2jsa --gitlab-group-id 1234911`)
+  .example(`$ ${red('./$0')} --gitlab-token as3aj3k2jsa --gitlab-repo-id 1234911 --verbose`)
+  .example(`$ ${red('./$0')} --gitlab-token as3aj3k2jsa --gitlab-group-id 1234911 --print-config --autofix`)
+  .example(`\n$ ${yellow('export')} GITLAB_TOKEN=as3aj3k2jsa \n$ ${yellow('export')} GITLAB_GROUP_ID=1234911 \n$ ${red('./$0')} --print-config --autofix`)
+  .help()
+  .wrap(120).argv;
+
+const PROJECT_FOLDER = process.cwd();
+const TEMP_FOLDER = yargs.argv.tempDir || 'temp';
+
+
+
+const initialize = async () => {
+  console.clear();
+  console.log();
+
+  lolcatjs.options.animate = true;
+  lolcatjs.options.colors = true;
+  lolcatjs.fromString(logo);
+
+  console.log();
+  await ui.printTask('*', `Version: ${programVersion}`, 0);
+  await ui.printTask('*', 'Inicializando Script ...');
+
+  scriptUtils.mkdir(TEMP_FOLDER);
+  shell.cd(TEMP_FOLDER);
+};
+
+
+
+
+function findPreviousJiraBranch() {
+  // search if jira ticket is already created
+  let branchName = git.getCurrentBranchName().trim();
+  if (branchName) {
+    branchName = branchName.trim();
+    if (/.New.Relic.APM/.test(branchName)) {
+      return branchName;
+    }
+  }
+
+  return undefined;
+}
+
+
+
+
+// iterate proyect list
+// FLOW
+// TODO: Scenario 1: Si el usuario especifica el '--gitlab-repo-id' buscamos info del repositorio ignorando el '--gitlab-group-id'
+// TODO: Scenario 2: Si el usuario especifica el '--gitlab-group-id' buscamos todos los repositorios de ese grupo
+// TODO: Scenario 3: Si el usuario no especifica ningun parametro de estos buscamos
+// todos los grupos para que los pueda seleccionar.
+const getOrChooseRepositories = async () => {
+  let reposSelected = [];
+
+  if (yargs.argv.gitlabRepoId) {
+    const repo = await gitlabCtrl.getProjectById(yargs.argv.gitlabRepoId);
+    reposSelected.push(repo);
+  } else {
+    const groupId = yargs.argv.gitlabGroupId || (await gitlabCtrl.chooseGitlabGroup());
+    reposSelected = await gitlabCtrl.chooseGitlabRepositories(groupId);
+  }
+
+  return reposSelected;
+};
+
+
+
+
+const cloneRepository = async (repo) => {
+  await ui.printTask('\n*', `Clonando repositorio '${repo.ssh_url_to_repo}' ...`);
+  if (!git.clone(repo)) {
+    return;
+  }
+  await ui.printTask(' ', `Repositorio clonado en '${PROJECT_FOLDER}/${TEMP_FOLDER}/${repo.name}'`);
+};
+
+
+
+
+const setWorkdir = async (dir) => {
+  await ui.printTask(
+    '\n*',
+    `Entrando al directorio de trabajo '${TEMP_FOLDER}/${dir}' ...`,
+  );
+  shell.cd(dir);
+  return dir;
+};
+
+
+
+
+async function runRecipe({ repo, applicationName }, recipe) {
+  const component = repo.name;
+  await ui.printTask('*', 'Verificando posible integración previa...');
+  const precheckResult = await recipe.preCheck(repo);
+
+  if (precheckResult === 'complete-integration' || precheckResult === 'partial-integration') {
+    await ui.printTask('*', `${precheckResult} detectado para: '${repo.name}'`);
+    return false;
+  }
+  if (precheckResult === 'error') {
+    console.log(`Precheck failed for project: ${component}`);
+    return false;
+  }
+
+  if (await recipe.execute({ repo, applicationName })) {
+    return true;
+  }
+  console.log(`Injection failed for project: ${component}`);
+  return false;
+}
+
+
+
+
+const chooseBaseBranch = async () => {
+  await ui.printTask('\n*', 'Obteniendo branches ...');
+  let { baseBranch, branches } = await git.findBaseBranch();
+
+  // para evitar confusiones a la hora de cambiar el branch
+  let i = 0;
+  while ((i = branches.findIndex((b) => b.includes('origin/HEAD'))) > -1) {
+    branches.splice(i, 1);
+  }
+
+  branches.forEach((b) => console.log(red(`  - ${b.trim()}`)));
+  await ui.printTask('\n*', `Usando Base branch: '${baseBranch}' ...`);
+
+  const resp = await ui.promptYesNo('Desea cambiar el base branch? ');
+  if (resp === 'YES') {
+    baseBranch = await ui.autoComplete('Seleccione su base branch: ', branches);
+    await ui.printTask('*', `Usando Base branch: '${baseBranch.trim()}' ...`);
+  }
+
+  baseBranch = baseBranch.trim().replace(/origin\//, '');
+  return baseBranch;
+};
+
+
+
+
+const resetLocalChangesIfNeed = async (baseBranch) => {
+  const jiraTicketName = findPreviousJiraBranch();
+  if (jiraTicketName) {
+    await ui.printTask('*', `Limpiando cambios locales en branch '${baseBranch}' ...`);
+    if (!((git.resetHard(baseBranch) !== 0) && (git.clean() !== 0))) {
+      await ui.printTask(' ', `Error removiendo cambios en '${baseBranch}' ...`);
+    }
+  }
+};
+
+
+
+
+const createJiraTicketIfNeed = async (repoName) => {
+  let jiraTicketName = findPreviousJiraBranch();
+  if (!jiraTicketName) {
+    await ui.printTask('*', 'Creando ticket en Jira ...');
+    jiraTicketName = await jiraService.createJiraTicket(repoName);
+
+    await ui.printTask(' ', `Ticket creado '${jiraTicketName}'.`);
+  }
+
+  return jiraTicketName;
+};
+
+
+
+
+const createNewBranchIfNeed = async (baseBranch, jiraTicketName) => {
+  const currentBranch = git.getCurrentBranchName();
+  if (!currentBranch.includes(jiraTicketName)) {
+    await ui.printTask('*', 'Creando nuevo branch ...');
+    await ui.printTask(' ', `git checkout -b ${baseBranch} origin/${jiraTicketName}`);
+    return git.createBranchIfNeed(baseBranch, jiraTicketName);
+  }
+  return undefined;
+};
+
+
+
+
+const detectFramework = async (repoName) => {
+  await ui.printTask('\n*', 'Detectando tipo de stack tecnologico ...');
+  const framework = scriptUtils.checkProjectFramework('.');
+  if (framework === 'unknown') {
+    await ui.printTask(' ', red(`WARN: No es posible determinar el framework usado por '${repoName}'.`));
+    return undefined;
+  }
+
+  await ui.printTask(' ', `Stack usado: '${framework}'.`);
+  return framework;
+};
+
+
+
+const getRecipeForFramework = (framework) => {
+  const recipes = {
+    'javascript-express': frameworkRecipes.javascriptExpressRecipe,
+    'javascript-nestjs': frameworkRecipes.javascriptNestJSRecipe,
+    'java-catalina': frameworkRecipes.javaCatalinaRecipe,
+    'java-maven-springboot': frameworkRecipes.javaStandaloneRecipe,
+    lambda: frameworkRecipes.lambdaRecipe,
+  };
+
+  if (framework in recipes) {
+    return recipes[framework];
+  }
+
+  return undefined;
+};
+
+
+
+
+const makeCodeChanges = async (repo, applicationName, detectedFramework) => {
+  try {
+    if (!detectedFramework) return;
+
+    const recipeFn = getRecipeForFramework(detectedFramework);
+    const param = { repo, applicationName };
+    // puede que el proyecto ya tenga todos los cambios del apm previamente
+    if (!(await runRecipe(param, recipeFn, detectedFramework))) {
+      return false;
+    }
+
+    await ui.printTask('*', `Recomendacion: Antes de continuar. Verifique los archivos modificados en '${TEMP_FOLDER}/${repo.name}'`);
+    const resp = await ui.promptYesNo('Desea continuar ? ');
+    if (resp !== 'YES') {
+      return false;
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+
+  return true;
+};
+
+
+
+
+const commitChanges = async (detectedFramework) => {
+  await ui.printTask('*', 'Git add ...');
+  git.add('.');
+
+  await ui.printTask('*', 'Git commit ...');
+  const commMsg = `'AutoScript: Added new relic APM integration for project type ${detectedFramework}'`;
+  git.commit(commMsg);
+};
+
+
+
+
+const pushChanges = async (jiraTicketName) => {
+  await ui.printTask('*', 'Verifique sus cambios !');
+  const resp = await ui.promptYesNo('Desea ejecutar git push?:');
+  if (resp !== 'YES') {
+    process.exit(1);
+  }
+
+  if (!git.push('origin', jiraTicketName)) {
+    console.log('Error pushing changes');
+  }
+};
+
+
+
+
+const createGitlabEnvironmentsIfNeeds = async (repo, detectedFramework) => {
+  if (detectedFramework !== 'lambda') {
+    // create gitlab environments
+    const envs = await gitlabService.addGitlabProjectEnvironments(repo.id);
+    return envs;
+  }
+  return undefined;
+};
+
+
+
+
+const createGitlabVariables = async (repo, repoType, appName, licenceKey, environments) => {
+  await gitlabService.addGitlabProjectVariables(repo, repoType, appName, licenceKey, environments);
+};
+
+
+
+
+async function processProject(repo) {
+  const repoType = await gitlabCtrl.chooseRepoType(repo);
+  const applicationName = await gitlabCtrl.chooseApplicationName(repo);
+  const nRLicenceKey = await newRelicCtrl.checkNewRelicLicence(applicationName);
+
+  await cloneRepository(repo);
+  await setWorkdir(repo.name);
+  const baseBranch = await chooseBaseBranch();
+  await resetLocalChangesIfNeed(baseBranch);
+
+  const jiraTicket = 'CCMR.New.Relic.APM' || (await createJiraTicketIfNeed());
+  await createNewBranchIfNeed(baseBranch, jiraTicket);
+
+  const detectedFramework = await detectFramework(repo.name);
+
+  if (!(await makeCodeChanges(repo, applicationName, detectedFramework))) {
+    return;
+  }
+  commitChanges(detectedFramework);
+  await pushChanges(jiraTicket);
+
+  const envs = await createGitlabEnvironmentsIfNeeds(repo, detectedFramework);
+  await createGitlabVariables(
+    repo,
+    repoType,
+    applicationName,
+    nRLicenceKey,
+    envs,
+    detectedFramework,
+  );
+
+  await gitlabService.createGitlabMR(
+    repo.id,
+    baseBranch,
+    jiraTicket,
+    detectedFramework,
+  );
+
+  await ui.printTask('*', `Finalizada integración en repositorio '${repo.name}'`);
+}
+
+
+
+
+async function main() {
+  await initialize();
+
+  const reposSelected = await getOrChooseRepositories();
+  if (_.isEmpty(reposSelected)) {
+    console.log(red('No se ha seleccionado ningun repositorio.'));
+    return;
+  }
+
+  for (const repo of reposSelected) {
+    if (await gitlabCtrl.hasNewRelicIntegration(repo)) {
+      console.log(yellow(' Este proyecto ya tiene la integracion del Apm.'));
+      continue;
+    }
+
+    await processProject(repo, yargs.argv);
+  }
+
+  shell.cd(PROJECT_FOLDER);
+  process.exit(0); // required because of readline module
+}
+
+
+
+
+main();

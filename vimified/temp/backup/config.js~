@@ -1,0 +1,22 @@
+export const TYPES_REPOS_SUPPORTED = ['gitlab', 'codecommit'];
+export const GITLAB_NAMESPACE_ALLOWED = 'cencosud-ds/cencommerce';
+export const REPO_TYPES = ['LAMBDA', 'SERVICE', 'CRONJOB', 'SCRIPT', 'INFRA', 'MOBILE'];
+export const APPLICATION_NAMES = ['CL-CCOM-CAPACITIES', 'CL-JUMBOAPP', 'CL-CCOM-PAYMENT'];
+
+// usado para los proyectos lambdas
+// ya que necesitamos mapear la licencia con el equipo/aplicacion
+export const APPS_LICENCES_MAP = {
+  // havanatech: '',
+  'CL-CCOM-PAYMENT': 'payment',
+  'CL-CCOM-JUMBO-WEB': 'jumboapp',
+  // easy: '',
+  // spid35: '',
+  // jumbopicking: '',
+  // paris: '',
+  // pim: '',
+  // pariscl: '',
+  // jumbocl: '',
+  'CL-JUMBOAPP': 'jumboapp',
+  // balancer: '',
+};
+

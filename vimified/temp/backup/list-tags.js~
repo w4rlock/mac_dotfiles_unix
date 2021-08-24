@@ -1,0 +1,11 @@
+const repos = require('./excel-sheet-repos-to-json.js');
+console.log(repos);
+let arn, name;
+for (const repo of repos.filter(r => r.Tipo === 'CodeCommit')) {
+  name = repo['Repositorio Url'].split('/').slice(-2)[0];
+  if (!name) {
+    throw new Error(2222);
+  }
+  arn = `arn:aws:codecommit:us-east-1:103413823818:${name}`
+  console.log(`aws codecommit tag-resource --resource-arn ${arn} --tags nr-proyecto='${repo['nr-proyecto']}"`);
+}

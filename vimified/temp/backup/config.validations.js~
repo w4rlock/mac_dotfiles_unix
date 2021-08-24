@@ -1,0 +1,37 @@
+import * as config from './config';
+
+
+export function isValidTypeRepo(repoUrl) {
+  const repo = repoUrl.toLowerCase();
+  if (!config.TYPES_REPOS_SUPPORTED.find((typeRepo) => repo.includes(typeRepo.toLowerCase()))) {
+      return false;
+  }
+  return true;
+}
+
+
+export function isValidGitlabGroup(repoUrl) {
+  const repo = repoUrl.toLowerCase();
+  if (!repo.includes(config.GITLAB_NAMESPACE_ALLOWED.toLowerCase())) {
+    return false;
+  }
+  return true
+}
+
+export function isGitlabRepo(repoUrl) {
+  const repo = repoUrl.toLowerCase();
+  if (!repo.includes('gitlab')) {
+    return false;
+  }
+  return true
+}
+
+
+export function isAwsRepo(repoUrl) {
+  const repo = repoUrl.toLowerCase();
+  if (!repo.includes('codecommit')) {
+    return false;
+  }
+  return true
+}
+

@@ -1,0 +1,139 @@
+#!/usr/bin/env node
+const _ = require('lodash');
+const batchAsync = require('batch-promises');
+const gitlabService = require('./gitlabService');
+const luxon = require('luxon');
+const PROVIDER_NAME = 'Gitlab';
+
+const CENCOMMERCE_GITLAB_GROUP_ID = '9497411';
+
+
+
+const getTagValue = (tagsObj, tagKey, defaultValue = '') => {
+  if (tagsObj && tagKey) {
+    let kvArr;
+    for (const kv of tagsObj.value.split(';')) {
+       kvArr = kv.split(':');
+       if (kvArr[0] === tagKey) {
+         return kvArr[1];
+       }
+    }
+  }
+  return defaultValue;
+}
+
+
+
+const getAllRepositories = async(batchRequests = 3) => {
+  const resp = await gitlabService.getProjects(CENCOMMERCE_GITLAB_GROUP_ID);
+  const size = Number(resp.headers['x-total-pages']);
+
+  console.log(`Total pagination: ${size}`);
+  const arrPages = Array.from(Array(size).keys());
+
+  // 3 request in parallel
+  let allProjects = await batchAsync(batchRequests, arrPages, async (pageNumber) => {
+    const resp = await gitlabService.getProjects(CENCOMMERCE_GITLAB_GROUP_ID, pageNumber+1)
+    console.log(`Fetching repositories from page ${pageNumber+1} with ${resp.data.length} results`);
+    return resp.data;
+  });
+
+  allProjects = _.flatten(allProjects);
+  console.log(`Total repositories: ${allProjects.length}`);
+
+  return allProjects;
+}
+
+
+
+const processRepository = (total, current = 0) => async(project) => {
+  current++;
+  const zeros='0'.repeat(total.toString().length-current.toString().length);
+  console.log(`${zeros}${current}/${total} - Processing repo "${project.http_url_to_repo}"`);
+
+  const mrs = await gitlabService.getMRfromRepo(project.id);
+  const variables = await gitlabService.getVariablesFromRepo(project.id) || []
+
+  const nRLicenceKey = variables.find(v => v.key === 'NEW_RELIC_LICENSE_KEY');
+  const nRapplicationName = variables.find(v => v.key === 'NEW_RELIC_APP_NAME');
+  const tags = variables.find(v => v.key === 'NEW_RELIC_LABELS');
+
+  const pais = getTagValue(tags, 'pais', '');
+  const appName = getTagValue(tags, 'ApplicationName', '');
+
+  const mr = mrs.find(mr => /New Relic/.test(mr.title));
+  const apmMrMergedAt = _.get(mr, 'merged_at', '');
+  const apmMrCreatedAt = _.get(mr, 'created_at', '');
+
+  let dateMrCreatedAt,
+      dateMrMergedAt,
+      diff = '';
+  if (!_.isEmpty(apmMrCreatedAt)) { dateMrCreatedAt = luxon.DateTime.fromISO(apmMrCreatedAt); }
+  if (!_.isEmpty(apmMrMergedAt)) { dateMrMergedAt = luxon.DateTime.fromISO(apmMrMergedAt); }
+  if (dateMrCreatedAt && dateMrMergedAt) { diff = (dateMrMergedAt.diff(dateMrCreatedAt, ["days"]).days).toFixed(0); }
+  if (dateMrCreatedAt && !dateMrMergedAt) { diff = (luxon.DateTime.now().diff(dateMrCreatedAt, ["days"]).days).toFixed(0); }
+
+
+  return {
+    pais,
+    repo: project.name,
+    GitId: project.id,
+    url: project.http_url_to_repo,
+    namespace: project.namespace.name,
+    path: project.namespace.full_path,
+    "Apm-MR Created At": apmMrCreatedAt,
+    "Apm-MR Merged At": apmMrMergedAt,
+    "Apm-MR days open": diff,
+    NEW_RELIC_LICENSE_KEY: _.get(nRLicenceKey, 'value', ''),
+    NEW_RELIC_APP_NAME: _.get(nRapplicationName, 'value', ''),
+    NEW_RELIC_LABELS: _.get(tags, 'value', ''),
+    applicationName: appName,
+  };
+}
+
+
+
+const getSummaryData = (dataProcessed) => {
+  let reposApmMerged = 0,
+      reposWithMrOpen = 0,
+      reposWithLicenseKeyVar = 0,
+      reposWithNRAppNameVar = 0;
+      reposWithPaisVar = 0;
+
+  for (const repo of dataProcessed) {
+    if (!_.isEmpty(repo.pais)) { reposWithPaisVar++; }
+    if (!_.isEmpty(repo['NEW_RELIC_APP_NAME'])) { reposWithNRAppNameVar++; }
+    if (!_.isEmpty(repo['NEW_RELIC_LICENSE_KEY'])) { reposWithLicenseKeyVar++; }
+    if (!_.isEmpty(repo['Apm-MR Merged At'])) { reposApmMerged++; }
+    if (!_.isEmpty(repo['Apm-MR Created At']) && _.isEmpty(repo['Apm-MR Merged At'])) { reposWithMrOpen++; }
+  }
+
+  return [
+    { key: 'Total Repos', value: dataProcessed.length },
+    { key: 'Repos With Merge Request Apm Open', value: reposWithMrOpen },
+    { key: 'Repos With Merge Request Apm Merged', value: reposApmMerged },
+    { key: 'Repos With CI/CD Licence Key Variable', value: reposWithLicenseKeyVar },
+    { key: 'Repos With CI/CD NEW_RELIC_LABELS ApplicationName Variable', value: reposWithNRAppNameVar },
+    { key: 'Repos With CI/CD NEW_RELIC_LABELS pais Variable', value: reposWithPaisVar },
+  ];
+}
+
+
+const getReportDetailSheetName = () => 'Gitlab Repos List';
+const getMetricsSheetName = () => 'Gitlab Metrics';
+const getMetricsReportData = (dataProcessed) => getSummaryData(dataProcessed);
+
+async function getReportDetailData() {
+  const allRepositories = await getAllRepositories();
+  const dataProcessed = await batchAsync(4, allRepositories, processRepository(allRepositories.length));
+
+  return dataProcessed;
+}
+
+module.exports = {
+  PROVIDER_NAME,
+  getReportDetailSheetName,
+  getMetricsSheetName,
+  getReportDetailData,
+  getMetricsReportData,
+}

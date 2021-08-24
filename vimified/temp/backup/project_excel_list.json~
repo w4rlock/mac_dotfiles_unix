@@ -1,0 +1,2679 @@
+{
+  'apps': [
+    {
+      'Producto': 'Producto",
+      'Componente': 'Componente",
+      'env': 'env",
+      'Tipo': 'Tipo",
+      'Equipo Responsable': 'Equipo Responsable",
+      'Repositorio': 'Repositorio",
+      'Pipeline': 'Pipeline",
+      'Tipo despliegue': 'Tipo despliegue",
+      'New relic APM': 'New relic APM"
+    },
+    {
+      'Componente': 'DaaS-runner",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/frontend/daas-runner",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'S3 Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-crossdocking-graphql",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-graphql",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Componente': 'cl-crossdocking-middleware",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-middleware",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-crossdocking-location",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-location",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-crossdocking-logistic-unit",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-logistic-unit",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-crossdocking-route",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-route",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-crossdocking-type",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-type",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-crossdocking-user",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Post Purchase",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/crossdocking/crossdockingbackend/cl-crossdocking-user",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'delivery-cage",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/delivery-cage",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'delivery-tracking-events",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/delivery-tracking-events",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'delivery-administration",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/delivery-administration",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'daas-runner-bff",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/daas-runner-bff",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'delivery-dispatch",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/delivery-dispatch",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'delivery-api-gateway-conf",
+      'Tipo': 'Kong",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/delivery-api-gateway-conf",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'bocbol-integration-component",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/integrations-components/bocbol-integration-component",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'jumbo-integration-component",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/integrations-components/jumbo-integration-component",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'hermes-integration-component",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/integrations-components/hermes-integration-component",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'beetrack-integration-component",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Delivery Team",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/fulfilment/delivery/backend/integrations-components/beetrack-integration-component",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboapp-addresses",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-addresses",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-categories",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-categories",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-checkouts",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-checkouts",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-cms",
+      'env': 'php",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-cms",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-konga",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-konga",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-orders",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-orders",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-payments",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-payments",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-products",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-products",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-promotions",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-promotions",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-proxy",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-proxy",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-shoppingcarts",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-shoppingcarts",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-users",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/elasticbeanstalk/cl-jumboapp-users",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Componente': 'cl-jumboapp-personalize",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/backend-k8/cl-jumboapp-personalize",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8s Cencommerce"
+    },
+    {
+      'Componente': 'cl-jumboapp-promotions-api",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-promotions-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-notifications-api",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-notifications-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-invoke-cloud-messaging",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-invoke-cloud-messaging",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-catalogacion",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-catalogacion",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-jumboapp-rate-experience",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-rate-experience",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-category-active",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-category-active",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-adminops-defaultconfig",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-adminops-defaultconfig",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboapp-adminops-defaultconfig/pull-requests/7205/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboapp-invoke-push-event",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-invoke-push-event",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-clearcache-api",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-clearcache-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-shopper-notification",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-shopper-notification",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-register-notifications-api",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-register-notifications-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-webhook-beetrack",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-webhook-beetrack",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-jumboapp-ws-geo-beetrack",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo APP",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-ws-geo-beetrack",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': '-",
+      'Componente': 'cl-jumbopicking-ordersmonitor",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-ordersmonitor",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-ordersmonitor/pull-requests/7109/changes?region=us-east-1"
+    },
+    {
+      'Producto': '-",
+      'Componente': 'cl-jumbopicking-users",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-users",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-users/pull-requests/7110/changes?region=us-east-1"
+    },
+    {
+      'Producto': '-",
+      'Componente': 'cl-jumbopicking-assignpickers",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-assignpickers",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-assignpickers/pull-requests/7111/changes?region=us-east-1"
+    },
+    {
+      'Producto': '-",
+      'Componente': 'cl-jumbopicking-picking",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-picking",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-jumbopicking-orders",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-orders",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-orders/pull-requests/7112/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-excess",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-excess",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-excess/pull-requests/7113/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-audit",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-audit",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-audit/pull-requests/7114/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-notifications",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-notifications",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-notifications/pull-requests/7115/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-elasticsearch",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-elasticsearch",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-elasticsearch/pull-requests/7116/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-contactclient",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-contactclient",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-contactclient/pull-requests/7117/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-pos-res",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-pos-res",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-jumbopicking-firebase",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-firebase",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-firebase/pull-requests/7118/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-jumbopicking-zippedi",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-zippedi",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-zippedi/pull-requests/7119/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-lastmilers-report",
+      'Tipo': 'ETL",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-lastmilers-report",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Batch Service"
+    },
+    {
+      'Componente': 'cl-backoffice-collaborators",
+      'Tipo': 'ETL",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-collaborators",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Batch Service"
+    },
+    {
+      'Componente': 'cl-backoffice-catalog-unit-measure",
+      'Tipo': 'ETL",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-catalog-unit-measure",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Batch Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-jumbopicking-automatic-assign",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-jumbopicking-automatic-assign",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumbopicking-automatic-assign/pull-requests/7183/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-reprocess-orders",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-reprocess-orders",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-update-bol",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-update-bol",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-cognito-pre-sign-val",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-cognito-pre-sign-val",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-cognito-pre-sign-val/pull-requests/7217/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-securityHeaders",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-securityHeaders",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-user-sync",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-user-sync",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-user-sync/pull-requests/7218/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-saleschannel-updatedb",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-saleschannel-updatedb",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-saleschannel-updatedb/pull-requests/7219/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-user-sync-post-auth",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-user-sync-post-auth",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-paperlessdata",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-paperlessdata",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-paperlessdata/pull-requests/7220/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-reprocess",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-reprocess",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-reprocess/pull-requests/7221/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-mailservices",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-mailservices",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-rules",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-rules",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-rules/pull-requests/7222/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-cognito-custom-msg-resp",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-cognito-custom-msg-resp",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-cognito-custom-msg-resp/pull-requests/7223/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-export",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-export",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-export/pull-requests/7224/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-beetrack-cancelnotification",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-beetrack-cancelnotification",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-beetrack-cancelnotification/pull-requests/7225/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-category",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-category",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-backoffice-category/pull-requests/7226/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-backoffice-vtex",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-vtex",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-transactional-mail",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-transactional-mail",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-traceability",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-traceability",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-saleschannel",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-saleschannel",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-report",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-report",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-graphql",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-graphql",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-frontend",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-frontend",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-elastic-consumer",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-elastic-consumer",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-darkstore",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-darkstore",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-cognito",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-cognito",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-categories",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-categories",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-catalog",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-catalog",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-catalog-update",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/preparacion/backoofice/cl-backoffice-catalog-update",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8s Cencommerce",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-credentials",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/preparacion/backoofice/cl-backoffice-credentials",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Fargate",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-backoffice-bols",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-bols",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-beetrack-consumer",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-beetrack-consumer",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-beetrack",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-beetrack",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-assign",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-assign",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-backoffice-api-export",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'codecommit::us-east-1://cl-backoffice-api-export",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'easycl-smartpicking-api",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'https://gitlab.cencosud.net/mdh-ecommerce-chile/backoffice/smartpicking/api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Fargate",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'easycl-smartpicking-monitor",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'https://gitlab.cencosud.net/mdh-ecommerce-chile/backoffice/smartpicking/monitor",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Fargate",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'easycl-smartpicking-easy-repository",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbopicking",
+      'Repositorio': 'https://gitlab.cencosud.net/mdh-ecommerce-chile/backoffice/smartpicking/easy-repository",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Fargate",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-jumboapp-users",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo App",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-users",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboapp-users/pull-requests/7108/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboapp-shoppingcarts",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo App",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-shoppingcarts",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboapp-shoppingcarts/pull-requests/7107/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboapp-checkouts",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo App",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-checkouts",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboapp-checkouts/pull-requests/7101/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboapp-products",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo App",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-products",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboapp-products/pull-requests/7104/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboapp-orders",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo App",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboapp-orders",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboapp-orders/pull-requests/7102/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-jumboahora-web-proxy",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de capacidades",
+      'Repositorio': 'codecommit::us-east-1://cl-jumboahora-web-proxy",
+      'Pipeline': 'Codepipeline",
+      'Tipo despliegue': 'Elastic Beanstalk"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-front",
+      'env': 'js",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-front",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'S3 + Cloudfront",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-balancer-render",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-balancer-render",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-front-render",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-front-render",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-orders",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-orders",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-shoppinglist",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-shoppinglist",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-user",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-user",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-useraddress",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-useraddress",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-search",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-search",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-saleschannelgeolocation",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-saleschannelgeolocation",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-chat",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-chat",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-cms",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-cms",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-orderform",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-orderform",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-notification",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-notification",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-catalog",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-catalog",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-cache",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-cache",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-wallet",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-wallet",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-abandonedcart",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-abandonedcart",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-transaction",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-transaction",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-wordpress",
+      'env': 'PHP",
+      'Tipo': 'CMS",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-wordpress",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-konga",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-konga",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-kong",
+      'Tipo': 'API Gateway",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-kong",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-abandonedcart-batch",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-abandonedcart-batch",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Batch",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-categories-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-categories-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-promotions-api-test",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-promotions-api-test",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-user-notification-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-user-notification-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Proyecto vacio"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboapp-user-notification-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-app/lambda/cl-jumboapp-user-notification-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Proyecto vacio"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-render-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-render-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No existe"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-brands-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-brands-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-cms-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-cms-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-cencoprime-user",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-cencoprime-user",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-push-notification-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-push-notification-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-sitemap-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-sitemap-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-jumboweb-promotions-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/jumbo-web/cl-jumboweb-promotions-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-front",
+      'env': 'js",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-front",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'S3 + Cloudfront",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-front-render",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-front-render",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-warehouse",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-warehouse",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-wp",
+      'env': 'PHP",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-wp",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-collections-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-collections-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-promotions-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-promotions-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-brands-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-brands-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Producto': 'Buying Experience",
+      'Componente': 'cl-sisaweb-categories-api",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Jumbo Front CL",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/sisa-web/cl-sisaweb-categories-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-epay-bankfer-transf-mger",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-payment-order-orchest",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-epay-oneclickmall-debito",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-global-payment-connector-oneclick",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-payment-conn-webpayplus",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-global-payment-web-front",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-payment-connector-1clickupsell",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cl-payment-paris-orchest",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-global-payment-apivtex",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-global-payment-web-front",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-payment-conn-oneclickmall",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-epay-bankfer-core",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-global-payment-extradata",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cl-global-payment-pos",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cl-epay-bankfer-notification",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'api-gateway-authorizer-vtex",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cwsyn-payment-core-6bd92eb8-d947-40cd-9dbd-414851ff5645",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cl-payment-ajustes-prod",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No"
+    },
+    {
+      'Componente': 'cl-global-payment-data-bcv",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cl-global-payment-graphql-read",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'No se encuentra el repo"
+    },
+    {
+      'Componente': 'cl-payment-api-query",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-global-payment-core",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-epay-oneclickmall-credito",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-payment-conn-tbk-compl",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Payment",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Service",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Balanceador de Capacidades",
+      'Componente': 'cl-store-balancer-batch",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balanceador de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-batch",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Balanceador de Capacidades",
+      'Componente': 'cl-store-balancer-crud",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balanceador de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-crud",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Balanceador de Capacidades",
+      'Componente': 'cl-store-balancer-front",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Balanceador de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-front",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Balanceador de Capacidades",
+      'Componente': 'cl-store-balancer-users",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balanceador de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-users",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-catalog",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-catalog/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'New relic APM': 'Si",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-catalog/pull-requests/7081/changes?region=us-east-1"
+    },
+    {
+      'Componente': 'cl-pim-sm-category",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-category/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-category/pull-requests/7082/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-image",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-image/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-pim-sm-products",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-products/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-products/pull-requests/7084/details?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-traceability",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-traceability/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-traceability/pull-requests/7085/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-uploads",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-uploads/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-uploads/pull-requests/7087/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-front",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-bff/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-pim-sm-attribute",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-attribute/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-attribute/pull-requests/7088/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-bff",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-bff/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-pim-sm-brand",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-brand/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-brand/pull-requests/7089/details?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-price-api",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-price-api/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-price-api/pull-requests/7090/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-user",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-user/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-user/pull-requests/7091/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-ok-to-shop-input",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-ok-to-shop-input/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-ok-to-shop-input/pull-requests/7092/details?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-ok-to-shop-output",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-ok-to-shop-output/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-ok-to-shop-output/pull-requests/7093/details?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-data",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-data-sap/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-pim-sm-price",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-price/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-price/pull-requests/7097/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-sm-prices-no-audit",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-prices-no-audit/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Componente': 'cl-pim-sm-import-query",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-import-query/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-sm-import-query/pull-requests/7096/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-import-query-wl",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-import-query-wl/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-import-query-wl/pull-requests/7095/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'cl-pim-price-wl",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-price-wl/browse?region=us-east-1",
+      'Pipeline': 'CodeCommit",
+      'Tipo despliegue': 'Lambda",
+      'pullRequest': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-pim-price-wl/pull-requests/7094/changes?region=us-east-1",
+      'New relic APM': 'Si"
+    },
+    {
+      'Componente': 'sftp",
+      'Tipo': 'EC2",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#InstanceDetails:instanceId=i-05ae5bb7ffcbefe17",
+      'Pipeline': 'EC2",
+      'Tipo despliegue': 'EC2"
+    },
+    {
+      'Componente': 'db rds",
+      'Tipo': 'RDS",
+      'Equipo Responsable': 'PIM Legacy",
+      'Repositorio': 'https://console.aws.amazon.com/rds/home?region=us-east-1#database:id=cl-pim-sm-core;is-cluster=false",
+      'Pipeline': 'RDS",
+      'Tipo despliegue': 'RDS"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-moncap-front",
+      'env': 'js",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-moncap-front",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-easy-moncap-api",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-easy-moncap-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-jumbo-moncap-api",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-jumbo-moncap-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-sisa-moncap-api",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-sisa-moncap-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-jumbo-moncap-cron",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-jumbo-moncap-cron",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-moncap-bff",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-moncap-bff",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-ccom-capacities-moncap-additional-info",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/cl-ccom-capacities-moncap-additional-info",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'ccom-capacities-users",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Monitor de Capacidades",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/ccom-capacities-users",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-store-balancer",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balancer",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-front",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-store-balancer",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balancer",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-crud",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-store-balancer-users (Ya no se usa)",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balancer",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/balancer/cl-store-balancer-users",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-jumboahora-web-proxy",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balancer",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-jumboahora-web-proxy/browse?region=us-east-1",
+      'Pipeline': 'no",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'cl-store-balancer-batch-windows",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Balancer",
+      'Repositorio': 'https://console.aws.amazon.com/codesuite/codecommit/repositories/cl-store-balancer-batch-windows/browse?region=us-east-1",
+      'Pipeline': 'no",
+      'Tipo despliegue': 'ECS Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'shipping-method-service",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'sp",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/shipping-method-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'unpublisher-service",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ShippingMethod",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/unpublisher-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'pickup-shipping-method-service",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ShippingMethod",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/pickup-shipping-method-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'twenty-four-hours-shipping-method-service",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ShippingMethod",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/twenty-four-hours-shipping-method-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'ccom-capacities-moncap-order-info",
+      'env': 'NestJs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Moncap",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/moncap/moncap-k8s/ccom-capacities-moncap-order-info",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'shipping-wr-test-new-relic",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ShippingMethod",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/shipping-wr-test-new-relic",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'date-range-shipping-method-service",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ShippingMethod",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/date-range-shipping-method-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Capacity",
+      'Componente': 'scheduled-shipping-method-service",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ShippingMethod",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/capacidades/shipping-methods/scheduled-shipping-method-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Centros de ayuda",
+      'Componente': 'Self-service Backend",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Self-service",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/self-service/backend",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Centros de ayuda",
+      'Componente': 'Self-service Orders",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Self-service",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/self-service/orders",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Centros de ayuda",
+      'Componente': 'Self-service Frontend",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Self-service",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/self-service/frontend",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'template-manager",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/template-manager",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'dispatcher",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/dispatcher",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'analytics-forwarder",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/analytics-forwarder",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'dashboard-back",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/dashboard-back",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'dashboard",
+      'env': 'js",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/dashboard",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'chatbot-worker",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/chatbot-worker",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'infobip-report-saver",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/infobip-report-saver",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'get-data-ventas-chile",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/get-data-ventas-chile",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Hermes",
+      'Componente': 'get-data-jumbo-prime",
+      'env': 'js",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Customer Communication Management",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/customer-communication-management/get-data-jumbo-prime",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce",
+      'New relic APM': 'Si"
+    },
+    {
+      'Pipeline': 'Gitlab"
+    },
+    {
+      'Componente': 'scheduler-report-user",
+      'env': 'Java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ParisCL Front",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/paris/parisweb/scheduler-report-user",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Componente': 'sfccsecuritylogs",
+      'env': 'Phyton",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ParisCL Front",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/paris/parisweb/sfccsecuritylogs",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Componente': 'logs-sfcc",
+      'env': 'SH",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ParisCL Front",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/paris/parisweb/logs-sfcc",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Componente': 'SFCC2elasticsearch",
+      'env': 'Phyton",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'ParisCL Front",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/venta/SFCC2elasticsearch/-/blob/master/orders_elastic_aws.py",
+      'Pipeline': 'Gitlab"
+    },
+    {
+      'Componente': 'SFCC",
+      'env': 'Js",
+      'Tipo': 'Front & Back",
+      'Equipo Responsable': 'ParisCl Front",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/venta/sfcc",
+      'Pipeline': 'Gitlab",
+      'New relic APM': 'Si"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'orders-service",
+      'env': 'NestJs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/venta/paris-peru/orders-service",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-vtex-cronjob-master-data",
+      'env': 'NestJs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-vtex-cronjob-master-data",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-graphql-api",
+      'env': 'NestJs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-graphql-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-vtex-ordes",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-vtex-ordes",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-gift-card-allocation",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-gift-card-allocation",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-aws-services",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-aws-services",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-dlq-ingest-notificator-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-dlq-ingest-notificator-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-dte-failed-notificator-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-dte-failed-notificator-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-sfcc-xml-orders-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-sfcc-xml-orders-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-trx-to-giftcard-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-trx-to-giftcard-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-trx-to-eom-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-trx-to-eom-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-validate-stages",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-validate-stages",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-health-check-eom-notification",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-health-check-eom-notification",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-lambda-paperless-dte-searcher",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-lambda-paperless-dte-searcher",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-fetch-parameters-txd-web-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-fetch-parameters-txd-web-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-manager-transaction-db-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-manager-transaction-db-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-billing-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-billing-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-recover-dte-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-recover-dte-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-invoiced-vtx-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-invoiced-vtx-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-confirm-ack-mtd-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-confirm-ack-mtd-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-paperless-dte-api-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-paperless-dte-api-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-accounted-lambda",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-accounted-lambda",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-web",
+      'env': 'Next",
+      'Tipo': 'Frontend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-web",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-api-vtex",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-api-vtex",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-picking-stage-on-vtex",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-picking-stage-on-vtex",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-health-check-eom-cronjob",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-health-check-eom-cronjob",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-bocbol-cronjob-recue-status",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-bocbol-cronjob-recue-status",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-status-transition-vtex",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-status-transition-vtex",
+      'Pipeline': 'Gitlab"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-api-vtex.gi",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-api-vtex.gi",
+      'Pipeline': 'Gitlab"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-mtd-ingest",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/ordenes-y-entrega/sales-orders/sos-mtd-ingest",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S TXD-Ecommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-ingress-oc-bocbol",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/sos-ingress-oc-bocbol",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'ar-orders-insert-api",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/arg-integration/ar-orders-insert-api",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-api-vtex.gi",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/sos-api-vtex.gi",
+      'Pipeline': 'Gitlab"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-get-image-sku",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/sos-get-image-sku",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'Lambda"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-vtex-bocol-email-workflow",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/sos-vtex-bocol-email-workflow",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-get-dte-paperless",
+      'env': 'NestJS",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/sos-get-dte-paperless",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Sales Order Service",
+      'Componente': 'sos-cronjob-states-email-bocbol",
+      'env': 'Typescript",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Havanatech",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/post-purchase-experience/sales-orders/sos-cronjob-states-email-bocbol",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Spid35",
+      'Componente': 'cl-spid35app-shoppingcarts",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Spid35",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/spid35/backend-spid35/piloto-k8s/cl-spid35app-shoppingcarts",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Spid35",
+      'Componente': 'cl-spid35app-promotions",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Spid35",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/spid35/backend-spid35/piloto-k8s/cl-spid35app-promotions",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Spid35",
+      'Componente': 'cl-spid35app-orders",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Spid35",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/spid35/backend-spid35/java/cl-spid35app-orders",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Spid35",
+      'Componente': 'cl-spid35app-checkouts",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Spid35",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/spid35/backend-spid35/piloto-k8s/cl-spid35app-checkouts",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'Spid35",
+      'Componente': 'cl-spid35app-addresses",
+      'env': 'java",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Spid35",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/buying-experience/supermarkets/spid35/backend-spid35/piloto-k8s/cl-spid35app-addresses",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    },
+    {
+      'Producto': 'NewRelicDemoAppTaller",
+      'Componente': 'newrelic-demo-app-taller",
+      'env': 'nodejs",
+      'Tipo': 'Backend",
+      'Equipo Responsable': 'Spid35",
+      'Repositorio': 'git@gitlab.com:cencosud-ds/cencommerce/devexp/new-relic-utils/new-relic-generate-data",
+      'Pipeline': 'Gitlab",
+      'Tipo despliegue': 'K8S Cencommerce"
+    }
+  ]
+}

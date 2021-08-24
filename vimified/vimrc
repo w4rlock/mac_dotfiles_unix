@@ -1,4 +1,8 @@
 " vimrc
+"
+"
+
+
 " Author: Zaiste! <oh@zaiste.net>
 " Source: https://github.com/zaiste/vimified
 "
@@ -54,7 +58,11 @@ endif
 
 " _. General
 if count(g:vimified_packages, 'general')
+    Plug 'jremmen/vim-ripgrep'
+    let g:rg_command = 'rg --vimgrep -S'
+
     Plug 'editorconfig/editorconfig-vim'
+    Plug 'voldikss/vim-floaterm'
     Plug 'mhinz/vim-startify'
     Plug 'ryanoasis/vim-devicons'
     Plug 'junegunn/vim-easy-align'
@@ -68,14 +76,26 @@ if count(g:vimified_packages, 'general')
 
     Plug 'junegunn/fzf', { 'do': './install --bin' }
     Plug 'junegunn/fzf.vim'
+    "Plug 'voldikss/fzf-floaterm'
+
     Plug 'airblade/vim-gitgutter'
     Plug 'easymotion/vim-easymotion'
     "bug with conceal
     "Plug 'Yggdroot/indentLine'
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+
     Plug 'pangloss/vim-javascript'
-    Plug 'heavenshell/vim-jsdoc'
+    "Plug 'heavenshell/vim-jsdoc'
+
+    " No trabaja con arrows
+    "Plug 'joegesualdo/jsdoc.vim'
+
+    " no funciona en la version 8
+    Plug 'heavenshell/vim-jsdoc', {
+      \ 'for': ['javascript', 'javascript.jsx','typescript'],
+      \ 'do': 'make install'
+    \}
     Plug 'nathanaelkane/vim-indent-guides'
     Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
     Plug 'dense-analysis/ale'
@@ -104,7 +124,8 @@ if count(g:vimified_packages, 'general')
     Plug 'vim-scripts/YankRing.vim'
     let g:yankring_replace_n_pkey = '<leader>['
     let g:yankring_replace_n_nkey = '<leader>]'
-    let g:yankring_history_dir = s:dotvim.'/tmp/'
+    let g:yankring_history_dir =   expand(s:dotvim . '/temp')
+
     nmap <leader>y :YRShow<cr>
 
     Plug 'michaeljsmith/vim-indent-object'
@@ -163,10 +184,11 @@ if count(g:vimified_packages, 'coding')
     nmap <leader>gs :Gstatus<CR>
     nmap <leader>gc :Gcommit -v<CR>
     nmap <leader>gac :Gcommit --amen -v<CR>
-    nmap <leader>g :Ggrep
+    nmap <leader>g :Rg
     nmap <leader>x :AirlineTheme random<CR>
     " ,f for global git search for word under the cursor (with highlight)
-    nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
+    "nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Ggrep -w "<C-R><C-W>"<CR>:ccl<CR>:cw<CR><CR>
+    nmap <leader>f :let @/="\\<<C-R><C-W>\\>"<CR>:set hls<CR>:silent Rg "<C-R><C-W>"<CR>"
     " same in visual mode
     :vmap <leader>f y:let @/=escape(@", '\\[]$^*.')<CR>:set hls<CR>:silent Ggrep -F "<C-R>=escape(@", '\\"#')<CR>"<CR>:ccl<CR>:cw<CR><CR>
 
@@ -277,6 +299,7 @@ endif
 
 " _. Color
 if count(g:vimified_packages, 'color')
+    Plug 'morhetz/gruvbox'
     Plug 'sjl/badwolf'
     Plug 'altercation/vim-colors-solarized'
     Plug 'tomasr/molokai'
@@ -319,6 +342,15 @@ set switchbuf=useopen
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
+
+nnoremap   <silent>   <F7>    :FloatermNew<CR>
+tnoremap   <silent>   <F7>    <C-\><C-n>:FloatermNew<CR>
+nnoremap   <silent>   <F8>    :FloatermPrev<CR>
+tnoremap   <silent>   <F8>    <C-\><C-n>:FloatermPrev<CR>
+nnoremap   <silent>   <F9>    :FloatermNext<CR>
+tnoremap   <silent>   <F9>    <C-\><C-n>:FloatermNext<CR>
+nnoremap   <silent>   <F12>   :FloatermToggle<CR>
+tnoremap   <silent>   <F12>   <C-\><C-n>:FloatermToggle<CR>
 "
 
 " Mappings
@@ -334,8 +366,10 @@ noremap <right> <nop>
 map Y y$
 " Yank content in OS's clipboard. `o` stands for "OS's Clipoard".
 vnoremap <leader>yo "*y
+
 " Paste content from OS's clipboard
 nnoremap <leader>po "*p
+
 
 " clear highlight after search
 noremap <silent><Leader>/ :nohls<CR>
@@ -393,6 +427,8 @@ set guioptions-=T
 set listchars=tab:▸\ ,extends:❯,precedes:❮,trail:␣
 set showbreak=↪
 
+set switchbuf+=usetab,newtab
+
 set notimeout
 set ttimeout
 set ttimeoutlen=10
@@ -400,24 +436,27 @@ set ttimeoutlen=10
 " _ backups
 if has('persistent_undo')
   " undo files
-  exec 'set undodir='.s:dotvim.'/tmp/undo//'
+  exec 'set undodir='.s:dotvim.'tmp/undo//'
   set undofile
   set undolevels=3000
   set undoreload=10000
 endif
 " backups
-exec 'set backupdir='.s:dotvim.'/tmp/backup//'
+exec 'set backupdir='.s:dotvim.'/temp/backup/'
 " swap files
-exec 'set directory='.s:dotvim.'/tmp/swap//'
+"
+"set backupdir=expand(s:dotvim . '/temp/backup/')
+"set directory=expand(s:dotvim . '/temp/swap/')
+exec 'set directory='.s:dotvim.'/temp/swap/'
 set backup
 set noswapfile
 " _
 
 set modelines=0
 set noeol
-"set relativenumber
-set number
-set numberwidth=8
+set relativenumber
+"set number
+set numberwidth=10
 set modeline
 set modelines=3
 set ruler                                     " show the cursor position all the time
@@ -954,11 +993,18 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=233
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=234
 
 
-let g:UltiSnipsExpandTrigger = '<c-j>'
-let g:UltiSnipsJumpForwardTrigger = '<c-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<c-k>'
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetDirectories=['UltiSnips', $HOME.'/.vim/snipp']
+"let g:ultisnipsexpandtrigger = '<tab>'
+"let g:ultisnipsjumpforwardtrigger = '<a-j>'
+"let g:ultisnipsjumpbackwardtrigger = '<a-k>'
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>' " better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+let g:ultisnipseditsplit="vertical"
+let g:ultisnipssnippetdirectories=['ultisnips', '/home/u0166409/.vim/snipp']
 
 
 let g:DevIconsEnableFoldersOpenClose = 1

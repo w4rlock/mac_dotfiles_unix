@@ -1,0 +1,90 @@
+import yargs from 'yargs';
+import chalk from 'chalk';
+import _ from 'lodash';
+
+console.clear();
+
+const { argv } = yargs(process.argv.slice(2));
+const { red, yellow } = chalk;
+
+let DEBUG_MODE = false;
+// no imprimo configuracion que no es relevante
+// ya que algunas configuraciones es llamada varias veces
+// a lo largo del programa...
+const IGNORE_DEBUG_KEYS = /^(delay-text|verbose)$/i;
+
+
+const isNumericStr = (value) => /^-?\d+$/.test(value);
+const isBooleanStr = (value) => /^(true|false|yes|not|no)$/i.test(value);
+const parseBooleanStr = (value) => /^(true|yes)$/i.test(value);
+
+
+
+const logConfigurationIfNeed = (provider, key, val, isSecret = false) => {
+  if (DEBUG_MODE && !IGNORE_DEBUG_KEYS.test(key)) {
+    if (isSecret) val = val.replace(val.slice(3, -1), '*'.repeat(15));
+    console.log(`Reading Configuration '${red(key)}' from ${provider}: ${yellow(val)}` );
+  }
+};
+
+
+const unmaskStringIfNeed = (value) => {
+  if (isNumericStr(value)) return parseInt(value);
+  if (isBooleanStr(value)) return parseBooleanStr(value);
+
+  return value;
+};
+
+
+
+
+export default function getConfig(configKey, isRequired = false, defaultValue = undefined, isSecret = false) {
+  // cuando el valor es un 0 o un 1
+  // ser cuidadoso con esta funcion modifica todo
+  // el programa
+  const hasValue = (val) => !_.isEmpty(val)
+    || _.isNumber(val)
+    || val === true;
+
+  // Estandar de variables de entornos: mayusculas y guion bajo EJEMPLO_MI_VAR
+  // Estandar argumentos: minusculas y guion medio ejemplo-mi-var
+  const envKey = configKey.replace(/-/g, '_').toUpperCase();
+  let val = process.env[envKey];
+  if (hasValue(val)) {
+    // los valores numericos tomados de las variables de entornoces
+    // deben ser casteados a int ya que vienen asi '32'
+    val = unmaskStringIfNeed(val);
+    logConfigurationIfNeed('Environment', envKey, val, isSecret);
+    return val;
+  }
+
+  val = argv[configKey];
+  if (hasValue(val)) {
+    val = unmaskStringIfNeed(val);
+    logConfigurationIfNeed('Argument', configKey, val, isSecret);
+    return val;
+  }
+
+
+  if (hasValue(defaultValue)) {
+    return defaultValue;
+  }
+
+
+  if (isRequired) {
+    const msg = `${red('\nERROR:')} Configuration '${red(configKey)}' is missing.`;
+    console.log(msg);
+    throw new Error(
+      red(`Configuration '${configKey}' is missing.`),
+    );
+  }
+
+
+  return undefined;
+}
+
+
+DEBUG_MODE = getConfig('print-config', false, false);
+
+
+

@@ -1,0 +1,47 @@
+import * as scriptUtils from '../../src/utils.js';
+import * as validate from '../../config.validations.js';
+import * as fileUtils from '../../src/file_utils.js';
+import * as codeCommitRecipe from './codeCommitRecipe.js';
+
+export const pythonDockerRecipe = {
+  async preCheck() {
+    const fileResult = scriptUtils.detectFile('newrelic.ini');
+    const dockerfileResult = scriptUtils.detectDockerfilePython();
+    const libraryResult = scriptUtils.detectLibraryPython();
+    if (fileResult && dockerfileResult && libraryResult) {
+      return 'complete-integration';
+    }
+    if (dockerfileResult) {
+      return 'partial-integration';
+    }
+
+    // check if integration would succeed
+    if (!fileUtils.findFilesByRegex('.', /requirements.txt/, undefined, true)
+          || !fileUtils.findFilesByRegex('.', /Dockerfile/, undefined, false)) {
+      return 'error';
+    }
+    return 'success';
+  },
+  async execute({ repo }) {
+    try {
+      console.log('1- Injecting newrelic.ini...');
+      await fileUtils.downloadFile('https://gitlab.com/api/v4/snippets/2109969/files/master/newrelic.ini/raw', 'newrelic.ini');
+      scriptUtils.injectAPMLibraryPython();
+
+      scriptUtils.injectDockerFilePython();
+
+      if (validate.isAwsRepo(repo.ssh_url_to_repo)) {
+        console.log('4- Injecting environment into BuildSpec (aws) file ...');
+        if (!codeCommitRecipe.injectEnvironmentVariables(repo)) {
+          return false;
+        }
+      }
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+    return false;
+  },
+};
+

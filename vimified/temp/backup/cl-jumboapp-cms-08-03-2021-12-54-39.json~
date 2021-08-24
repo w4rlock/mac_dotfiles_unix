@@ -1,0 +1,20 @@
+[
+  {
+    "key": "REPO_TYPE",
+    "value": "",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|INFRA|MOBILE)$/",
+    "comment": "IMPORTANTE: NO es posible determinar un valor para esta variable. por favor, agregue un valor manualmente."
+  },
+  {
+    "key": "REPO_STATUS",
+    "value": "ACTIVE",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(ACTIVE|DEPRECATED)$/",
+    "comment": "IMPORTANTE: Esta variable actualmente NO EXISTE en Gitlab CI/CD Variables. Sera creada automaticamente."
+  }
+]

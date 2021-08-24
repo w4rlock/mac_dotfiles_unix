@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+export JIRA_API_USER=andres.penalozagonzalez@externos-cl.cencosud.com
+export JIRA_API_TOKEN=RC5kChWsI4Hp0u3TMvAb1139
+export AWS_REGION=us-east-1
+export GITLAB_TOKEN="jpbkKJEwzx4rYjznPRBE"
+
+
+get_licences() {
+cat <<EOF
+{
+  "CL-CCOM-JUMBOAPP": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",
+  "CL-CCOM-JUMBO-WEB": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",
+  "CL-CCOM-CAPACITIES": "275e12aeaf67840064ccc41e81bb4db2FFFFNRAL",
+  "Post Purchase": "da73120edc9544dfec4e162fc1fc65dfd01bNRAL",
+  "CL-CCOM-PAYMENT":"88bc515ed43da6739fea3c47035cf572FFFFNRAL",
+  "Easy": "490ec34508f58b54ca672a86b81f8357FFFFNRAL",
+  "Spid35": "0db8c266eacdc508e9e3d7c6186525dcFFFFNRAL",
+  "JumboPicking": "ab2e642dbd18ab8c1476a88d18b34da4FFFFNRAL",
+  "Paris": "6d20ee0dfe42c77574081a3a19cacb26FFFFNRAL",
+  "PIM Legacy": "78a454c1351106cb1182f76fca8bb465FFFFNRAL",
+  "Pariscl": "97f8cf7efb1cbc74799ca1b0a278813cFFFFNRAL",
+  "JUMBOCL": "9f4ad5b3a2a008bcbb9b50a557d1f7c7FFFFNRAL",
+  "SisaWeb":"89a344f53f251ae38d72b619247aa5feFFFFNRAL",
+  "Havanatech":"420478bbcfdd2daeaebd9e62a266bac3FFFFNRAL",
+  "Jumbo Front cl":"adasdasd"
+}
+EOF
+}
+
+export NEW_RELIC_LICENSE_DICT=$(get_licences)

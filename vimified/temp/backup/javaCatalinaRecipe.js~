@@ -1,0 +1,81 @@
+import * as fileUtils from '../file_utils.js';
+import * as scriptUtils from '../utils.js';
+import * as codeCommitRecipe from './codeCommitRecipe.js';
+import * as validate from '../../config.validations.js';
+import * as javaDefaultRecipe from './javaStandaloneRecipe.js';
+import { printTask } from '../ui.js';
+
+export const javaCatalinaRecipe = {
+  async preCheck(repo) {
+    const dockerFileExprs = [
+      /http.*newrelic\.jar/gm,
+      /http.*newrelic\.yml/gm,
+      /^ARG NEW_RELIC_APP_NAME/gm,
+      /^ARG NEW_RELIC_LICENSE_KEY/gm,
+      /^ENV NEW_RELIC_LICENSE_KEY=/gm,
+      /^ENV NEW_RELIC_APP_NAME=/gm,
+      /CATALINA_OPTS.*newrelic\.jar/gm,
+    ];
+
+    const buildSpecExprs = [
+      /^env:/gm,
+      /parameter-store:/,
+      /NEW_RELIC_LICENSE_KEY: \/CodeBuild\/.*\/NEW_RELIC_LICENSE_KEY/gm,
+      /--build-arg NEW_RELIC_LICENSE_KEY=\$NEW_RELIC_LICENSE_KEY/gm,
+      /--build-arg NEW_RELIC_APP_NAME=\$IMAGE_REPO_NAME/gm,
+    ];
+
+
+    if (fileUtils.checkFileContentByRegExprs('.', /Dockerfile/, dockerFileExprs)) {
+      if (validate.isAwsRepo(repo.ssh_url_to_repo)) {
+        if (fileUtils.checkFileContentByRegExprs('.', /buildspec\.yml/, buildSpecExprs)) {
+          return 'complete-integration';
+        }
+      }
+      if (validate.isGitlabRepo(repo.ssh_url_to_repo)) {
+        // muy pocos proyectos inyectan los build-args en el gitlab-ci
+        // generalmente este arg se configura como variable de entorno en ci/cd
+        // if (fileUtils.checkFileContentByRegExprs('.', /\.gitlab-ci\.yml/, gitlabExprs)) {
+        return 'complete-integration';
+        // }
+      }
+    }
+
+    return 'success';
+  },
+  async execute({ repo }) {
+    repo.isJavaProject = true;
+
+    try {
+      await printTask(' ', '1- Injecting environment into buildspec.yml ...', 'red');
+      if (validate.isAwsRepo(repo.ssh_url_to_repo)) {
+        if (!codeCommitRecipe.injectEnvironmentVariables(repo)) {
+          return false;
+        }
+      }
+
+      await printTask(' ', '2- Injecting environment into Dockerfile...', 'red');
+      if (!scriptUtils.injectDockerFileEnvironment(repo)) {
+        return false;
+      }
+
+      await printTask(' ', '3- Injecting APM into Dockerfile...', 'red');
+      if (!codeCommitRecipe.injectApmInDockerFile(repo)) {
+        return false;
+      }
+
+      await printTask(' ', '4- Injecting Gitlab-ci.yml ...', 'red');
+      if (!javaDefaultRecipe.injectBuildArgs(repo)) {
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+
+    return false;
+  },
+};
+
+

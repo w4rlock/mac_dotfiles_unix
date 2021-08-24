@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+const _ = require('lodash');
+const axios = require('axios');
+const nrApi = axios.create({
+  baseURL: 'https://api.newrelic.com',
+  headers: {'API-Key': 'NRAK-ODIBNM88GS72GSZ8NA8H909XAZJ'}
+});
+
+
+const getParams = (cursor = '') => ({
+  variables: {query: 'type IN ('APPLICATION')"},
+  query: `
+    query ($query: String!) {
+      actor {
+        entitySearch(query: $query) {
+          count
+          results${cursor ? `(cursor: '${cursor}") ` : ''}{
+            nextCursor
+            entities {
+              name
+              entityType
+              guid
+              tags {
+                key
+                values
+              }
+            }
+          }
+        }
+      }
+    }
+`
+})
+
+const fetch = async(nextCursor = '') => {
+  const p = getParams(nextCursor);
+  const data = await nrApi.post('/graphql', p);
+  return _.get(data, 'data.data.actor.entitySearch.results', []);
+}
+
+
+const main = async() => {
+  let allData = []
+  let nextCursor;
+
+  do {
+    //console.log(`Fetching data with cursor: ${nextCursor}`);
+    const data = await fetch(nextCursor);
+    allData = allData.concat(data.entities);
+    nextCursor = data.nextCursor;
+  } while(!_.isEmpty(nextCursor));
+
+  //const dataWithAppName = allData.filter(entity => entity.tags.filter(t => t.key === 'ApplicationName').length > 0)
+  const finalData = allData.map(d => {
+    const tagsAppName = d.tags.find(t => t.key === 'ApplicationName');
+    let applicationName = tagsAppName ? tagsAppName.values.pop() : '';
+
+    return {
+      name: d.name,
+      guid: d.guid,
+      applicationName,
+    }
+  });
+
+  console.log(JSON.stringify(finalData, null, 2));
+}
+
+main();
+

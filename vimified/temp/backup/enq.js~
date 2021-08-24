@@ -1,0 +1,98 @@
+const chalk = require('chalk');
+const enquirer = require('enquirer');
+
+
+const printTask = async(preffix, message, delay) => {
+  message = chalk.blue(preffix) +  chalk.green(` ${message}`);
+  await scriptUtils.matrixLog(message, delay);
+}
+
+
+
+
+const promptYesNo = async(name, message) => {
+  const prompt = new enquirer.Select({
+    message: chalk.yellow.bold(message),
+    choices: ['YES', 'NO'],
+  });
+
+  return await prompt.run();
+}
+
+
+
+
+const chooseFromList = async(message, name, choices = []) => {
+  const questions = [{
+    type: 'list',
+    name,
+    message: chalk.yellow.bold(message),
+  }];
+
+  const resp = await enquirer.prompt(questions);
+  return resp[name]
+}
+
+
+
+const removeLastPrintLine = () => {
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+}
+
+
+
+const printSlowTextAndRemove = async(text = '', delayBeforeClear = 1200, delay = 35) => {
+  if (delay === 0 || delay === 'false') {
+    console.log(text);
+  }
+  else {
+    for (const letter of text) {
+      process.stdout.write(letter);
+      // human effect
+      await scriptUtils.sleep(delay);
+    }
+  }
+
+  // para que el usr preste atencion al texto antes de borrar
+  await scriptUtils.sleep(delayBeforeClear);
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+  console.log('');
+}
+
+
+
+
+const autoComplete = async(controlName, message, choices = [], limit = 28, multiple = false) => {
+  const prompt = new enquirer.AutoComplete({
+    limit,
+    multiple,
+    choices,
+    message: chalk.yellow.bold(message),
+    highlight: chalk.green,
+  });
+
+  const resp = await prompt.run();
+  return resp;
+}
+
+
+
+const test = async () => {
+  const resp =  await autoComplete('', 'algo', ['1','2','3','4']);
+  console.log(resp);
+}
+test();
+
+
+
+
+module.exports = {
+  printTask,
+  autoComplete,
+  removeLastPrintLine,
+  printSlowTextAndRemove,
+  chooseFromList,
+  promptYesNo,
+}

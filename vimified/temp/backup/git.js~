@@ -1,0 +1,99 @@
+import fs from 'fs';
+import shell from 'shelljs';
+import * as validate from '../config.validations.js';
+import * as scriptUtils from './utils.js';
+
+const AWS_REGION = 'us-east-1';
+
+
+
+export function clone({ name, http_url_to_repo }) {
+  const token = process.env.GITLAB_API_TOKEN;
+  const repoUrl = http_url_to_repo.replace('https://', `https://oauth2:${token}@`);
+  if (!fs.existsSync(name)) {
+    const cmd = `git clone '${repoUrl}' '${name}'`;
+    return (shell.exec(cmd).code === 0);
+  }
+
+  return true;
+}
+
+
+
+
+export function createBranchIfNeed(baseBranch, newBranchName) {
+  if (!shell.exec('git branch --show-current').stdout.includes(newBranchName)) {
+    const cmd = `git checkout -b ${newBranchName} origin/${baseBranch}`;
+    return (shell.exec(cmd).code === 0);
+  }
+
+  return true;
+}
+
+
+
+export function add(param = '.') {
+  const cmd = `git add ${param}`;
+  console.log(cmd);
+  return (shell.exec(cmd).code === 0);
+}
+
+
+export function listRemotesBranches() {
+  return (shell.exec('git branch --remotes').code === 0);
+}
+
+
+export function commit(msg) {
+  const cmd = `git commit -m ${msg}`;
+  console.log(cmd);
+  return (shell.exec(cmd).code === 0);
+}
+
+
+export function push(name, branch) {
+  const cmd = `git push -q -u ${name} ${branch}`;
+  console.log(cmd);
+  return (shell.exec(cmd).code === 0);
+}
+
+
+export async function findBaseBranch() {
+  let branches;
+  let baseBranch;
+
+  const shellBranch = shell.exec('git branch -r', { silent: true });
+  if (shellBranch.code === 0) {
+    branches = shellBranch.stdout.split('\n');
+    branches.pop();
+
+    const reExprs = [
+      /^origin\/qa/,
+      /^origin\/develop$/,
+      /^origin\/dev$/,
+      /^origin\/development$/,
+      /^origin\/developer$/,
+      /^origin\/stage$/,
+      /^origin\/staging$/,
+    ];
+
+    for (const re of reExprs) {
+      baseBranch = branches.find((b) => re.test(b.trim()));
+      if (baseBranch) {
+        baseBranch = baseBranch.trim();
+        break;
+      }
+    }
+
+    return { baseBranch, branches };
+  }
+
+  return {};
+}
+
+
+
+export const resetHard = (branch) => shell.exec(`git reset --hard origin/${branch}`, { silent: true }).code;
+export const clean = () => shell.exec('git clean -f -d', { silent: true }).code;
+export const getCurrentBranchName = () => shell.exec('git branch --show-current', { silent: true }).stdout;
+

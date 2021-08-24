@@ -1,0 +1,8 @@
+console.log('Your text here');
+setTimeout(() => {
+process.stdout.clearLine();
+ process.stdout.cursorTo(0);
+  console.log('aaaaaa')
+}, 0);
+
+//process.stdout.write('\033c');

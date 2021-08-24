@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Integration POS
+Resources:
+  clglobalpaymentpaymentpos:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: 'cl-global-payment-pos'
+      Handler: newrelic-lambda-wrapper.handler
+      Runtime: nodejs12.x
+      CodeUri: /builds/cencosud-ds/cencommerce/buying-experience/payments/lambdas/cl-global-payment-pos
+      Tracing: Active
+      MemorySize: 256
+      Timeout: 60
+      Tags:
+        Owner: Sebastian Valenzuela
+        ApplicationName: CL-PAYMENT
+        Developer: Glennys Rodríguez
+        DevOps: Alvaro Fuentes
+        pais: cl
+      Layers:
+        - !Sub arn:aws:lambda:${AWS::Region}:451483290750:layer:NewRelicNodeJS12X:49
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !ImportValue NewRelicLicenses-paymentLicenseSecretARN
+      Environment:
+        Variables:
+          NEW_RELIC_ACCOUNT_ID: 2941593
+          NEW_RELIC_LAMBDA_HANDLER: server.handler
+          NEW_RELIC_LICENSE_KEY_SECRET: /payment/NEW_RELIC_LICENSE_KEY
+          NEW_RELIC_EXTENSION_SEND_FUNCTION_LOGS: true
+          ENV: prod
+          NODE_ENV: prod
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-05af1722e640aaf8c
+        SubnetIds:
+          - subnet-05c1360c5cb72b091
+          - subnet-01ab0ca1df131d471

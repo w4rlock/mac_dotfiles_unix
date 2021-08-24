@@ -1,0 +1,85 @@
+# terraform state file setup
+# create an S3 bucket to store the state file in
+resource "aws_s3_bucket" "cencommerce-buying-experience-staging-tfstate" {
+    bucket = "cencommerce-buying-experience-staging-tfstate"
+
+    versioning {
+      enabled = true
+    }
+
+    lifecycle {
+      prevent_destroy = true
+    }
+
+    tags = merge(
+    var.cencosud_tags,
+    var.environment_terraform,
+    local.defaults_dev_platform_tribe,
+  )
+}
+
+#Debe ser generado primero el bucket antes de escribir esta configuracion
+terraform {
+  backend "s3" {
+    bucket  = "cencommerce-buying-experience-staging-tfstate"
+    key     = "buying-experience-staging-tf-013.tfstate"
+    region  = "us-east-1"
+    encrypt = true
+  }
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.10.0"
+    }
+  }
+}
+
+variable "region" {
+  default = "us-east-1"
+}
+
+provider "aws" {
+  region  = var.region
+}
+
+variable "vpc_id" { // VPC-CCOM-CL-TEST
+  default = "vpc-46f7093c"
+}
+
+data "aws_vpc" "default" {
+  id = var.vpc_id
+  tags = {
+    Name = "VPC-CCOM-CL-TEST"
+  }
+}
+
+data "aws_subnet_ids" "private" {
+  vpc_id = var.vpc_id
+  tags = {
+    Tier = "Private"
+  }
+}
+
+data "aws_subnet_ids" "public" {
+  vpc_id = var.vpc_id
+  tags = {
+    Tier = "Public"
+  }
+}
+
+variable "private_subnets" {
+  type    = list(string)
+  default = ["subnet-1ac77334", "subnet-fb374eb1", "subnet-0e2aac48a113456b4"]
+}
+
+variable "public_subnets" {
+  type    = list(string)
+  default = ["subnet-0d565024f33aa672f", "subnet-004582d96892c6e3d", "subnet-0cf226122f803ee7b"]
+}
+
+variable "control_plane_azs" {
+  type    = list(string)
+  default = ["us-east-1a", "us-east-1b", "us-east-1c"]
+}
+
+data "aws_caller_identity" "current" {}

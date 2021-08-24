@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+serverless invoke --function newrelicapm --stage stg $@

@@ -1,0 +1,17 @@
+const spanish = {
+  FETCHING_REPO_DATA: 'Obteniendo informacion de los repositorios...',
+  VAR_NEW: 'IMPORTANTE: Esta variable actualmente NO EXISTE en Gitlab CI/CD Variables. Sera creada automaticamente.',
+  VAR_UNCHANGED: 'IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script.',
+  VAR_UNDETERMINED: 'IMPORTANTE: NO es posible determinar un valor para esta variable. por favor, agregue un valor manualmente.',
+  VALIDATION_VARS_WITH_ERR: '\nIMPORTANTE: Para continuar es necesario fixear la(s) variables incorrectas. !',
+  CONFIRM_VARS_BEFORE_PUSH_TO_GITLAB: '\nDesea Editar el valor de las variables antes de publicarlas ? (y/n):',
+  FILE_WITH_SYNTAX_ERROR: 'El archivo que modifico tiene errores de tipeo. Corrijalo !',
+  VAR_CHANGED_FN: (old_value = '', new_value = '') =>  `IMPORTANTE: Valor modificado por el script. VALOR ANTES: '${old_value}' => VALOR NUEVO: '${new_value}'`,
+  VALIDATION_VAR_UNDEFINED_FN: (varName) => `Es necesario la variable '${varName}' tengan un valor asignado. Corrijalo !`,
+  INFO_REPO_GROUP_MODEL_VARS_FN: (totalRepo, groupId, totalVars) => `El Script validara que los '${totalRepo}' repositorios pertenecientes al group_id '${groupId}' implementen las siguientes '${totalVars}' variables:`
+}
+
+
+module.exports = {
+  spanish
+}

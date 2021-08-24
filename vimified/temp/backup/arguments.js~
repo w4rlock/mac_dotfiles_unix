@@ -1,0 +1,34 @@
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
+const argv = yargs(hideBin(process.argv)).argv;
+const chalk = require('chalk');
+const _ = require('lodash');
+
+
+console.log(argv);
+const getConfig = (configKey, isRequired = false, defaultValue = undefined) => {
+  let envKey = configKey.replace(/-/g, '_').toUpperCase();
+  let val = process.env[envKey];
+
+  // cuando el valor es un 0 o un 1
+  const hasValue = (val) => !_.isEmpty(val) || _.isNumber(val);
+
+  if (hasValue(val)) { return val; }
+
+  val = argv[configKey];
+  if (hasValue(val)) { return val; }
+
+  if (!_.isEmpty(defaultValue)) { return defaultValue; }
+
+  if (isRequired) {
+    throw new Error(
+      chalk.red(`Configuration '${configKey}' is missing.`));
+  }
+
+  return undefined;
+}
+
+
+module.exports = {
+  getConfig
+}

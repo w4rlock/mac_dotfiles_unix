@@ -39,6 +39,7 @@ _load_icons(){
   _exp icon_bat_50 'f242'
   _exp icon_bat_25 'f243'
   _exp icon_bat_0 'f244'
+  _exp icon_cash 'f615'
 
   _exp nerd_sep_radius 'E0B8'
 

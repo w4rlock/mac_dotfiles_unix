@@ -1,0 +1,77 @@
+const chalk22 = require('chalk22');
+const { expect } = require('./src/utils');
+const { getConfig } = require('./src/config');
+const VariableModel = require('./src/variableModel');
+
+const NR_LICENCE_VALUE = getConfig('model-nr-licence', true, undefined, true);
+const NR_APPLICATION_NAME = getConfig('model-nr-application-name', true);
+
+const NR_LABELS = `pais:cl;ApplicationName:${NR_APPLICATION_NAME}`;
+
+const ENVIRONMENT_PRODUCTION = /^(master|prod|production)$/;
+const ENVIRONMENT_STAGING = /^(staging|dev|develop|qa)$/;
+
+
+// TODO: Si en gitlab la variable NEW_RELIC_APP_NAME esta nula
+// el repositorio es skipeado ya que nunca se inyecto el apm en
+// ese repo
+const GitlabVariablesModel = [
+  new VariableModel('REPO_TYPE')
+    .expectedValue(/^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|INFRA|MOBILE)$/)
+    .fixValueIfNeed(undefined),
+
+  new VariableModel('REPO_STATUS')
+    .expectedValue(/^(ACTIVE|DEPRECATED)$/)
+    .fixValueIfNeed('ACTIVE'),
+
+  new VariableModel('NEW_RELIC_LICENSE_KEY')
+    .masked()
+    .expectedValue(NR_LICENCE_VALUE)
+    .fixValueIfNeed(NR_LICENCE_VALUE),
+
+  new VariableModel('NEW_RELIC_LABELS')
+    .expectedValue((repo, gvar) => expect(gvar, { value: `${NR_LABELS};GitProjectID:${repo.id}` }))
+    .fixValueIfNeed((repo, gvar) => `${NR_LABELS};GitProjectID:${repo.id}`),
+
+  new VariableModel('NEW_RELIC_APP_NAME')
+    .environmentScope(ENVIRONMENT_PRODUCTION)
+    .expectedValue(/^cl-.*-prod$/)
+    .fixValueIfNeed((repo, gvar) => {
+      if (!gvar.value) return undefined;
+      let newVal = gvar.value.replace(/(-prd|-production)$/,'-prod');
+      if (!newVal.endsWith('-prod')) { newVal+='-prod'; }
+      return newVal;
+    }),
+
+  new VariableModel('NEW_RELIC_APP_NAME')
+    .environmentScope(ENVIRONMENT_STAGING)
+    .expectedValue(/^cl-.*-stg$/)
+    .fixValueIfNeed((repo, gvar) => {
+      if (!gvar.value) return undefined;
+      let newVal = gvar.value.replace(/(-qa|-staging)$/,'-stg');
+      if (!newVal.endsWith('-stg')) { newVal+='-stg'; }
+      return newVal;
+    }),
+];
+
+
+// TODO si NEW_RELIC_APP_NAME tiene algun valor en currentValue quiere
+// decir que el proyecto tiene el apm...
+// la idea es no correr el autofix en proyectos que no
+// tienen el apm. La idea de esta funcion es devolver true o false
+// para skippear ese repo
+const shouldBeRunAutoFix = (repo, processedVars = []) => {
+  const apmMandatoryVars = processedVars.filter(v => v.key === 'NEW_RELIC_APP_NAME' && v.value);
+  if (apmMandatoryVars.length > 0) {
+    return true;
+  }
+  //console.log(chalk.red('SKIPPED: El repositorio no tiene la inyeccion del apm.\n'));
+  return false;
+}
+
+
+
+module.exports = {
+  variables: GitlabVariablesModel,
+  shouldBeRunAutoFix,
+}

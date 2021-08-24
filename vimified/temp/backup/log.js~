@@ -1,0 +1,31 @@
+const { createLogger, format, transports } = require('winston')
+const MESSAGE = Symbol.for('message')
+
+const jsonFormatter = (logEntry) => {
+  const base = {
+    timestamp: new Date()
+  }
+
+  const json = Object.assign(base, logEntry)
+  logEntry[MESSAGE] = JSON.stringify(json)
+
+  /**
+   * Api para realizar la insercion de los logs
+   * en newrelic
+   */
+  // sendLogNewRelic(logEntry)
+
+  return logEntry
+}
+
+const logger = createLogger({
+  transports: [
+    new transports.Console({
+      level: 'info',
+      format: format(jsonFormatter)()
+    })
+  ],
+  exitOnError: false
+})
+
+module.exports = logger

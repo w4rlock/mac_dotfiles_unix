@@ -1,0 +1,18 @@
+const inquirer = require('inquirer');
+
+const test = async() => {
+  const questions = [
+    {
+      type: 'list',
+      name: 'repoType',
+      message: 'Select the files and/or folders you wish to ignore:',
+      choices: ['node_modules', 'bower_components']
+    }
+  ];
+  const qq = await inquirer.prompt(questions);
+console.log(qq);
+}
+
+test();
+
+

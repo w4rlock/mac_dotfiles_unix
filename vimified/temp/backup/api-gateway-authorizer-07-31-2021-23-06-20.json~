@@ -1,0 +1,55 @@
+[
+  {
+    "key": "REPO_TYPE",
+    "value": "",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|MOBILE)$/",
+    "comment": "IMPORTANTE: NO es posible determinar un valor para esta variable. por favor, agregue un valor manualmente."
+  },
+  {
+    "key": "REPO_STATUS",
+    "value": "ACTIVE",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "*",
+    "expectedValue": "/^(ACTIVE|DEPRECATED)$/",
+    "comment": "IMPORTANTE: Esta variable actualmente NO EXISTE en Gitlab CI/CD Variables. Sera creada automaticamente."
+  },
+  {
+    "key": "NEW_RELIC_LICENSE_KEY",
+    "value": "88bc515ed43da6739fea3c47035cf572FFFFNRAL",
+    "protected": false,
+    "masked": true,
+    "environment_scope": "*",
+    "comment": "IMPORTANTE: El valor de esta variable NOO ha sido modificado por el script."
+  },
+  {
+    "key": "NEW_RELIC_LABELS",
+    "value": "pais:cl;ApplicationName:CL-PAYMENT;GitProjectId:26575137",
+    "protected": true,
+    "masked": true,
+    "environment_scope": "*",
+    "expectedValue": "pais:cl;ApplicationName:CL-PAYMENT;GitProjectId:26575137",
+    "comment": "IMPORTANTE: Valor MODIFICADO por el script. Valor Antes: 'pais:cl;ApplicationName:CL-PAYMENT;GitURL:https://gitlab.com/cencosud-ds/cencommerce/buying-experience/payments/lambdas-full/api-gateway-authorizer.git' => Valor Nuevo: 'pais:cl;ApplicationName:CL-PAYMENT;GitProjectId:26575137'"
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-api-gateway-authorizer-stg",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "staging",
+    "expectedValue": "/^cl-.*-stg$/",
+    "comment": "IMPORTANTE: Valor MODIFICADO por el script. Valor Antes: 'cl-api-gateway-authorizer-staging' => Valor Nuevo: 'cl-api-gateway-authorizer-stg'"
+  },
+  {
+    "key": "NEW_RELIC_APP_NAME",
+    "value": "cl-api-gateway-authorizer-prod",
+    "protected": false,
+    "masked": false,
+    "environment_scope": "production",
+    "expectedValue": "/^cl-.*-prod$/",
+    "comment": "IMPORTANTE: Valor MODIFICADO por el script. Valor Antes: 'cl-api-gateway-authorizer-production' => Valor Nuevo: 'cl-api-gateway-authorizer-prod'"
+  }
+]

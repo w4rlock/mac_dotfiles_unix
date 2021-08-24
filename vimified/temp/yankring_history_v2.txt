@@ -1,0 +1,100 @@
+cfg,v
+,V
+config,v
+/,v
+bin,v
+usr,v
+/** * asyncrunRecipe() Verify integration and inject APM * * @param {...} async{ repo - * @param {...} applicationName } - * @param {...} recipe - * * @return {...} */,V
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME',V
+direcoty,v
+/** * findPreviousJiraBranch() algooo * * * @return branchName */,V
+",v
+ ,v
+Plugin 'joegesualdo/jsdoc.vim',V
+utils/docker-images/new-relic-builder:,v
+tecnologico ,v
+de ,v
+tipo ,v
+import fs from 'fs';,V
+import _ from 'lodash';,V
+export AWS_REGION=us-east-1,V
+  // si ejecuto el comando sin ningun parametro  if (Object.keys(yargs.argv).length < 3) {    yargs.showHelp();    process.exit(1);  },V
+:q,v
+'{"Post Purchase": "da73120edc9544dfec4e162fc1fc65dfd01bNRAL","CL-CCOM-PAYMENT":"88bc515ed43da6739fea3c47035cf572FFFFNRAL", "Easy": "490ec34508f58b54ca672a86b81f8357FFFFNRAL", "Spid35": "0db8c266eacdc508e9e3d7c6186525dcFFFFNRAL", "JumboPicking": "ab2e642dbd18ab8c1476a88d18b34da4FFFFNRAL", "Paris": "6d20ee0dfe42c77574081a3a19cacb26FFFFNRAL", "CL-CCOM-CAPACITIES": "275e12aeaf67840064ccc41e81bb4db2FFFFNRAL", "PIM Legacy": "78a454c1351106cb1182f76fca8bb465FFFFNRAL", "Pariscl": "97f8cf7efb1cbc74799ca1b0a278813cFFFFNRAL", "JUMBOCL": "9f4ad5b3a2a008bcbb9b50a557d1f7c7FFFFNRAL","SisaWeb":"89a344f53f251ae38d72b619247aa5feFFFFNRAL", "CL-CCOM-JUMBOAPP": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL","CL-CCOM-JUMBO-WEB": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL", "Havanatech":"420478bbcfdd2daeaebd9e62a266bac3FFFFNRAL","Jumbo Front cl":"adasdasd"}',v
+  "CL-CCOM-JUMBOAPP": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",  "CL-CCOM-JUMBO-WEB": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL",  "CL-CCOM-CAPACITIES": "275e12aeaf67840064ccc41e81bb4db2FFFFNRAL",,V
+  "CL-CCOM-CAPACITIES": "275e12aeaf67840064ccc41e81bb4db2FFFFNRAL",,V
+{,v
+',v
+=,v
+='{",v
+NEW_RELIC_LICENSE_DICT,v
+export ,v
+export NEW_RELIC_LICENSE_DICT='{"Post Purchase": "da73120edc9544dfec4e162fc1fc65dfd01bNRAL","CL-CCOM-PAYMENT":"88bc515ed43da6739fea3c47035cf572FFFFNRAL", "Easy": "490ec34508f58b54ca672a86b81f8357FFFFNRAL", "Spid35": "0db8c266eacdc508e9e3d7c6186525dcFFFFNRAL", "JumboPicking": "ab2e642dbd18ab8c1476a88d18b34da4FFFFNRAL", "Paris": "6d20ee0dfe42c77574081a3a19cacb26FFFFNRAL", "CL-CCOM-CAPACITIES": "275e12aeaf67840064ccc41e81bb4db2FFFFNRAL", "PIM Legacy": "78a454c1351106cb1182f76fca8bb465FFFFNRAL", "Pariscl": "97f8cf7efb1cbc74799ca1b0a278813cFFFFNRAL", "JUMBOCL": "9f4ad5b3a2a008bcbb9b50a557d1f7c7FFFFNRAL","SisaWeb":"89a344f53f251ae38d72b619247aa5feFFFFNRAL", "CL-CCOM-JUMBOAPP": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL","CL-CCOM-JUMBO-WEB": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL", "Havanatech":"420478bbcfdd2daeaebd9e62a266bac3FFFFNRAL","Jumbo Front cl":"adasdasd"}',V
+licences=${licences}',"CL-CCOM-PAYMENT":"88bc515ed43da6739fea3c47035cf572FFFFNRAL", "Easy": "490ec34508f58b54ca672a86b81f8357FFFFNRAL", "Spid35": "0db8c266eacdc508e9e3d7c6186525dcFFFFNRAL", "JumboPicking": "ab2e642dbd18ab8c1476a88d18b34da4FFFFNRAL", "Paris": "6d20ee0dfe42c77574081a3a19cacb26FFFFNRAL", "CL-CCOM-CAPACITIES": "275e12aeaf67840064ccc41e81bb4db2FFFFNRAL", "PIM Legacy": "78a454c1351106cb1182f76fca8bb465FFFFNRAL", "Pariscl": "97f8cf7efb1cbc74799ca1b0a278813cFFFFNRAL", "JUMBOCL": "9f4ad5b3a2a008bcbb9b50a557d1f7c7FFFFNRAL","SisaWeb":"89a344f53f251ae38d72b619247aa5feFFFFNRAL", "CL-CCOM-JUMBOAPP": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL","CL-CCOM-JUMBO-WEB": "73b9d13be9c9a6489f98ef0bf0127564FFFFNRAL", "Havanatech":"420478bbcfdd2daeaebd9e62a266bac3FFFFNRAL","Jumbo Front cl":"adasdasd"}',V
+licences='{"Post Purchase": "da73120edc9544dfec4e162fc1fc65dfd01bNRAL"',V
+policy,v
+  ,v
+    "Id": "Policy1563024210263",    "Version": "2012-10-17",    "Statement": [        {            "Sid": "Stmt1563024203812",            "Action": [                "s3:GetObject"            ],            "Effect": "Allow",            "Resource": "arn:aws:s3:::${__bucket_name}/*",            "Principal": "*"        }    ],V
+reposSelected,v
+// si ejecuto el comando sin ningun parametroif (Object.keys(yargs.argv).length < 3) {  yargs.showHelp();  process.exit(1);},V
+Seleccione o filtre sus repositorios (use la barra espaciadora para seleccionar):,v
+let msg ,v
+const ,v
+  //await ui.printSlowTextAndRemove(red('\n* Use la barra espaciadora para seleccionar 1 o mas repositorios.'));,V
+:,v
+>,v
+-,v
+false,v
+yargs.argv.gitlabGroupId,v
+repoId,v
+  const repoId = yargs.argv.gitlabRepoId;,V
+temp',v
+, ',v
+,,v
+temp,v
+, false, ,v
+gitlab-group-id,v
+dir,v
+GIT_REPO_ID,v
+const GIT_REPO_ID = getConfig('temp-dir', false, 'temp');,V
+TEMP_FOLDER,v
+const TEMP_FOLDER = getConfig('temp-dir', false, 'temp');,V
+ || 'temp';,v
+  console.log(delay, DELAY_TEXT);,V
+src,v
+|,v
+DELAY_TEXT ,v
+15,v
+import getConfig from './src/config.utils.js';,V
+.,v
+utils.js';,v
+_,v
+e,v
+l,v
+i,v
+f,v
+file_utils,v
+// const matrixLog = async(text = '', delay = 35) => {,V
+import ui,V
+  console.clear();,V
+D,v
+1,v
+argv,v
+yargs,v
+import { hideBin } from 'yargs/helpers';,V
+hideBin(process.argv));,v
+ process.argv.slice(2).,v
+import yargs from 'yargs';,V
+import yargs from 'yargs'import { hideBin } from 'yargs/helpers',v
+I,v
+P,v
+A,v
+process.env.GITLAB_API_TOKEN,v
+TOKEN,v
+token,v
+=> ,v
+module.exports = {  getConfig,},v
+green,v
+const argv = yargs(hideBin(process.argv)).argv;,V
+import,v
+),v

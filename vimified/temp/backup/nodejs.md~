@@ -1,0 +1,67 @@
+# Integración de APM New Relic en Nodejs
+
+## ¿Por qué esta integración?
+> Hola :computer: **DEVELOPER** como equipo de plataforma hemos pensado en como mejorar tu proceso de adopción a **New Relic**, por eso creamos un robot que realizara automaticamente varios pasos de la integracion para que sea más rapido de integrar. Y sí, tranquilo, nos hemos preocupado por la seguridad de tu código y por eso te realizamos un MR para que puedas revisar lo que estamos agregando, de antemano te agradecemos tu colaboración y ante cualquier duda los canales de comunicación quedan abiertos.
+
+## ¿Que agregaremos a tu código?
+> Nuestro bot agregó un MR que contiene un par de cambios para la integracion del APM de New Relic en tu proyecto. Sin embargo **hay unos pasos que se deben realizar manualmente**. Por favor sigue las instrucciones en este MR para completar la integracion.
+
+## Pasos para la integración
+PRIMERO: tu APM ya esta integrada en ambos ambientes? avisanos para eliminar el MR y pasar el ticket de jira a DONE. El script ya creo un ticket en jira para realizar la integración, es el nombre de la rama en el presente MR. Este MR debiese estar mergeando a la rama de desarrollo **¡Revisa que esto sea así!**. Si se necesitan hacer cambios a este MR por favor hacerlos en esta misma rama.
+1. Revisa los cambios en este MR. Debiesen haber cambios en:
+   - package.json: la incorporacion de la libreria de new relic
+   - newrelic.js: el archivo de configuracion del apm
+   - Dockerfile (si existe): la incorporacion de variables de entorno necesarias para que el APM funcione
+   - Una linea en el código con el `require('newrelic');`
+
+   Revisa que los cambios estan bien efectuados, y que no hayan cambios a otros archivos que no sean esos. Revisa que el cambio dentro de tu codigo sea en el archivo entrypoint de tu proyecto (index.js, main.ts o similar).
+
+2. Ademas de los cambios en el codigo, se crearon las siguientes variables en el repositorio:
+   - NEW_RELIC_LICENSE_KEY: con la license key de tu equipo
+   - NEW_RELIC_APP_NAME: 2 veces, para ambiente production y staging. El nombre es del estilo `cl-${nombre proyecto}-staging`, con kebab-case.
+   - NEW_RELIC_LABELS: labels que se incorporaran al APM dentro de New Relic. Actualmente `Team:nombre-equipo`
+3. **Importante**. Para que el APM funcione es necesario incorporar las variables de entorno anteriores al container. Este MR fue pensado para pasarlas a nivel del Dockerfile, pero queda a criterio del equipo como pasarselas.
+   1. Si se hace a traves del Dockerfile y se esta ocupando el template del job de Docker de GitlabCi, es necesario pasar la variable de entorno `BUILD_IMAGE_EXTRA_ARGS` con valor:
+   ```bash
+   --build-arg NEW_RELIC_APP_NAME=$NEW_RELIC_APP_NAME --build-arg NEW_RELIC_LICENSE_KEY=$NEW_RELIC_LICENSE_KEY --build-arg NEW_RELIC_LABELS=$NEW_RELIC_LABELS
+   ```
+   Esta variable (que se incluyo automaticamente por el script en el proyecto) le pasa internamente los argumentos al docker build. Ademas, hay que asegurarse de que el job que hace el build de la aplicacion este ejecutandose usando los ambientes del repo (staging y production). Ejemplo `.gitlab-ci.yml`:
+      ```yaml
+      include:
+         - project: 'cencosud-ds/cencommerce/utils/pipe-templates'
+         ref: v1.x.x
+         file:
+            - 'hidden-jobs/docker.yml'
+         # - otros includes...
+
+      dockerize:staging:
+      extends:
+         - .docker
+      environment:
+         name: staging
+      rules:
+         - if: $CI_COMMIT_BRANCH != 'master"
+
+      dockerize:production:
+      extends:
+         - .docker
+      rules:
+         - if: $CI_COMMIT_BRANCH == 'master"
+      environment:
+         name: production
+
+      # otros jobs...
+      ```
+   1. Si se incluyen las variables de entorno de otra forma (ECS, secretmanager, k8s, etc), hay que asegurarse de limpiar las variables de entorno que no se ocuparan dentro de este proyecto.
+4. Quita el estado DRAFT al MR y luego aceptalo, y verifica que el pipeline pase bien y que la aplicación no este fallando.
+5. Verifica que el APM fue creado correctamente revisando [New Relic](https://one.nr/0Y8wplNXewO) y bucando el APM con el nombre de tu proyecto.
+6. Pasa el ticket de Jira a DONE
+
+## Ante cualquier error o duda
+> No dudes de comunicarte con nosotros a través del canal de Teams **CCOM AWS, K8S, Plataformas**, o escribiendonos directamente.
+
+## Team Plataforma / Track Monitoreo
+> * Abraham Solórzano
+> * Andrés Penaloza
+> * Wilson Riquelme
+> * Humberto Escobar

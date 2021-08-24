@@ -1,0 +1,23 @@
+const { expect } = require('./src/utils');
+
+const REPO_TYPE = /^(LAMBDA|SERVICE|CRONJOB|SCRIPT|BROWSER|INFRA|MOBILE)$/
+
+const variables = [
+  { key: 'REPO_TYPE',
+    validate:(repo, gvar) => expect(gvar, { value: REPO_TYPE }),
+    fixValue:(repo, gvar) => undefined
+  },
+  { key: 'REPO_STATUS',
+    validate:(repo, gvar) => /^(ACTIVE|DEPRECATED)$/.test(gvar.value),
+    fixValue:(repo, gvar) => 'ACTIVE'
+  },
+]
+
+const shouldBeRunAutoFix = (repo, processedVars = []) => {
+  return true;
+}
+
+module.exports = {
+  variables,
+  shouldBeRunAutoFix,
+}

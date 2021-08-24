@@ -1,0 +1,80 @@
+import chalk from 'chalk';
+import enquirer from 'enquirer';
+import * as scriptUtils from './utils.js';
+
+
+export const printTask = async (preffix, message, { delay = undefined, color = 'green' } = undefined) => {
+  const m = chalk.blue.bold(preffix) + chalk[color](` ${message}`);
+  await scriptUtils.matrixLog(m, delay);
+};
+
+
+
+
+export const promptYesNo = async (message) => {
+  const prompt = new enquirer.Select({
+    message: chalk.blue.bold(message),
+    choices: ['YES', 'NO'],
+  });
+
+  return prompt.run();
+};
+
+
+
+
+export const chooseFromList = async (message, choices = []) => {
+  const questions = [{
+    type: 'list',
+    message: chalk.blue.bold(message),
+    choices,
+  }];
+
+  const resp = await enquirer.prompt(questions);
+  return resp;
+};
+
+
+
+export const removeLastPrintLine = () => {
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+};
+
+
+
+export const printSlowTextAndRemove = async (text = '', delayBeforeClear = 1200, delay = 35) => {
+  if (delay === 0 || delay === 'false') {
+    console.log(text);
+  } else {
+    for (const letter of text) {
+      process.stdout.write(letter);
+      // human effect
+      await scriptUtils.sleep(delay);
+    }
+  }
+
+  // para que el usr preste atencion al texto antes de borrar
+  await scriptUtils.sleep(delayBeforeClear);
+  process.stdout.clearLine();
+  process.stdout.cursorTo(0);
+  console.log('');
+};
+
+
+
+
+export const autoComplete = async (message, choices = [], limit = 28, multiple = false) => {
+  const prompt = new enquirer.AutoComplete({
+    limit,
+    multiple,
+    choices,
+    message: chalk.blue.bold(message),
+    highlight: chalk.green,
+  });
+
+  return prompt.run();
+};
+
+
+

@@ -18,7 +18,7 @@ run_segment() {
   icon=${AWS_COSTS_ICON:-" "}
   python $HOME/.tools/costs.py \
     | awk '{ print $2 }' \
-    | sed -ne "s/.*/${icon} &/p" > $cacheFile
+    | sed -ne "s/.*/${icon}&/p" > $cacheFile
 
   return 0
 }
